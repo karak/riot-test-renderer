@@ -1,0 +1,39 @@
+{
+  "name": "riot-test-renderer",
+  "version": "0.1.0",
+  "description": "Lightweight testing utility for Riot",
+  "main": "dist/index.js",
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --project . --fix"
+  },
+  "keywords": [
+    "shallow rendering",
+    "test",
+    "riotjs",
+    "riot.js",
+    "testing",
+    "testing utils",
+    "assertion helpers",
+    "tdd"
+  ],
+  "author": "Karak",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/riot": "^3.6.1",
+    "jest": "^22.4.3",
+    "riot": "^3.9.0",
+    "ts-jest": "^22.4.2",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb-base": "^0.1.0",
+    "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "riot-compiler": "^3.4.0",
+    "riot-tmpl": "^3.0.8"
+  }
+}
