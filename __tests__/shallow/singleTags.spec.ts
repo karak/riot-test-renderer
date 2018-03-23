@@ -6,7 +6,7 @@ import {
   tagWithEach,
 } from '../tags/singleTags';
 
-describe('shallow', () => {
+xdescribe('shallow', () => {
   describe('singleTags', () => {
 
     describe('template', () => {

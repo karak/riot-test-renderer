@@ -36,6 +36,9 @@ describe('vdom', () => {
 
       expect(childTag).toBeInstanceOf(TagInstance);
       expect(childTag).toHaveProperty('name', 'p');
+      expect(childTag).not.toHaveProperty('opts');
+      expect(childTag).toHaveProperty('parent', rootTag);
+      expect(childTag.root.outerHTML).toBe('<p>Hello, world!</p>');
     });
   });
 
@@ -71,7 +74,9 @@ describe('vdom', () => {
 
       expect(childTag).toBeInstanceOf(TagInstance);
       expect(childTag).toHaveProperty('name', 'p');
-      expect(childTag).toHaveProperty('opts', rootOpts); // same opts since not custom tags
+      expect(childTag).not.toHaveProperty('opts');
+      expect(childTag).toHaveProperty('parent', rootTag);
+      expect(childTag.root.outerHTML).toBe('<p>Hello, world!</p>');
     });
   });
 });

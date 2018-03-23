@@ -6,7 +6,7 @@ import map from 'lodash/map';
 function makeOuterHTML(name: string, attributes: string | undefined, innerHTML: string) {
   let tagStart = name;
   if (attributes !== undefined && attributes.length !== 0) {
-    tagStart = name + ' ' + escapeHTML(attributes);
+    tagStart = name + ' ' + attributes;
   }
 
   return `<${tagStart}>${innerHTML}</${name}>`;
