@@ -1,36 +1,40 @@
 import VirtualElement from './VirtualElement';
 import escapeHTML from '../utils/escapeHTML';
+import VirtualDocument from './VirtualDocument';
+
+function makeOuterHTML(name: string, attributes: string | undefined, innerHTML: string) {
+  let tagStart = name;
+  if (attributes !== undefined && attributes.length !== 0) {
+    tagStart = name + ' ' + escapeHTML(attributes);
+  }
+
+  return `<${tagStart}>${innerHTML}</${name}>`;
+}
 
 /** Implementation of {@see VirtualElement}, only for internal use. */
 export default class VirtualElementInternal implements VirtualElement {
-  private outerHTMLCache: string = '';
+  public readonly document: VirtualDocument;
+  public readonly innerHTML: string;
+  public readonly outerHTML: string;
 
   /**
    * Constructor
    *
+   * @param document virtual document
    * @param name tagName
    * @param attr attrbutes in string
    * @param innerHTML equivalent to innerHTML of HTMLElement
    */
   constructor(
-    private name: string,
-    private attr: string | undefined,
-    public innerHTML: string) {
+    document: VirtualDocument,
+    name: string,
+    attr: string | undefined,
+    innerHTML: string,
+  ) {
     if (name !== escapeHTML(name)) throw new Error(`name must exclude HTML special characters.`);
 
-    this.updateCache();
-  }
-
-  private updateCache() {
-    let tagStart = this.name;
-    if (this.attr !== undefined && this.attr.length !== 0) {
-      tagStart = this.name + ' ' + escapeHTML(this.attr);
-    }
-
-    this.outerHTMLCache = `<${tagStart}>${this.innerHTML}</${this.name}>`;
-  }
-
-  get outerHTML() {
-    return this.outerHTMLCache;
+    this.document = document;
+    this.innerHTML = innerHTML;
+    this.outerHTML = makeOuterHTML(name, attr, innerHTML);
   }
 }

@@ -81,7 +81,11 @@ Requirement:
 TODO
 ----
 
+- [ ] Compiler options to set parsers
 - [ ] Implement update.
+- [ ] Handle if and each attributes
+- [ ] parent property
+- [ ] refs [LOW] -- hard to realize without DOM
 - [ ] Make script section working close to real DOM.
 - [ ] Lifecycle methods.
 - [ ] Full-featured finding API.

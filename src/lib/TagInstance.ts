@@ -18,10 +18,8 @@ import renderTemplate from './renderTemplate';
 export default class TagInstance<TOpts> {
   public isMounted = false;
   public root?: VirtualElement;
-  public opts: TOpts | undefined;
-  private name: string;
-  private template: string;
-  private attributes: string;
+  public readonly opts: TOpts | undefined;
+  private readonly createElement: (opts?: TOpts) => VirtualElement;
 
   /** Nested tags. Always empty. This is only for compatibility of real instance */
   public tags: ReadonlyArray<TagInstance<{}>> = [];
@@ -31,15 +29,23 @@ export default class TagInstance<TOpts> {
 
     // mixin riot.Observable
     observable(this);
-    // execute the script section.
+
     // tslint:disable-next-line:no-magic-numbers
-    this.name = args[0];
+    const name = args[0];
     // tslint:disable-next-line:no-magic-numbers
-    this.template = args[1];
+    const template = args[1];
     // tslint:disable-next-line:no-magic-numbers
-    this.attributes = args[3];
+    const attributes = args[3];
     // tslint:disable-next-line:no-magic-numbers
     const fn = args[4];
+
+    this.createElement = () => document.createElement(
+      name,
+      renderTemplate(attributes, this),
+      renderTemplate(template, this),
+    );
+
+    // execute the script section.
     fn.apply(this);
   }
 
@@ -56,11 +62,7 @@ export default class TagInstance<TOpts> {
   mount() {
     if (this.isMounted) return;
 
-    this.root = new VirtualElementInternal(
-      this.name,
-      renderTemplate(this.attributes, this),
-      renderTemplate(this.template, this),
-    );
+    this.root = this.createElement();
     this.isMounted = true;
     // TODO: this.trigger('mount');
     // TODO: Call this.update() after mount
@@ -82,9 +84,5 @@ export default class TagInstance<TOpts> {
     }
     // TODO: this.trigger('unmounted');
     // TODO: and this.off('*');
-  }
-
-  toString() {
-    return this.root ? this.root.outerHTML : `<${this.name}></${this.name}>`;
   }
 }
