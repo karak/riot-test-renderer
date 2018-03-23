@@ -1,33 +1,15 @@
 import { shallow } from '../../src';
+import {
+  staticTag,
+  staticTagWithStyle,
+  tagWithOpts,
+  tagWithEach,
+} from '../tags/singleTags';
 
 describe('shallow', () => {
   describe('singleTags', () => {
 
     describe('template', () => {
-      const staticTag = `
-      <static>
-        <p>Hello, world!</p>
-      </static>
-      `;
-
-      const staticTagWithStyle = `
-      <static>
-        <p>Hello, world!</p>
-        <style>:scope static { font-size: large; }</style>
-      </static>
-      `;
-
-      const tagWithOpts = `
-      <tag>
-        <p>{ opts.data }</p>
-      </tag>
-      `;
-
-      const tagWithEach = `
-      <tag each={ opts.items }>
-        <p>{ this }</p>
-      </tag>
-      `;
 
       it('renders static tag', () => {
         const wrapper = shallow(staticTag);

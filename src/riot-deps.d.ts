@@ -3,6 +3,6 @@ declare module 'riot-compiler' {
 }
 
 declare module 'riot-tmpl' {
-  function tmpl(template: string, data: any): string;
+  function tmpl(template: string, data: any): any;
   const brackets: any;
 }

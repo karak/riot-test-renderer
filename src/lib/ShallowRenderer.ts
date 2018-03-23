@@ -24,7 +24,7 @@ export default class ShallowRenderer {
   }
 
   shallow<TOpts>(name: string, opts?: TOpts) {
-    const tag = this.document.createTag(name, opts);
+    const tag = this.document.createTag<TOpts>(name, opts);
     return new ShallowWrapper<TOpts>(tag);
   }
 }

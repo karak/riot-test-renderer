@@ -1,7 +1,6 @@
 import VirtualElement from './VirtualElement';
 import escapeHTML from '../utils/escapeHTML';
 import VirtualDocument from './VirtualDocument';
-import map from 'lodash/map';
 
 function makeOuterHTML(name: string, attributes: string | undefined, innerHTML: string) {
   let tagStart = name;
@@ -13,30 +12,29 @@ function makeOuterHTML(name: string, attributes: string | undefined, innerHTML: 
 }
 
 /** Implementation of {@see VirtualElement}, only for internal use. */
-export default class VirtualElementInternal implements VirtualElement {
-  public readonly document: VirtualDocument;
-  public readonly innerHTML: string;
-  public readonly outerHTML: string;
-
+export default class VirtualTextNode implements VirtualElement {
   /**
    * Constructor
    *
    * @param document virtual document
    * @param name tagName
    * @param attr attrbutes in string
-   * @param children child elements
+   * @param innerHTML equivalent to innerHTML of HTMLElement
    */
   constructor(
-    document: VirtualDocument,
-    name: string,
-    attr: string | undefined,
-    children: ReadonlyArray<VirtualElement>,
-  ) {
-    if (name !== escapeHTML(name)) throw new Error(`name must exclude HTML special characters.`);
+    public readonly document: VirtualDocument,
+    public readonly textContent: string,
+  ) {}
 
-    this.document = document;
-    this.innerHTML = map(children, x => x.outerHTML).join('');
-    this.outerHTML = makeOuterHTML(name, attr, this.innerHTML);
+  get innerHTML() {
+    return escapeHTML(this.textContent);
+  }
+
+  get outerHTML() {
+    return escapeHTML(this.textContent);
+  }
+
+  toString() {
+    return this.textContent;
   }
 }
-

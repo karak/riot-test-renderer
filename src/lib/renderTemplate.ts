@@ -6,6 +6,6 @@ import { tmpl } from 'riot-tmpl';
  * Similar to `riot.render()`, rendering method for SSR.
  *
  */
-export default function renderTemplate(this: any, template: string, data: any) {
+export default function renderTemplate(this: any, template: string, data: any): any {
   return tmpl.apply(this, [template, data]);
 }
