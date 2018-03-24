@@ -3,6 +3,8 @@ import {
   staticTag,
   tagWithOpts,
   tagWithParent,
+  tagWithIf,
+  tagWithIfNested,
 } from '../tags/singleTags';
 
 describe('vdom', () => {
@@ -114,6 +116,34 @@ describe('vdom', () => {
       expect(p).toBeDefined();
       expect(p).toHaveProperty('name', 'p');
       expect(p!.children.join('')).toEqual('Hello, world!');
+    });
+  });
+
+  describe('tagWithIf', () => {
+    let rootTag: TagInstance;
+
+    beforeAll(() => {
+      loadTags(tagWithIf);
+    });
+
+    afterEach(() => {
+      if (rootTag) {
+        rootTag.unmount();
+      }
+    });
+
+    it('exists if true is passed', () => {
+      rootTag = createTag('tag', { exists: true });
+      rootTag.mount();
+
+      expect(rootTag.root!.children).toHaveLength(1);
+    });
+
+    it('doesn\'t exist if true is passed', () => {
+      rootTag = createTag('tag', { exists: false });
+      rootTag.mount();
+
+      expect(rootTag.root!.children).toHaveLength(0);
     });
   });
 });
