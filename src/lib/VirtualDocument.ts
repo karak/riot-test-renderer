@@ -3,7 +3,6 @@ import TagMap from './TagMap';
 import EvalContext from './EvalContext';
 import { default as TagInstance, createTag } from './TagInstance';
 import { VirtualElement, VirtualChild } from './VirtualElement';
-import VirtualTextNode from './VirtualTextNode';
 import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
 export type TagKind = { custom: false } | { custom: true; registered: boolean; };
@@ -55,9 +54,5 @@ export default class VirtualDocument {
 
   createElement(name: string, attributes: { [name: string]: any }, children: VirtualChild[]) {
     return { name, attributes, children } as VirtualElement;
-  }
-
-  createTextNode(textContent: string) {
-    return new VirtualTextNode(this, textContent);
   }
 }

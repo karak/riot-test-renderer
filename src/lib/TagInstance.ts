@@ -106,7 +106,7 @@ function expandElement<TOpts>(
   const childData = isCustomTag && !isRoot?
     (new PsuedoTagInstance<{}, TOpts>(tagNode.name, renderedAttrs, element, data!)) : data;
   const children = map(tagNode.children, x => expand(document, x, childData));
-  element.children.push(...children as any);
+  element.children.push(...children);
   return element;
 }
 

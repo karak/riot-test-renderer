@@ -36,7 +36,7 @@ describe('vdom', () => {
     it('has one child of <p>', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const child = rootTag.root!.children[0];
+      const child = rootTag.root!.children[0] as VirtualElement;
 
       expect(child).toHaveProperty('name', 'p');
       expect(child).not.toHaveProperty('opts');
@@ -77,7 +77,7 @@ describe('vdom', () => {
     it('has one child of <p>', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const child = rootTag.root!.children[0];
+      const child = rootTag.root!.children[0] as VirtualElement;
 
       expect(child).toHaveProperty('name', 'p');
       expect(child).not.toHaveProperty('opts');
@@ -107,10 +107,10 @@ describe('vdom', () => {
     it('render data via parent', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const tag2 = rootTag.root!.children[0];
+      const tag2 = rootTag.root!.children[0] as VirtualElement;
       expect(tag2).toHaveProperty('name', 'tag2');
 
-      const p = tag2.children.find(x => x.name === 'p');
+      const p = tag2.children.find(x => (x as any).name === 'p') as VirtualElement;
       expect(p).toBeDefined();
       expect(p).toHaveProperty('name', 'p');
       expect(p!.children.join('')).toEqual('Hello, world!');
