@@ -81,17 +81,20 @@ Requirement:
 TODO
 ----
 
+- [ ] Event simulated
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
 - [ ] Handle if and each attributes
-- [ ] parent property
+- [x] parent property
 - [ ] refs [LOW] -- hard to realize without DOM
+- [ ] tags [LOW]
 - [ ] Make script section working close to real DOM.
 - [ ] Lifecycle methods.
 - [ ] Full-featured finding API.
 - [ ] More efficient API for multiple tags to compile once shared and use anywhere.
 - [ ] Handle &lt;virtual&gt; tag. [LOW Priority]
 - [ ] Handle yield. [LOW Priority]
+- [ ] Mixin [LOW]
 - [ ] Helper API for **snapshot testing**
 - [ ] Other testing utility.
 - [ ] Exclude requirement of polyfill using `babel-runtime-transform`.
