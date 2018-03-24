@@ -1,4 +1,4 @@
-import { loadTags, createTag, TagInstance } from '../../src';
+import { loadTags, createTag, TagInstance, VirtualChild } from '../../src/index';
 import {
   staticTag,
   tagWithOpts,
@@ -26,19 +26,22 @@ describe('vdom', () => {
     });
 
     it('renders after mount', () => {
-      expect(rootTag.root.outerHTML).toBe('<static><p>Hello, world!</p></static>');
+      const root = rootTag.root;
+      expect(root).toBeDefined();
+      expect(root).toHaveProperty('name', 'static');
+      expect(root!.attributes).toEqual({});
     });
 
     it('has one child of <p>', () => {
-      expect(rootTag.children).toHaveLength(1);
+      expect(rootTag.root!.children).toHaveLength(1);
 
-      const childTag: TagInstance = rootTag.children[0];
+      const child = rootTag.root!.children[0];
 
-      expect(childTag).toBeInstanceOf(TagInstance);
-      expect(childTag).toHaveProperty('name', 'p');
-      expect(childTag).not.toHaveProperty('opts');
-      expect(childTag).toHaveProperty('parent', rootTag);
-      expect(childTag.root.outerHTML).toBe('<p>Hello, world!</p>');
+      expect(child).toHaveProperty('name', 'p');
+      expect(child).not.toHaveProperty('opts');
+      expect(child.attributes).toEqual({});
+      expect(child.children).toHaveLength(1);
+      expect(child.children[0]).toBe('Hello, world!');
     });
   });
 
@@ -64,19 +67,22 @@ describe('vdom', () => {
     });
 
     it('renders after mount', () => {
-      expect(rootTag.root.outerHTML).toBe('<tag><p>Hello, world!</p></tag>');
+      const root = rootTag.root;
+      expect(root).toBeDefined();
+      expect(root).toHaveProperty('name', 'tag');
+      expect(root!.attributes).toEqual({}); // root attributes is no opts
     });
 
     it('has one child of <p>', () => {
-      expect(rootTag.children).toHaveLength(1);
+      expect(rootTag.root!.children).toHaveLength(1);
 
-      const childTag: TagInstance = rootTag.children[0];
+      const child = rootTag.root!.children[0];
 
-      expect(childTag).toBeInstanceOf(TagInstance);
-      expect(childTag).toHaveProperty('name', 'p');
-      expect(childTag).not.toHaveProperty('opts');
-      expect(childTag).toHaveProperty('parent', rootTag);
-      expect(childTag.root.outerHTML).toBe('<p>Hello, world!</p>');
+      expect(child).toHaveProperty('name', 'p');
+      expect(child).not.toHaveProperty('opts');
+      expect(child.attributes).toEqual({});
+      expect(child.children).toHaveLength(1);
+      expect(child.children[0]).toBe('Hello, world!');
     });
   });
 });

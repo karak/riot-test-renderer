@@ -1,4 +1,4 @@
-import { shallow } from '../../src';
+import { shallow } from '../../src/index';
 import {
   staticTag,
   staticTagWithStyle,
@@ -6,7 +6,7 @@ import {
   tagWithEach,
 } from '../tags/singleTags';
 
-xdescribe('shallow', () => {
+describe('shallow', () => {
   describe('singleTags', () => {
 
     describe('template', () => {

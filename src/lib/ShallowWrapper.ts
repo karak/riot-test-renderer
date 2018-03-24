@@ -1,4 +1,5 @@
 import TagInstance from './TagInstance';
+import toHTML from './toHTML';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -6,6 +7,8 @@ import TagInstance from './TagInstance';
  * @see shallow
  */
 export default class ShallowWrapper<TOpts> {
+  private htmlCache: string | null = null;
+
   /**
    * Constructor
    *
@@ -27,8 +30,11 @@ export default class ShallowWrapper<TOpts> {
 
   /** Get outer-HTML string */
   html() {
-    if (!this.tagInstance.root) throw new Error('Call during mount.');
+    if (this.tagInstance.root === undefined) throw Error('Mount first');
 
-    return this.tagInstance.root.outerHTML;
+    if (this.htmlCache === null) {
+      this.htmlCache = toHTML(this.tagInstance.root, false);
+    }
+    return this.htmlCache;
   }
 }

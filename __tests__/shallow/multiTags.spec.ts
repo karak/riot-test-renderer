@@ -1,6 +1,6 @@
-import { shallow } from '../../src';
+import { shallow } from '../../src/index';
 
-xdescribe('shallow', () => {
+describe('shallow', () => {
   describe('multiTags', () => {
     describe('template', () => {
       const nestedStaticTag = `

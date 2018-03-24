@@ -1,5 +1,14 @@
 /** Virtual element like `HTMLElement` */
-export default interface VirtualElement {
-  innerHTML: string;
-  outerHTML: string;
-}
+type VirtualElement = {
+  type: 'html';
+  name: string;
+  attributes: { [name: string]: any };
+  children: VirtualElement[];
+};
+
+type VirtualChild = string | VirtualElement;
+
+export {
+  VirtualElement,
+  VirtualChild,
+};

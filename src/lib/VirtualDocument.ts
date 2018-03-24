@@ -2,8 +2,7 @@ import { compile } from 'riot-compiler';
 import TagMap from './TagMap';
 import EvalContext from './EvalContext';
 import { default as TagInstance, createTag } from './TagInstance';
-import VirtualElement from './VirtualElement';
-import VirtualElementInternal from './VirtualElementInternal';
+import { VirtualElement, VirtualChild } from './VirtualElement';
 import VirtualTextNode from './VirtualTextNode';
 import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
@@ -54,8 +53,8 @@ export default class VirtualDocument {
     return createTag(this, rootTagNode, opts, fn);
   }
 
-  createElement(name: string, attributes: string | undefined, children: VirtualElement[]) {
-    return new VirtualElementInternal(this, name, attributes, children);
+  createElement(name: string, attributes: { [name: string]: any }, children: VirtualChild[]) {
+    return { name, attributes, children } as VirtualElement;
   }
 
   createTextNode(textContent: string) {
