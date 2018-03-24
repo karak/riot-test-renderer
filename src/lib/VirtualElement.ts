@@ -3,7 +3,7 @@ type VirtualElement = {
   type: 'html';
   name: string;
   attributes: { [name: string]: any };
-  children: VirtualElement[];
+  children: VirtualElement[]; // FIXME: VirtualChild in fact
 };
 
 type VirtualChild = string | VirtualElement;

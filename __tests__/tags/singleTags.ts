@@ -22,3 +22,11 @@ export const tagWithEach = `
   <p>{ this }</p>
 </tag>
 `;
+
+export const tagWithParent = `
+<tag>
+  <tag2>
+    <p>{ parent.opts.data }</p>
+  </tag2>
+</tag>
+`;

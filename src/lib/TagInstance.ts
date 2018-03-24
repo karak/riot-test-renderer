@@ -44,10 +44,14 @@ function renderAttributes(
   return result;
 }
 
-function expand<T>(document: VirtualDocument, tagNode: TagTextNode, data?: T): string;
-function expand<T>(document: VirtualDocument, tagNode: TagElement, data?: T): VirtualElement;
-function expand<T>(document: VirtualDocument, tagNode: TagNode, data?: T): VirtualChild;
-function expand<T>(document: VirtualDocument, tagNode: TagNode, data?: T): VirtualChild {
+function expand<TOpts>
+  (document: VirtualDocument, tagNode: TagTextNode, data?: TagInstance<TOpts>): string;
+function expand<TOpts>
+  (document: VirtualDocument, tagNode: TagElement, data?: TagInstance<TOpts>): VirtualElement;
+function expand<TOpts>
+  (document: VirtualDocument, tagNode: TagNode, data?: TagInstance<TOpts>): VirtualChild;
+function expand<TOpts>
+  (document: VirtualDocument, tagNode: TagNode, data?: TagInstance<TOpts>): VirtualChild {
   switch (tagNode.type) {
     case 'text':
       return expandText(document, tagNode, data);
@@ -58,24 +62,51 @@ function expand<T>(document: VirtualDocument, tagNode: TagNode, data?: T): Virtu
   }
 }
 
-function expandText<T>(document: VirtualDocument, tagNode: TagTextNode, data?: T) {
+function expandText<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagTextNode,
+  data?: TagInstance<TOpts>,
+) {
   const rendered = renderTemplate(tagNode.text, data);
 
   return `${rendered !== undefined? rendered : ''}`;
 }
 
-class PsuedoTagInstance<TOpts> {
-  constructor(public opts: TOpts) {}
+class PsuedoTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<TOpts> {
+  public readonly refs: { [name: string]: VirtualElement } = {};
+  public readonly tags: { [name: string]: TagInstance } = {};
+  // TODO: public root?: VirtualElement;
+
+  constructor(
+    public name: string,
+    public opts: TOpts,
+    public root: VirtualElement,
+    public parent: TagInstance<UOpts>,
+  ) {
+    super();
+  }
+
+  public readonly isMounted = true;
+  // tslint:disable-next-line:no-empty
+  public mount(): void {}
+  // tslint:disable-next-line:no-empty
+  public unmount(): void {}
 }
 
-function expandElement<T>(document: VirtualDocument, tagNode: TagElement, data?: T) {
+function expandElement<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagElement,
+  data?: TagInstance<TOpts>,
+) {
   const isCustomTag = document.getTagKind(tagNode.name).custom;
   const isRoot = tagNode.parent === null;
   const renderedAttrs = mapObject(tagNode.attributes, (value, key) => renderTemplate(value, data));
   // Nested custom tags uses psuedo TagInstance from attrs.
-  const childData = isCustomTag && !isRoot? new PsuedoTagInstance(renderedAttrs) : data;
+  const element = document.createElement(tagNode.name, renderedAttrs || {}, []);
+  const childData = isCustomTag && !isRoot?
+    (new PsuedoTagInstance<{}, TOpts>(tagNode.name, renderedAttrs, element, data!)) : data;
   const children = map(tagNode.children, x => expand(document, x, childData));
-  const element = document.createElement(tagNode.name, renderedAttrs || {}, children);
+  element.children.push(...children as any);
   return element;
 }
 
