@@ -21,6 +21,14 @@ export const tagWithEach = `
 <tag each={ opts.items }>
   <p>{ this }</p>
 </tag>
+`; // TODO: Fix position of "each"
+
+export const tagWithIfNested = `
+<tag>
+  <div>
+    <p if={ opts.exists }>Exists</p>
+  </div>
+</tag>
 `;
 
 export const tagWithParent = `

@@ -9,6 +9,7 @@ import {
   tagWithIf,
   tagWithShow,
   tagWithHide,
+  tagWithIfNested,
 } from '../tags/singleTags';
 import isString from 'lodash/isString';
 
@@ -173,6 +174,39 @@ describe('vdom', () => {
       const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
 
       expect(childElements).toHaveLength(0);
+    });
+  });
+
+  describe('tagWithIfNested exists', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithIfNested, 'tag', { exists: true }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].name).toBe('div');
+      const childChildElements = getNonEmptyChildren(childElements[0]) as VirtualElement[];
+
+      expect(childChildElements).toHaveLength(1);
+      expect(childChildElements[0].name).toBe('p');
+    });
+  });
+
+  describe('tagWithIfNested exists', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithIfNested, 'tag', { exists: false }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].name).toBe('div');
+      const childChildElements = getNonEmptyChildren(childElements[0]) as VirtualElement[];
+
+      expect(childChildElements).toHaveLength(0);
     });
   });
 
