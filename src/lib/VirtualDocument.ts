@@ -1,9 +1,8 @@
 import { compile } from 'riot-compiler';
 import TagMap from './TagMap';
 import EvalContext from './EvalContext';
-import TagInstance from './TagInstance';
 import { VirtualElement, VirtualChild } from './VirtualElement';
-import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
+import parseTag, { TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
 import assign from 'lodash/assign';
 

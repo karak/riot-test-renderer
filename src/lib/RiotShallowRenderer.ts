@@ -1,10 +1,9 @@
 import EvalContext from './EvalContext';
 import VirtualDocument from './VirtualDocument';
 import { VirtualElement } from './VirtualElement';
-import TagMap from './TagMap';
-import { TagNode, TagTextNode, TagElement } from './parseTag';
+import { TagElement } from './parseTag';
 import TagInstance from './TagInstance';
-import CustomTagInstance, { RenderingMethods } from './CustomTagInstance';
+import CustomTagInstance from './CustomTagInstance';
 import createRenderingMethods from './createRenderingMethods';
 import expand from './expand';
 import isArray from 'lodash/isArray';

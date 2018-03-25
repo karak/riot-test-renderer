@@ -1,5 +1,3 @@
-import VirtualDocument from './VirtualDocument';
-import EvalContext from './EvalContext';
 import TagInstance from './TagInstance';
 import RiotShallowRenderer from './RiotShallowRenderer';
 

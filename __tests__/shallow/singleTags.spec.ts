@@ -4,7 +4,6 @@ import {
   staticTagWithStyle,
   tagWithOpts,
   tagWithEach,
-  tagWithEachAndTags,
 } from '../tags/singleTags';
 
 describe('shallow', () => {

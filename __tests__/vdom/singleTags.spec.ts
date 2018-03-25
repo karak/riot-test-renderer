@@ -1,4 +1,4 @@
-import { TagInstance, VirtualChild, VirtualElement } from '../../src/index';
+import { TagInstance, VirtualElement } from '../../src/index';
 import setupTags from '../tags/setupTags';
 import {
   staticTag,

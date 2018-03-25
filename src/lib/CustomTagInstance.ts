@@ -3,7 +3,7 @@ import {
   ObservableCallback,
 } from 'riot';
 import TagInstance from './TagInstance';
-import { VirtualElement, VirtualChild } from './VirtualElement';
+import { VirtualElement } from './VirtualElement';
 import assign from 'lodash/assign';
 
 export interface RenderingMethods<TOpts> {

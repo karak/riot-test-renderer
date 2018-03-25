@@ -1,5 +1,4 @@
 import { Parser } from 'htmlparser2';
-import escapeHTML from '../utils/escapeHTML';
 
 export type TagElement = {
   type: 'element',

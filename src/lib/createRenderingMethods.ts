@@ -1,5 +1,4 @@
 import TagInstance from './TagInstance';
-import VirtualDocument from './VirtualDocument';
 import CustomTagInstance, { RenderingMethods } from './CustomTagInstance';
 import { VirtualElement } from './VirtualElement';
 
