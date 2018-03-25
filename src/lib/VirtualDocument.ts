@@ -36,7 +36,7 @@ export default class VirtualDocument {
   }
 
   createTag<TOpts>(name: string, opts?: TOpts): TagInstance<TOpts> {
-    if (!(name in this.tags)) throw new Error(`Tag "${name} not found`);
+    if (!(name in this.tags)) throw new Error(`Tag "${name}" not found`);
 
     const args = this.tags[name];
 

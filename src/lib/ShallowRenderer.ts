@@ -19,6 +19,10 @@ export default class ShallowRenderer {
     this.document.loadTags(source);
   }
 
+  isCustomTag(name: string) {
+    return this.document.getTagKind(name).custom;
+  }
+
   get tags(): TagMap {
     return this.document.tags;
   }
