@@ -45,3 +45,9 @@ export const tagWithTags = `
   <tag3></tag3>
 </tag>
 `;
+
+export const tagWithEachAndTags = `
+<tag each={ opts.items }>
+  <tag2>{ this }</tags>
+</tag>
+`;

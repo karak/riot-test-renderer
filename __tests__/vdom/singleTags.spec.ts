@@ -5,6 +5,7 @@ import {
   tagWithOpts,
   tagWithParent,
   tagWithTags,
+  tagWithEachAndTags,
 } from '../tags/singleTags';
 
 describe('vdom', () => {
@@ -121,6 +122,26 @@ describe('vdom', () => {
       expect(rootTag.tags.tag3).toBeDefined();
       // tslint:disable-next-line:no-magic-numbers
       expect(rootTag.tags.tag3).toHaveLength(2);
+    });
+  });
+
+  describe('tagWithEachAndTags', () => {
+    const rootOpts = { items: ['a', 'b', 'c'] };
+    let rootTag: TagInstance;
+
+    setupTags(tagWithEachAndTags, 'tag', rootOpts, (tag) => {
+      rootTag = tag;
+    });
+
+    it('should have 3 p\'s', () => {
+      expect(rootTag.root).toBeDefined();
+      expect(rootTag.root!.children).toHaveLength(rootOpts.items.length);
+    });
+
+    it('should have 3 tag2\'s', () => {
+      expect(rootTag.tags.tag2).toBeDefined();
+      expect(rootTag.root!.children).toHaveLength(rootOpts.items.length);
+      expect(rootTag.tags.tag2).toHaveLength(rootOpts.items.length);
     });
   });
 });
