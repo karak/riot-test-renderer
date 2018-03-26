@@ -70,16 +70,22 @@ export default class RiotShallowRenderer {
 
     // Select tagName when single tag use.
     if (tagName === undefined) {
-      const tagNames = keys(this.document.tags);
+      const tagNames = keys(this.document.tags); // FIXME: only loaded this time
       if (tagNames.length !== 1) throw new Error('Tag source must be single');
 
       tagName = tagNames[0] as string;
     }
 
-    return this.renderByName(tagName, opts);
+    const tagInstance = this.createInstance(tagName, opts);
+
+    tagInstance.mount();
+    const rendered = tagInstance.root!;
+
+    this.instance = tagInstance;
+    return this.rendered = rendered;
   }
 
-  renderByName<TOpts>(name: string, opts: TOpts) {
+  createInstance<TOpts>(name: string, opts: TOpts) {
     // create tag element, equivalent to React.ReactElement
     const { type, fn } = this.document.createTagElement(name, opts!);
 
@@ -87,11 +93,7 @@ export default class RiotShallowRenderer {
     const shallowRenderingMethods = createRenderingMethods(shallowRender);
     const tagInstance = new CustomTagInstance(shallowRenderingMethods, null, opts, fn);
 
-    tagInstance.mount();
-    const rendered = tagInstance.root!;
-
-    this.instance = tagInstance;
-    return this.rendered = rendered;
+    return tagInstance;
   }
 
   /** Get created instance of `render` */

@@ -12,7 +12,5 @@ export function loadTags(source: string) {
 
 /** @deprecated */
 export function createTag<TOpts>(name: string, opts?: TOpts): TagInstance<TOpts> {
-  renderer.renderByName(name, opts);
-
-  return renderer.getMountedInstance();
+  return renderer.createInstance(name, opts);
 }
