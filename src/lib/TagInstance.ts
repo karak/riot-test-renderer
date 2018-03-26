@@ -11,6 +11,7 @@ import renderTemplate from './renderTemplate';
 import isString from 'lodash/isString';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
+import forEach from 'lodash/forEach';
 import escapeHTML from '../utils/escapeHTML';
 import emptyFn from '../utils/emptyFn';
 import mapObject from '../utils/mapObject';
@@ -35,17 +36,6 @@ export function createTag<TOpts = {}, UOpts = {}>(
   scriptFn: () => void,
 ): TagInstance<UOpts> {
   return new CustomTagInstance<TOpts, UOpts>(document, null, rootTagNode, opts, scriptFn);
-}
-
-function renderAttributes(
-  document: VirtualDocument,
-  attributes: { [name: string]: string },
-  data: {},
-): string {
-  const source = map(attributes || {}, (value, key) =>
-    `${escapeHTML(key)}="${escapeHTML(value)}"`).join(' ');
-  const result = renderTemplate(source, data);
-  return result;
 }
 
 type MeetCustomTagCallback = (tag: TagInstance<any>) => void;
@@ -94,6 +84,48 @@ function expandText<TOpts>(
   return `${rendered !== undefined? rendered : ''}`;
 }
 
+function expandAttributes<TOpts>(
+  attributes: { [name: string]: string },
+  data: TagInstance<TOpts>,
+) {
+  const renderedAttrs = mapObject(attributes, (value, key) => renderTemplate(value, data));
+  const ifAttr = renderedAttrs['if'];
+  const eachAttr = renderedAttrs['each'];
+  const showAttr = renderedAttrs['show'];
+  const hideAttr = renderedAttrs['hide'];
+  delete renderedAttrs['if'];
+  delete renderedAttrs['each'];
+  delete renderedAttrs['show'];
+  delete renderedAttrs['hide'];
+  return {
+    if: ifAttr,
+    each: eachAttr,
+    show: showAttr,
+    hide: hideAttr,
+    rests: renderedAttrs,
+  };
+}
+
+/**
+ * Render child tags upon existence of "each" attribute
+ * @param each value of "each" attribute
+ * @param current `this` context between {}
+ * @param callback render function
+ */
+function forEachOrOnce<TOpts>(
+  each: any[] | undefined,
+  current: TagInstance<TOpts>,
+  fn: (data: any) => void,
+) {
+  if (each) {
+    forEach(each, (item) => {
+      fn(item);
+    });
+  } else {
+    fn(current);
+  }
+}
+
 function expandElement<TOpts>(
   document: VirtualDocument,
   tagNode: TagElement,
@@ -102,15 +134,19 @@ function expandElement<TOpts>(
 ) {
   const isRoot = tagNode.parent === null;
   const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
-  const renderedAttrs = mapObject(tagNode.attributes, (value, key) => renderTemplate(value, data));
-  const element = document.createElement(tagNode.name, renderedAttrs || {}, []);
-  const children = map(tagNode.children, x => expand(document, x, data, onMeetCustomTag));
-  element.children.push(...children);
+  const renderedAtrrs = expandAttributes(tagNode.attributes, data);
+
+  const element = document.createElement(tagNode.name, renderedAtrrs.rests || {}, []);
+
+  forEachOrOnce(renderedAtrrs.each, data, (childData) => {
+    const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
+    element.children.push(...children);
+  });
   if (isNestedCustom) {
     const nestedTag = new NestedTagInstance(
       tagNode.name,
       data,
-      renderedAttrs,
+      renderedAtrrs.rests,
       {},
       element,
     );
