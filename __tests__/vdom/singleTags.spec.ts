@@ -20,8 +20,8 @@ describe('vdom', () => {
       rootTag = tag;
     });
 
-    it('has name of "static"', () => {
-      expect(rootTag).toHaveProperty('name', 'static');
+    it('should be created', () => {
+      expect(rootTag).toBeDefined();
     });
 
     it('renders after mount', () => {
@@ -52,8 +52,8 @@ describe('vdom', () => {
       rootTag = tag;
     });
 
-    it('has name of "tag"', () => {
-      expect(rootTag).toHaveProperty('name', 'tag');
+    it('should be created', () => {
+      expect(rootTag).toBeDefined();
     });
 
     it('renders after mount', () => {

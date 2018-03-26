@@ -2,7 +2,6 @@ import { compile } from 'riot-compiler';
 import TagMap from './TagMap';
 import EvalContext from './EvalContext';
 import TagInstance from './TagInstance';
-import CustomTagInstance from './CustomTagInstance';
 import { VirtualElement, VirtualChild } from './VirtualElement';
 import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
@@ -38,7 +37,7 @@ export default class VirtualDocument {
     return { custom: false };
   }
 
-  createTag<TOpts>(name: string, opts?: TOpts): TagInstance<TOpts> {
+  createTagElement<TOpts>(name: string, opts?: TOpts): { type: TagElement, fn: () => void } {
     if (!(name in this.tags)) throw new Error(`Tag "${name} not found`);
 
     const args = this.tags[name];
@@ -50,9 +49,9 @@ export default class VirtualDocument {
     // tslint:disable-next-line:no-magic-numbers
     const fn = args[4];
 
-    const rootTagNode = parseTag(name, attributes, template); // TODO: cache
+    const rootTagNode = parseTag(name, attributes, template); // TODO: cache, excluding "attributes"
 
-    return new CustomTagInstance(this, null, rootTagNode, opts, fn);
+    return { type: rootTagNode, fn };
   }
 
   createElement(name: string, attributes: { [name: string]: any }, children: VirtualChild[]) {

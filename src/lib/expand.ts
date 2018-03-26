@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import mapObject from '../utils/mapObject';
 
-export type MeetCustomTagCallback = (tag: TagInstance<any>) => void;
+export type MeetCustomTagCallback = (name: string, tag: TagInstance<any>) => void;
 
 /** Construct VDOM tree */
 export default function expand<TOpts>(
@@ -179,7 +179,7 @@ function expandElement<TOpts>(
           {},
           element!,
         );
-        onMeetCustomTag(nestedTag);
+        onMeetCustomTag(tagNode.name, nestedTag);
       }
     },
   );

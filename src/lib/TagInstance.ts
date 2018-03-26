@@ -1,7 +1,6 @@
 import { VirtualElement } from './VirtualElement';
 
 export default interface TagInstance<TOpts = {}, UOpts = {}> {
-  readonly name: string;
   readonly parent: TagInstance<UOpts> | null;
   opts?: { [name: string]: any };
   tags: {

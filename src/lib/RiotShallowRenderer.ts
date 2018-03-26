@@ -2,7 +2,12 @@ import EvalContext from './EvalContext';
 import VirtualDocument from './VirtualDocument';
 import { VirtualElement } from './VirtualElement';
 import TagMap from './TagMap';
+import { TagNode, TagTextNode, TagElement } from './parseTag';
 import TagInstance from './TagInstance';
+import CustomTagInstance, { RenderingMethods } from './CustomTagInstance';
+import createRenderingMethods from './createRenderingMethods';
+import expand from './expand';
+import isArray from 'lodash/isArray';
 import keys from 'lodash/keys';
 
 /**
@@ -71,8 +76,17 @@ export default class RiotShallowRenderer {
       tagName = tagNames[0] as string;
     }
 
-    // create tag instance
-    const tagInstance = this.document.createTag(tagName, opts!);
+    return this.renderByName(tagName, opts);
+  }
+
+  renderByName<TOpts>(name: string, opts: TOpts) {
+    // create tag element, equivalent to React.ReactElement
+    const { type, fn } = this.document.createTagElement(name, opts!);
+
+    const shallowRender = createShallowRender(this.document, type);
+    const shallowRenderingMethods = createRenderingMethods(shallowRender);
+    const tagInstance = new CustomTagInstance(shallowRenderingMethods, null, opts, fn);
+
     tagInstance.mount();
     const rendered = tagInstance.root!;
 
@@ -82,12 +96,16 @@ export default class RiotShallowRenderer {
 
   /** Get created instance of `render` */
   getMountedInstance() {
-    return this.instance;
+    if (this.instance === null) throw new Error('Call after render');
+
+    return this.instance!;
   }
 
   /** Get latest result of `render` */
   getRenderedOutput() {
-    return this.rendered;
+    if (this.rendered === null) throw new Error('Call after render');
+
+    return this.rendered!;
   }
 
   unmount() {
@@ -97,4 +115,24 @@ export default class RiotShallowRenderer {
     this.rendered = null;
     this.instance = null;
   }
+}
+
+function createShallowRender(document: VirtualDocument, rootTagNode: TagElement) {
+  return function render<TOpts>(this: TagInstance) {
+    return expand(document, rootTagNode, this, (name, nestedTag) => {
+      // TODO: this.opts rather than embedding into rootTagNode
+      if (!(name in this.tags)) {
+        // 1st path
+        this.tags[name] = nestedTag;
+      } else {
+        if (!isArray(this.tags[name])) {
+          // 2nd path
+          (this.tags[name] as any) = [this.tags[name], nestedTag];
+        } else {
+          // 3rd or greater path
+          (this.tags[name] as any).push(nestedTag);
+        }
+      }
+    });
+  };
 }

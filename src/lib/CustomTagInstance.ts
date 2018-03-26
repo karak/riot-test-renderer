@@ -3,11 +3,14 @@ import {
   ObservableCallback,
 } from 'riot';
 import TagInstance from './TagInstance';
-import { TagNode, TagTextNode, TagElement } from './parseTag';
-import VirtualDocument from './VirtualDocument';
 import { VirtualElement, VirtualChild } from './VirtualElement';
-import expand from './expand';
-import isArray from 'lodash/isArray';
+import assign from 'lodash/assign';
+
+export interface RenderingMethods<TOpts> {
+  mount(this: TagInstance<TOpts>): void;
+  update(this: TagInstance<TOpts>): void;
+  unmount(this: TagInstance<TOpts>): void;
+}
 
 /**
  * Tag instance of `riot`
@@ -16,47 +19,28 @@ import isArray from 'lodash/isArray';
  *
  * @see VirtualElement
  */
-export default class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagInstance<UOpts> {
-  public readonly name: string;
+export default class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagInstance<TOpts> {
   public isMounted = false;
   public root?: VirtualElement;
-  private render: () => VirtualElement; // shallow render
 
   public tags: {
     [name: string]: TagInstance<any> | Array<TagInstance<any>>,
-  };
+  } = {};
 
   constructor(
-    document: VirtualDocument,
+    methods: RenderingMethods<TOpts>,
     public readonly parent: CustomTagInstance<UOpts> | null,
-    rootTagNode: TagElement,
     public readonly opts: TOpts | undefined,
     scriptFn: () => void,
   ) {
+    // delegate to mount, update, unmount
+    assign(this, methods);
+
     // mixin riot.Observable
     observable(this);
 
-    this.name = rootTagNode.name;
-    this.tags = {};
-
     // execute the script section.
     scriptFn.apply(this);
-
-    this.render = () => expand(document, rootTagNode, this, (nestedTag) => {
-      const name = nestedTag.name;
-      if (!(name in this.tags)) {
-        // 1st path
-        this.tags[name] = nestedTag;
-      } else {
-        if (!isArray(this.tags[name])) {
-          // 2nd path
-          (this.tags[name] as any) = [this.tags[name], nestedTag];
-        } else {
-          // 3rd or greater path
-          (this.tags[name] as any).push(nestedTag);
-        }
-      }
-    });
   }
 
   /** Dummy functions for type definitions, which is realized by `riot.observable()` */
@@ -69,31 +53,12 @@ export default class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagIns
   /** @inheritDoc */
   trigger(event: string, ...args: any[]): this { return this; }
 
-  mount() {
-    if (this.isMounted) return;
 
-    this.root = this.render();
-
-    this.isMounted = true;
-    // TODO: this.trigger('mount');
-    // TODO: Call this.update() after mount
-  }
-
-  // TODO: update()
-  update() {
-    throw new Error('Not implemented');
-  }
-
-  unmount() {
-    if (!this.isMounted) return;
-
-    try {
-      // TODO: this.trigger('before-unmount');
-    } finally {
-      delete this.root;
-      this.isMounted = false;
-    }
-    // TODO: this.trigger('unmounted');
-    // TODO: and this.off('*');
-  }
+  /** Dummy functions for typedefinitions, which is delegated to methods parameter */
+  // tslint:disable-next-line:no-empty
+  mount(): void {}
+  // tslint:disable-next-line:no-empty
+  update(): void {}
+  // tslint:disable-next-line:no-empty
+  unmount(): void {}
 }
