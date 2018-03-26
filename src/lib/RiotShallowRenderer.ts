@@ -4,6 +4,7 @@ import { VirtualElement } from './VirtualElement';
 import { TagElement } from './parseTag';
 import TagInstance from './TagInstance';
 import CustomTagInstance from './CustomTagInstance';
+import RiotRenderer from './RiotRenderer';
 import createRenderingMethods from './createRenderingMethods';
 import expand from './expand';
 import isArray from 'lodash/isArray';
@@ -12,15 +13,18 @@ import keys from 'lodash/keys';
 /**
  * A shallow renderer for `riot`
  */
-export default class RiotShallowRenderer {
-  private readonly context: EvalContext;
+export default class RiotShallowRenderer implements RiotRenderer{
   private readonly document: VirtualDocument;
   private instance: TagInstance<any> | null;
   private rendered: VirtualElement | null;
 
-  constructor() {
-    this.context = new EvalContext();
-    this.document = new VirtualDocument(this.context);
+  constructor(document?: VirtualDocument) {
+    if (document !== undefined) {
+      this.document = document;
+    } else {
+      const context = new EvalContext();
+      this.document = new VirtualDocument(context);
+    }
     this.instance = null;
     this.rendered = null;
   }
@@ -41,7 +45,7 @@ export default class RiotShallowRenderer {
   /**
    * Execute shallow rendering
    *
-   * @param src single tag source to render
+   * @param src single tag source or tag name preloaded to render
    * @param opts tag interface
    * @returns rendered tree
    */
@@ -65,7 +69,9 @@ export default class RiotShallowRenderer {
       [src] = <any>(arguments);
     }
 
-    this.loadTags(src);
+    if (/^\s*</m.test(src)) {
+      this.loadTags(src);
+    }
 
     // Select tagName when single tag use.
     if (tagName === undefined) {
@@ -103,7 +109,7 @@ export default class RiotShallowRenderer {
   }
 
   /** Get latest result of `render` */
-  getRenderedOutput() {
+  getRenderedOutput() { // TODO: rename to getRenderOutput
     if (this.rendered === null) throw new Error('Call after render');
 
     return this.rendered!;

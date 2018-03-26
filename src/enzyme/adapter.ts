@@ -1,0 +1,157 @@
+import * as React from 'react'; // Only for type definitions.
+import { EnzymeAdapter } from 'enzyme';
+import { mapNativeEventNames, } from './utils/index';
+import EvalContext from '../lib/EvalContext';
+import VirtualDocument from '../lib/VirtualDocument';
+import { VirtualElement } from '../lib/VirtualElement';
+import TagInstance from '../lib/TagInstance';
+import RiotShallowRenderer from '../lib/RiotShallowRenderer';
+import renderToStaticMarkup from './renderToStaticMarkup';
+import elementToTree from './elementToTree';
+import isString from 'lodash/isString';
+import assign from 'lodash/assign';
+
+declare module 'enzyme' {
+  namespace EnzymeAdapter {
+    const MODES: {
+      MOUNT: string;
+      SHALLOW: string;
+      STRING: string;
+    };
+  }
+
+  interface EnzymeAdapter {
+    options: {};
+  }
+}
+
+export type EnzymeNode<P> = React.ReactElement<P> & {
+  nodeType: 'host' | 'class' | 'function';
+  instance: TagInstance<P>;
+  rendered: React.ReactInstance | React.ReactInstance[];
+};
+
+export interface ShallowRendererOptions {
+  source: string;
+}
+
+export default class EnzymeRiotAdapter extends EnzymeAdapter {
+  private vdom: VirtualDocument;
+
+  constructor() {
+    super();
+    this.options = {
+      ...this.options,
+      enableComponentDidUpdateOnSetState: true,
+    };
+
+    this.vdom = new VirtualDocument(new EvalContext());
+  }
+
+  createMountRenderer(options: any) {
+    throw new Error('Not supported yet');
+  }
+
+  createShallowRenderer(options: ShallowRendererOptions) {
+    const renderer = new RiotShallowRenderer(this.vdom);
+    renderer.loadTags(options.source);
+    let cachedNode: React.ReactElement<any> | null = null;
+
+    const adapter = this;
+    return {
+      render<P>(el: React.ReactElement<P>, context: any): React.ReactElement<P> {
+        if (!isString(el.type)) throw new Error('el.type must be string');
+
+        cachedNode = el;
+        return toReactElement(renderer.render(el.type, el.props));
+      },
+      unmount() {
+        renderer.unmount();
+      },
+      getNode<P>(): EnzymeNode<P> {
+        const output = renderer.getRenderedOutput();
+        return {
+          nodeType: 'host',
+          type: cachedNode!.type,
+          props: cachedNode!.props,
+          key: cachedNode!.key,
+          instance: renderer.getMountedInstance(),
+          rendered: elementToTree(output),
+        };
+      },
+      simulateEvent<TEvent>(node: React.ReactInstance, event: TEvent, ...args: any[]) {
+        // TODO:
+      },
+      batchedUpdates(fn: () => void) {
+        return fn();
+      },
+    };
+  }
+
+  createStringRenderer(options: any) {
+    const renderer = new RiotShallowRenderer(this.vdom);
+    return {
+      render<TOpts>(el: React.ReactElement<TOpts>, context: any): string {
+        if (global.console) {
+          // tslint:disable-next-line:no-console
+          console.warn('String renderer is incomplete, shallow.');
+        }
+        return renderToStaticMarkup(renderer, el, context);
+      },
+    };
+  }
+
+  createRenderer(options: { mode: string } & any) {
+    switch (options.mode) {
+      case EnzymeAdapter.MODES.MOUNT: return this.createMountRenderer(options);
+      case EnzymeAdapter.MODES.SHALLOW: return this.createShallowRenderer(options);
+      case EnzymeAdapter.MODES.STRING: return this.createStringRenderer(options);
+      default:
+        throw new Error(`Enzyme Internal Error: Unrecognized mode: ${options.mode}`);
+    }
+  }
+
+  nodeToElement<P>(node: EnzymeNode<P>): React.ReactElement<P> | null {
+    if (!node || typeof node !== 'object') return null;
+    return toReactElement(node.instance.root!);
+  }
+
+  elementToNode<P>(element: React.ReactElement<P>): React.ReactInstance {
+    return elementToTree(toVirtualElement(element));
+  }
+
+  nodeToHostNode<P>(node: EnzymeNode<P>): Element {
+    const element = node.instance!.root!;
+    return element; // TODO:
+  }
+
+  isValidElement<P>(element: React.ReactElement<P>) {
+    return true; // TODO:
+  }
+
+  createElement<P>(name: string, props: P, children: React.ReactChild[]): React.ReactElement<P> {
+    return {
+      type: name,
+      props: assign({}, props, { children }),
+      key: null,
+    };
+  }
+}
+
+function toReactElement(el: VirtualElement): React.ReactElement<any> {
+  return {
+    type: el.name,
+    props: assign({}, el.attributes, { children: el.children }),
+    key: el.key !== undefined ? el.key : null,
+  };
+}
+
+function toVirtualElement<P>(el: React.ReactElement<P>): VirtualElement {
+  return {
+    type: 'html',
+    name: el.type as string,
+    attributes: el.props as {},
+    key: el.key !== null ? el.key : undefined,
+    children: (el.props as any).children || [],
+  };
+}
