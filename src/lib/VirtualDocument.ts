@@ -1,7 +1,8 @@
 import { compile } from 'riot-compiler';
 import TagMap from './TagMap';
 import EvalContext from './EvalContext';
-import { default as TagInstance, createTag } from './TagInstance';
+import TagInstance from './TagInstance';
+import CustomTagInstance from './CustomTagInstance';
 import { VirtualElement, VirtualChild } from './VirtualElement';
 import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
@@ -51,7 +52,7 @@ export default class VirtualDocument {
 
     const rootTagNode = parseTag(name, attributes, template); // TODO: cache
 
-    return createTag(this, rootTagNode, opts, fn);
+    return new CustomTagInstance(this, null, rootTagNode, opts, fn);
   }
 
   createElement(name: string, attributes: { [name: string]: any }, children: VirtualChild[]) {
