@@ -2,6 +2,7 @@ import {
   configure,
   shallow as reactShallow,
   ShallowWrapper as ReactShallowWrapper,
+  EnzymePropSelector,
 } from 'enzyme';
 
 import EnzymeRiotAdapter from './adapter';
@@ -46,7 +47,9 @@ export class ShallowWrapper<TOpts = any> {
     return this.adaptee.props() as TOpts;
   }
 
-  find(selector: string) {
+  find(props: EnzymePropSelector): ShallowWrapper<any>;
+  find(selector: string): ShallowWrapper<any>;
+  find(selector: any) {
     const nextAdaptee = this.adaptee.find(selector);
     return new ShallowWrapper(nextAdaptee);
   }
