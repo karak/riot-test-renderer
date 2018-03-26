@@ -43,7 +43,7 @@ var wrapper = shallow('<tag><p>{opts.greeting}</p></tag>', { greeting: 'Hello, w
 assert(wrapper.html() === '<tag><p>Hello, world!</p></tag>');
 ```
 
-**WARNING**: HTML-escaping doesn't work currently.
+**WARNING**: Special sequence, such as each, if, show, hide, and virtual , doesn't work currently.
 
 Specify the name to test when you have multiple tags:
 
@@ -112,4 +112,4 @@ Known Bugs
 Template is incomplete, actually just interpolating expressions between "{}" area.
 
 - [ ] if and each don't work.
-- [ ] Never escape HTML special characters.
+- [x] Never escape HTML special characters.
