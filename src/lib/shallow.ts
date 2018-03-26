@@ -1,5 +1,5 @@
 import ShallowWrapper from './ShallowWrapper';
-import ShallowRenderer from './ShallowRenderer';
+import RiotShallowRenderer from './RiotShallowRenderer';
 
 /**
  * A shallow renderer for `riot` compatible to `enzyme`
@@ -11,7 +11,7 @@ import ShallowRenderer from './ShallowRenderer';
 function shallow<TOpts>(src: string, name: string, opts?: TOpts): ShallowWrapper<TOpts>;
 function shallow<TOpts>(src: string, opts?: TOpts): ShallowWrapper<TOpts>;
 function shallow<TOpts>(): ShallowWrapper<TOpts> {
-  const renderer = new ShallowRenderer();
+  const renderer = new RiotShallowRenderer();
   renderer.render.apply(renderer, arguments);
   const tag = renderer.getMountedInstance();
   return new ShallowWrapper(tag!);

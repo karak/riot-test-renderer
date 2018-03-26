@@ -8,7 +8,7 @@ import keys from 'lodash/keys';
 /**
  * A shallow renderer for `riot`
  */
-export default class ShallowRenderer {
+export default class RiotShallowRenderer {
   private readonly context: EvalContext;
   private readonly document: VirtualDocument;
   private instance: TagInstance<any> | null;
