@@ -83,12 +83,16 @@ TODO
 
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
-- [ ] Handle if and each attributes
+- [x] Support attributes if, each, show, and hide
+- [ ] Support boolean attributes
+- [ ] Support styles object expressions
+- [ ] Implement CSS class shorthand
 - [x] parent property
 - [x] tags, limited in shallow context
 - [ ] refs [LOW] -- hard to realize without DOM
 - [ ] Make script section working close to real DOM.
 - [ ] Lifecycle methods.
+- [ ] mixins [LOW]
 - [ ] Full-featured finding API.
 - [ ] More efficient API for multiple tags to compile once shared and use anywhere.
 - [ ] Handle &lt;virtual&gt; tag. [LOW Priority]
