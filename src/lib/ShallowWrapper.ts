@@ -15,7 +15,6 @@ export default class ShallowWrapper<TOpts> {
    * @param tagInstance - tag instance to wrap
    */
   constructor(private tagInstance: TagInstance<TOpts>) {
-    this.tagInstance.mount();
   }
 
   /** Get tag instance */
