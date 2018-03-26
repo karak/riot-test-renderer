@@ -3,13 +3,15 @@ import { EnzymeAdapter } from 'enzyme';
 import { mapNativeEventNames, } from './utils/index';
 import EvalContext from '../lib/EvalContext';
 import VirtualDocument from '../lib/VirtualDocument';
-import { VirtualElement } from '../lib/VirtualElement';
+import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
 import TagInstance from '../lib/TagInstance';
 import RiotShallowRenderer from '../lib/RiotShallowRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
+import isNumber from 'lodash/isNumber';
 import assign from 'lodash/assign';
+import map from 'lodash/map';
 
 declare module 'enzyme' {
   namespace EnzymeAdapter {
@@ -116,7 +118,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     return toReactElement(node.instance.root!);
   }
 
-  elementToNode<P>(element: React.ReactElement<P>): React.ReactInstance {
+  elementToNode<P extends Object>(element: React.ReactElement<P>): React.ReactInstance {
     return elementToTree(toVirtualElement(element));
   }
 
@@ -145,12 +147,17 @@ function toReactElement(el: VirtualElement): React.ReactElement<any> {
     key: el.key !== undefined ? el.key : null,
   };
 }
+function toVirtualElement<P>(el: React.ReactElement<P>): VirtualElement;
+function toVirtualElement(el: React.ReactChild): VirtualChild;
+function toVirtualElement(
+  el: React.ReactChild,
+): VirtualChild {
+  if (isString(el) || isNumber(el)) return <VirtualChild>el;
 
-function toVirtualElement(el: React.ReactElement<{}>): VirtualElement {
   const { children, ...attributes } = el.props;
   return {
     attributes,
-    children,
+    children: map(children || [], toVirtualElement),
     type: 'html',
     name: el.type as string,
     key: el.key !== null ? el.key : undefined,
