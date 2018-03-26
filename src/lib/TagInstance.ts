@@ -7,14 +7,8 @@ import TagArgs from './TagArgs';
 import { TagNode, TagTextNode, TagElement } from './parseTag';
 import VirtualDocument from './VirtualDocument';
 import { VirtualElement, VirtualChild } from './VirtualElement';
-import renderTemplate from './renderTemplate';
-import isString from 'lodash/isString';
+import expand from './expand';
 import isArray from 'lodash/isArray';
-import map from 'lodash/map';
-import forEach from 'lodash/forEach';
-import escapeHTML from '../utils/escapeHTML';
-import emptyFn from '../utils/emptyFn';
-import mapObject from '../utils/mapObject';
 
 export default abstract class TagInstance<UOpts = {}> {
   abstract readonly name: string;
@@ -36,123 +30,6 @@ export function createTag<TOpts = {}, UOpts = {}>(
   scriptFn: () => void,
 ): TagInstance<UOpts> {
   return new CustomTagInstance<TOpts, UOpts>(document, null, rootTagNode, opts, scriptFn);
-}
-
-type MeetCustomTagCallback = (tag: TagInstance<any>) => void;
-
-function expand<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagTextNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-): string;
-function expand<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagElement,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-):VirtualElement;
-function expand<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-): VirtualChild;
-function expand<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-): VirtualChild {
-  switch (tagNode.type) {
-    case 'text':
-      return expandText(document, tagNode, data);
-    case 'element':
-      return expandElement(document, tagNode, data, onMeetCustomTag);
-    default:
-      throw new Error('Unknown type');
-  }
-}
-
-function expandText<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagTextNode,
-  data: TagInstance<TOpts>,
-) {
-  const rendered = renderTemplate(tagNode.text, data);
-
-  return `${rendered !== undefined? rendered : ''}`;
-}
-
-function expandAttributes<TOpts>(
-  attributes: { [name: string]: string },
-  data: TagInstance<TOpts>,
-) {
-  const renderedAttrs = mapObject(attributes, (value, key) => renderTemplate(value, data));
-  const ifAttr = renderedAttrs['if'];
-  const eachAttr = renderedAttrs['each'];
-  const showAttr = renderedAttrs['show'];
-  const hideAttr = renderedAttrs['hide'];
-  delete renderedAttrs['if'];
-  delete renderedAttrs['each'];
-  delete renderedAttrs['show'];
-  delete renderedAttrs['hide'];
-  return {
-    if: ifAttr,
-    each: eachAttr,
-    show: showAttr,
-    hide: hideAttr,
-    rests: renderedAttrs,
-  };
-}
-
-/**
- * Render child tags upon existence of "each" attribute
- * @param each value of "each" attribute
- * @param current `this` context between {}
- * @param callback render function
- */
-function forEachOrOnce<TOpts>(
-  each: any[] | undefined,
-  current: TagInstance<TOpts>,
-  fn: (data: any) => void,
-) {
-  if (each) {
-    forEach(each, (item) => {
-      fn(item);
-    });
-  } else {
-    fn(current);
-  }
-}
-
-function expandElement<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagElement,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-) {
-  const isRoot = tagNode.parent === null;
-  const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
-  const renderedAtrrs = expandAttributes(tagNode.attributes, data);
-
-  const element = document.createElement(tagNode.name, renderedAtrrs.rests || {}, []);
-
-  forEachOrOnce(renderedAtrrs.each, data, (childData) => {
-    const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
-    element.children.push(...children);
-  });
-  if (isNestedCustom) {
-    const nestedTag = new NestedTagInstance(
-      tagNode.name,
-      data,
-      renderedAtrrs.rests,
-      {},
-      element,
-    );
-    onMeetCustomTag(nestedTag);
-  }
-  return element;
 }
 
 /**
@@ -244,21 +121,4 @@ class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
     // TODO: this.trigger('unmounted');
     // TODO: and this.off('*');
   }
-}
-
-class NestedTagInstance<TOpts, UOpts> extends TagInstance<TOpts> {
-  constructor(
-    public readonly name: string,
-    public readonly parent: TagInstance<UOpts> | null = null,
-    public opts?: { [name: string]: any },
-    public tags: {
-      [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
-    } = {},
-    public root: VirtualElement | undefined = undefined,
-  ) {
-    super();
-  }
-  isMounted: boolean = true;
-  mount(): void {}
-  unmount(): void {}
 }
