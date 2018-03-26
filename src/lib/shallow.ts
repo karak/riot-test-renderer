@@ -1,5 +1,6 @@
 import ShallowWrapper from './ShallowWrapper';
 import ShallowRenderer from './ShallowRenderer';
+import keys from 'lodash/keys';
 
 /**
  * A shallow renderer for `riot`
@@ -34,7 +35,7 @@ function shallow<TOpts>(): ShallowWrapper<TOpts> {
 
   // Select tagName when single tag use.
   if (tagName === undefined) {
-    const tagNames = Object.keys(renderer.tags);
+    const tagNames = keys(renderer.tags);
     if (tagNames.length !== 1) throw new Error('Tag source must be single');
 
     tagName = tagNames[0] as string;

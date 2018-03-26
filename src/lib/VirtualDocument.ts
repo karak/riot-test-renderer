@@ -5,6 +5,8 @@ import { default as TagInstance, createTag } from './TagInstance';
 import { VirtualElement, VirtualChild } from './VirtualElement';
 import parseTag, { TagNode, TagTextNode, TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
+import assign from 'lodash/assign';
+
 export type TagKind = { custom: false } | { custom: true; registered: boolean; };
 
 /** Top-level Virtual DOM object */
@@ -17,7 +19,7 @@ export default class VirtualDocument {
     const tagCompiled = compile(source);
     const { tags, names } = this.context.evalTag(tagCompiled);
 
-    Object.assign(this.tags, tags);
+    assign(this.tags, tags);
 
     // TODO: Handle <style> like real `styleManager`
   }

@@ -12,8 +12,8 @@ Features:
 
 This library is **under development** and for my personal use. Any contributions are welcome!
 
-Usage:
-------
+Usage
+-----
 
 Install by `npm`(not yet):
 
@@ -66,17 +66,17 @@ assert(wrapper.html() === '<root><nested></nested></root>');
 You can look `opts` as the attributes of nested tags.
 
 For example:
+
 ```js
 var wrapper = shallow('<root><nested data="Hello" /></root>');
 
 assert(wrapper.html() === '<root><nested data="Hello"></nested></root>');
 ```
 
-Requirement:
+Requirement
 -----------
 
 - JavaScript runtime, ES5 compatible, at least.
-- `Object.keys` and `Object.assign` in ES2015. Use polyfill if not.
 
 TODO
 ----
@@ -101,5 +101,6 @@ Known Bugs
 -----------
 
 Template is incomplete, actually just interpolating expressions between "{}" area.
+
 - [ ] if and each don't work.
 - [ ] Never escape HTML special characters.
