@@ -26,6 +26,7 @@
     "@types/htmlparser2": "^3.7.31",
     "@types/jest": "^22.2.2",
     "@types/lodash": "^4.14.106",
+    "@types/react": "^16.0.41",
     "@types/riot": "^3.6.1",
     "jest": "^22.4.3",
     "riot": "^3.9.0",
@@ -37,6 +38,7 @@
   "dependencies": {
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
+    "react": "^16.2.0",
     "riot-compiler": "^3.4.0",
     "riot-tmpl": "^3.0.8"
   }
