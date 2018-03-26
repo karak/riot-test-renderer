@@ -51,3 +51,11 @@ export const tagWithEachAndTags = `
   <tag2>{ this }</tags>
 </tag>
 `;
+
+export const tagWithIf = `
+<tag>
+  <tag2 if={opts.exists}>
+    <p>Exists</p>
+  </tag2>
+</tag>
+`;

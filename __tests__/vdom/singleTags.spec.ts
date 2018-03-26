@@ -6,7 +6,9 @@ import {
   tagWithParent,
   tagWithTags,
   tagWithEachAndTags,
+  tagWithIf,
 } from '../tags/singleTags';
+import isString from 'lodash/isString';
 
 describe('vdom', () => {
   describe('staticTag', () => {
@@ -142,6 +144,33 @@ describe('vdom', () => {
       expect(rootTag.tags.tag2).toBeDefined();
       expect(rootTag.root!.children).toHaveLength(rootOpts.items.length);
       expect(rootTag.tags.tag2).toHaveLength(rootOpts.items.length);
+    });
+  });
+
+  describe('tagWithIf exists', () => {
+    const rootOpts = { exists: true };
+    let rootTag: TagInstance;
+    setupTags(tagWithIf, 'tag', rootOpts, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = rootTag.root!.children.filter(x => !isString(x)) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].name).toBe('tag2');
+    });
+  });
+
+  describe('tagWithIf not exists', () => {
+    const rootOpts = { exists: false };
+    let rootTag: TagInstance;
+    setupTags(tagWithIf, 'tag', rootOpts, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = rootTag.root!.children.filter(x => !isString(x)) as VirtualElement[];
+
+      expect(childElements).toHaveLength(0);
     });
   });
 });

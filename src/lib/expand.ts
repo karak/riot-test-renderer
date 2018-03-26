@@ -101,13 +101,18 @@ function expandElement<TOpts>(
   tagNode: TagElement,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
-) {
+): VirtualElement | '' {
   const isRoot = tagNode.parent === null;
   const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
   const renderedAtrrs = expandAttributes(tagNode.attributes, data);
 
+  if (renderedAtrrs.if !== undefined && !renderedAtrrs.if) {
+    return '';
+  }
+
   const element = document.createElement(tagNode.name, renderedAtrrs.rests || {}, []);
 
+  // "each" attributes
   forEachOrOnce(renderedAtrrs.each, data, (childData) => {
     const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
     element.children.push(...children);
