@@ -84,7 +84,8 @@ TODO
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
 - [ ] Handle if and each attributes
-- [ ] parent property
+- [x] parent property
+- [x] tags, limited in shallow context
 - [ ] refs [LOW] -- hard to realize without DOM
 - [ ] Make script section working close to real DOM.
 - [ ] Lifecycle methods.

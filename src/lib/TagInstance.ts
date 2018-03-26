@@ -9,6 +9,7 @@ import VirtualDocument from './VirtualDocument';
 import { VirtualElement, VirtualChild } from './VirtualElement';
 import renderTemplate from './renderTemplate';
 import isString from 'lodash/isString';
+import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 import escapeHTML from '../utils/escapeHTML';
 import emptyFn from '../utils/emptyFn';
@@ -18,6 +19,9 @@ export default abstract class TagInstance<UOpts = {}> {
   abstract readonly name: string;
   abstract readonly parent: TagInstance<UOpts> | null;
   abstract opts?: { [name: string]: any };
+  abstract tags: {
+    [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
+  };
   abstract isMounted: boolean;
   abstract root?: VirtualElement;
   abstract mount(): void;
@@ -44,19 +48,37 @@ function renderAttributes(
   return result;
 }
 
-function expand<TOpts>
-  (document: VirtualDocument, tagNode: TagTextNode, data?: TagInstance<TOpts>): string;
-function expand<TOpts>
-  (document: VirtualDocument, tagNode: TagElement, data?: TagInstance<TOpts>): VirtualElement;
-function expand<TOpts>
-  (document: VirtualDocument, tagNode: TagNode, data?: TagInstance<TOpts>): VirtualChild;
-function expand<TOpts>
-  (document: VirtualDocument, tagNode: TagNode, data?: TagInstance<TOpts>): VirtualChild {
+type MeetCustomTagCallback = (tag: TagInstance<any>) => void;
+
+function expand<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagTextNode,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
+): string;
+function expand<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagElement,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
+):VirtualElement;
+function expand<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagNode,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
+): VirtualChild;
+function expand<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagNode,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
+): VirtualChild {
   switch (tagNode.type) {
     case 'text':
       return expandText(document, tagNode, data);
     case 'element':
-      return expandElement(document, tagNode, data);
+      return expandElement(document, tagNode, data, onMeetCustomTag);
     default:
       throw new Error('Unknown type');
   }
@@ -65,48 +87,35 @@ function expand<TOpts>
 function expandText<TOpts>(
   document: VirtualDocument,
   tagNode: TagTextNode,
-  data?: TagInstance<TOpts>,
+  data: TagInstance<TOpts>,
 ) {
   const rendered = renderTemplate(tagNode.text, data);
 
   return `${rendered !== undefined? rendered : ''}`;
 }
 
-class PsuedoTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<TOpts> {
-  public readonly refs: { [name: string]: VirtualElement } = {};
-  public readonly tags: { [name: string]: TagInstance } = {};
-  // TODO: public root?: VirtualElement;
-
-  constructor(
-    public name: string,
-    public opts: TOpts,
-    public root: VirtualElement,
-    public parent: TagInstance<UOpts>,
-  ) {
-    super();
-  }
-
-  public readonly isMounted = true;
-  // tslint:disable-next-line:no-empty
-  public mount(): void {}
-  // tslint:disable-next-line:no-empty
-  public unmount(): void {}
-}
-
 function expandElement<TOpts>(
   document: VirtualDocument,
   tagNode: TagElement,
-  data?: TagInstance<TOpts>,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
 ) {
-  const isCustomTag = document.getTagKind(tagNode.name).custom;
   const isRoot = tagNode.parent === null;
+  const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
   const renderedAttrs = mapObject(tagNode.attributes, (value, key) => renderTemplate(value, data));
-  // Nested custom tags uses psuedo TagInstance from attrs.
   const element = document.createElement(tagNode.name, renderedAttrs || {}, []);
-  const childData = isCustomTag && !isRoot?
-    (new PsuedoTagInstance<{}, TOpts>(tagNode.name, renderedAttrs, element, data!)) : data;
-  const children = map(tagNode.children, x => expand(document, x, childData));
+  const children = map(tagNode.children, x => expand(document, x, data, onMeetCustomTag));
   element.children.push(...children);
+  if (isNestedCustom) {
+    const nestedTag = new NestedTagInstance(
+      tagNode.name,
+      data,
+      renderedAttrs,
+      {},
+      element,
+    );
+    onMeetCustomTag(nestedTag);
+  }
   return element;
 }
 
@@ -123,8 +132,9 @@ class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
   public root?: VirtualElement;
   private render: () => VirtualElement; // shallow render
 
-  /** Nested tags. Always empty. This is only for compatibility of real instance */
-  public tags: ReadonlyArray<CustomTagInstance<{}>> = [];
+  public tags: {
+    [name: string]: TagInstance<any> | Array<TagInstance<any>>,
+  };
 
   constructor(
     document: VirtualDocument,
@@ -139,11 +149,26 @@ class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
     observable(this);
 
     this.name = rootTagNode.name;
+    this.tags = {};
 
     // execute the script section.
     scriptFn.apply(this);
 
-    this.render = () => expand(document, rootTagNode, this);
+    this.render = () => expand(document, rootTagNode, this, (nestedTag) => {
+      const name = nestedTag.name;
+      if (!(name in this.tags)) {
+        // 1st path
+        this.tags[name] = nestedTag;
+      } else {
+        if (!isArray(this.tags[name])) {
+          // 2nd path
+          (this.tags[name] as any) = [this.tags[name], nestedTag];
+        } else {
+          // 3rd or greater path
+          (this.tags[name] as any).push(nestedTag);
+        }
+      }
+    });
   }
 
   /** Dummy functions for type definitions, which is realized by `riot.observable()` */
@@ -183,4 +208,21 @@ class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
     // TODO: this.trigger('unmounted');
     // TODO: and this.off('*');
   }
+}
+
+class NestedTagInstance<TOpts, UOpts> extends TagInstance<TOpts> {
+  constructor(
+    public readonly name: string,
+    public readonly parent: TagInstance<UOpts> | null = null,
+    public opts?: { [name: string]: any },
+    public tags: {
+      [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
+    } = {},
+    public root: VirtualElement | undefined = undefined,
+  ) {
+    super();
+  }
+  isMounted: boolean = true;
+  mount(): void {}
+  unmount(): void {}
 }

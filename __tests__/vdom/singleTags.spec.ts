@@ -3,6 +3,7 @@ import {
   staticTag,
   tagWithOpts,
   tagWithParent,
+  tagWithTags,
 } from '../tags/singleTags';
 
 describe('vdom', () => {
@@ -120,6 +121,42 @@ describe('vdom', () => {
       expect(p).toBeDefined();
       expect(p).toHaveProperty('name', 'p');
       expect(p!.children.join('')).toEqual('Hello, world!');
+    });
+  });
+
+  describe('tagWithTags', () => {
+    let rootTag: TagInstance;
+
+    beforeAll(() => {
+      loadTags(tagWithTags);
+    });
+
+    beforeEach(() => {
+      rootTag = createTag('tag');
+      rootTag.mount();
+    });
+
+    afterEach(() => {
+      rootTag.unmount();
+    });
+
+    it('has one tag2 in tags', () => {
+      expect(rootTag.tags).toBeDefined();
+
+      expect(rootTag.tags.tag2).toBeDefined();
+      expect((rootTag.tags.tag2 as any).name).toBe('tag2');
+    });
+
+    it('has no tag itself in tags', () => {
+      expect(rootTag.tags).toBeDefined();
+      expect(rootTag.tags.tag).not.toBeDefined();
+    });
+
+    it('has two tag3\'s in tags', () => {
+      expect(rootTag.tags).toBeDefined();
+      expect(rootTag.tags.tag3).toBeDefined();
+      // tslint:disable-next-line:no-magic-numbers
+      expect(rootTag.tags.tag3).toHaveLength(2);
     });
   });
 });

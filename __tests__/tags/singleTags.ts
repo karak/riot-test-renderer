@@ -31,3 +31,17 @@ export const tagWithParent = `
   </tag2>
 </tag>
 `;
+
+export const tagWithTags = `
+<tag>
+  <tag2>
+    <p></p>
+  </tag2>
+  <div>
+    <tag3>
+      <p></p>
+    </tag3>
+  </div>
+  <tag3></tag3>
+</tag>
+`;
