@@ -20,8 +20,8 @@ describe('enzyme-riot-adapter', () => {
       expect(wrapper.find('p').text()).toBe('Hello, world!');
     });
 
-    it('has no opts', () => {
-      expect(wrapper.opts()).toBeUndefined();
+    it('has empty opts from undefined', () => {
+      expect(wrapper.opts()).toEqual({});
     });
   });
 });

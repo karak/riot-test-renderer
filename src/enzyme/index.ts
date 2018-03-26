@@ -47,7 +47,8 @@ export class ShallowWrapper<TOpts = any> {
   }
 
   find(selector: string) {
-    return new ShallowWrapper(this.adaptee.find(selector));
+    const nextAdaptee = this.adaptee.find(selector);
+    return new ShallowWrapper(nextAdaptee);
   }
 
   at(index: number) {

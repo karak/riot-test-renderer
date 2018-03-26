@@ -146,12 +146,13 @@ function toReactElement(el: VirtualElement): React.ReactElement<any> {
   };
 }
 
-function toVirtualElement<P>(el: React.ReactElement<P>): VirtualElement {
+function toVirtualElement(el: React.ReactElement<{}>): VirtualElement {
+  const { children, ...attributes } = el.props;
   return {
+    attributes,
+    children,
     type: 'html',
     name: el.type as string,
-    attributes: el.props as {},
     key: el.key !== null ? el.key : undefined,
-    children: (el.props as any).children || [],
   };
 }
