@@ -108,47 +108,81 @@ function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
   }
 }
 
-function expandElement<TOpts>(
-  document: VirtualDocument,
-  tagNode: TagElement,
+/**
+ * Controll rendering on "if", "each", "show" and "hide" attributes
+ *
+ * @param renderCurrent render body, called if needed.
+ * @param renderChildren render all the children, called once or any times with "each".
+ */
+function expandControllAttributes<TOpts>(
+  attributes: { [name: string]: string },
   data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
+  renderCurrent: (attributes: { [name: string]: any }) => VirtualElement,
+  renderChildren: (childData: TagInstance<any>) => void,
+  onComplete: () => void,
 ): VirtualElement | '' {
-  const isRoot = tagNode.parent === null;
-  const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
-  const renderedAtrrs = expandAttributes(tagNode.attributes, data);
+  const renderedAtrrs = expandAttributes(attributes, data);
 
-  // "if" attributes
+  // return empty string on "if" attributes
   if (renderedAtrrs.if !== undefined && !renderedAtrrs.if) {
     return '';
   }
 
-  // "show" and "hide" attributes
+  // set "display attribute on ""show" and "hide" attributes
   if (renderedAtrrs.show !== undefined) {
     setDisplay(renderedAtrrs.rests, renderedAtrrs.show);
   } else if (renderedAtrrs.hide !== undefined) {
     setDisplay(renderedAtrrs.rests, !renderedAtrrs.hide);
   }
 
+  // render <foo...>
+  const element = renderCurrent(renderedAtrrs.rests);
 
-  const element = document.createElement(tagNode.name, renderedAtrrs.rests || {}, []);
+  // render <foo>... on "each" attributes
+  forEachOrOnce(renderedAtrrs.each, data, renderChildren);
 
-  // "each" attributes
-  forEachOrOnce(renderedAtrrs.each, data, (childData) => {
-    const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
-    element.children.push(...children);
-  });
-  if (isNestedCustom) {
-    const nestedTag = new NestedTagInstance(
-      tagNode.name,
-      data,
-      renderedAtrrs.rests,
-      {},
-      element,
-    );
-    onMeetCustomTag(nestedTag);
-  }
+  // render <foo>Hello</foo>...
+  onComplete();
+
   return element;
+}
+
+function expandElement<TOpts>(
+  document: VirtualDocument,
+  tagNode: TagElement,
+  data: TagInstance<TOpts>,
+  onMeetCustomTag: MeetCustomTagCallback,
+): VirtualElement | '' {
+
+  let element: VirtualElement | null = null;
+
+  return expandControllAttributes(
+    tagNode.attributes,
+    data,
+    (attributes) => {
+      element = document.createElement(tagNode.name, attributes || {}, []);
+      return element;
+    },
+    (childData) => {
+      const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
+      element!.children.push(...children);
+    },
+    () => {
+      const isRoot = tagNode.parent === null;
+      const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
+
+      if (isNestedCustom) {
+        const nestedTag = new NestedTagInstance(
+          tagNode.name,
+          data,
+          element!.attributes,
+          {},
+          element!,
+        );
+        onMeetCustomTag(nestedTag);
+      }
+    },
+  );
 }
 
 class NestedTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
