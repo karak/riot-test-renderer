@@ -59,3 +59,19 @@ export const tagWithIf = `
   </tag2>
 </tag>
 `;
+
+export const tagWithShow = `
+<tag>
+  <tag2 show={opts.visible}>
+    <p>Visible</p>
+  </tag2>
+</tag>
+`;
+
+export const tagWithHide = `
+<tag>
+  <tag2 hide={!opts.visible}>
+    <p>Visible</p>
+  </tag2>
+</tag>
+`;

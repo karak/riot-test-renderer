@@ -7,6 +7,8 @@ import {
   tagWithTags,
   tagWithEachAndTags,
   tagWithIf,
+  tagWithShow,
+  tagWithHide,
 } from '../tags/singleTags';
 import isString from 'lodash/isString';
 
@@ -154,7 +156,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = rootTag.root!.children.filter(x => !isString(x)) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('tag2');
@@ -168,9 +170,65 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = rootTag.root!.children.filter(x => !isString(x)) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
 
       expect(childElements).toHaveLength(0);
     });
   });
+
+  describe('tagWithShow visible', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithShow, 'tag', { visible: true }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].attributes).toHaveProperty('style', { display: '' });
+    });
+  });
+
+  describe('tagWithShow not visible', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithShow, 'tag', { visible: false }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].attributes).toHaveProperty('style', { display: 'none' });
+    });
+  });
+
+  describe('tagWithHide visible', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithHide, 'tag', { visible: true }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].attributes).toHaveProperty('style', { display: '' });
+    });
+  });
+
+  describe('tagWithHide not visible', () => {
+    let rootTag: TagInstance;
+    setupTags(tagWithHide, 'tag', { visible: false }, tag => rootTag = tag);
+
+    it('should render tree', () => {
+      expect(rootTag.root).toBeDefined();
+      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+
+      expect(childElements).toHaveLength(1);
+      expect(childElements[0].attributes).toHaveProperty('style', { display: 'none' });
+    });
+  });
 });
+
+function getNonEmptyChildren(el: VirtualElement) {
+  return el.children.filter(x => !isString(x) || !/^\s*$/.test(x));
+}

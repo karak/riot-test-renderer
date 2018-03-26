@@ -96,6 +96,18 @@ function forEachOrOnce<TOpts>(
   }
 }
 
+/** Set "display" attribute after ensure existense of "style" property for CSS. */
+function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
+  if (!('style' in attrs)) {
+    attrs.style = {};
+  }
+  if (visible) {
+    attrs.style!.display = '';
+  } else {
+    attrs.style!.display = 'none';
+  }
+}
+
 function expandElement<TOpts>(
   document: VirtualDocument,
   tagNode: TagElement,
@@ -106,9 +118,18 @@ function expandElement<TOpts>(
   const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
   const renderedAtrrs = expandAttributes(tagNode.attributes, data);
 
+  // "if" attributes
   if (renderedAtrrs.if !== undefined && !renderedAtrrs.if) {
     return '';
   }
+
+  // "show" and "hide" attributes
+  if (renderedAtrrs.show !== undefined) {
+    setDisplay(renderedAtrrs.rests, renderedAtrrs.show);
+  } else if (renderedAtrrs.hide !== undefined) {
+    setDisplay(renderedAtrrs.rests, !renderedAtrrs.hide);
+  }
+
 
   const element = document.createElement(tagNode.name, renderedAtrrs.rests || {}, []);
 
