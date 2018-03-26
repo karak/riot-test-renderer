@@ -1,4 +1,5 @@
-import { loadTags, createTag, TagInstance, VirtualChild, VirtualElement } from '../../src/index';
+import { TagInstance, VirtualChild, VirtualElement } from '../../src/index';
+import setupTags from '../tags/setupTags';
 import {
   staticTag,
   tagWithOpts,
@@ -10,17 +11,8 @@ describe('vdom', () => {
   describe('staticTag', () => {
     let rootTag: TagInstance;
 
-    beforeAll(() => {
-      loadTags(staticTag);
-    });
-
-    beforeEach(() => {
-      rootTag = createTag('static');
-      rootTag.mount();
-    });
-
-    afterEach(() => {
-      rootTag.unmount();
+    setupTags(staticTag, 'static', (tag) => {
+      rootTag = tag;
     });
 
     it('has name of "static"', () => {
@@ -51,17 +43,8 @@ describe('vdom', () => {
     const rootOpts = { data: 'Hello, world!' };
     let rootTag: TagInstance;
 
-    beforeAll(() => {
-      loadTags(tagWithOpts);
-    });
-
-    beforeEach(() => {
-      rootTag = createTag('tag', rootOpts);
-      rootTag.mount();
-    });
-
-    afterEach(() => {
-      rootTag.unmount();
+    setupTags(tagWithOpts, 'tag', rootOpts, (tag) => {
+      rootTag = tag;
     });
 
     it('has name of "tag"', () => {
@@ -90,25 +73,15 @@ describe('vdom', () => {
 
   describe('tagWithParent', () => {
     const rootOpts = {};
-    let rootTag: TagInstance;
-
-    beforeAll(() => {
-      loadTags(tagWithParent);
-    });
-
-    beforeEach(() => {
-      rootTag = createTag('tag', rootOpts);
+    let rootTag: TagInstance<{}>;
+    setupTags(tagWithParent, 'tag', rootOpts, (tag) => {
+      rootTag = tag;
       // Mock parent
       (rootTag as any).parent = {
         opts: {
           data: 'Hello, world!',
         },
       };
-      rootTag.mount();
-    });
-
-    afterEach(() => {
-      rootTag.unmount();
     });
 
     it('render data via parent', () => {
@@ -127,17 +100,8 @@ describe('vdom', () => {
   describe('tagWithTags', () => {
     let rootTag: TagInstance;
 
-    beforeAll(() => {
-      loadTags(tagWithTags);
-    });
-
-    beforeEach(() => {
-      rootTag = createTag('tag');
-      rootTag.mount();
-    });
-
-    afterEach(() => {
-      rootTag.unmount();
+    setupTags(tagWithTags, 'tag', (tag) => {
+      rootTag = tag;
     });
 
     it('has one tag2 in tags', () => {
