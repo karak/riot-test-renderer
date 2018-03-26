@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/htmlparser2": "^3.7.31",
     "@types/jest": "^22.2.2",
+    "@types/lodash": "^4.14.106",
     "@types/riot": "^3.6.1",
     "jest": "^22.4.3",
     "riot": "^3.9.0",
@@ -34,7 +35,6 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.106",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
     "riot-compiler": "^3.4.0",
