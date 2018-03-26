@@ -88,7 +88,7 @@ describe('vdom', () => {
   });
 
   describe('tagWithParent', () => {
-    const rootOpts = { data: 'Hello, world!' };
+    const rootOpts = {};
     let rootTag: TagInstance;
 
     beforeAll(() => {
@@ -97,6 +97,12 @@ describe('vdom', () => {
 
     beforeEach(() => {
       rootTag = createTag('tag', rootOpts);
+      // Mock parent
+      (rootTag as any).parent = {
+        opts: {
+          data: 'Hello, world!',
+        },
+      };
       rootTag.mount();
     });
 

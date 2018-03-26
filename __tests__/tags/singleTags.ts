@@ -27,6 +27,7 @@ export const tagWithParent = `
 <tag>
   <tag2>
     <p>{ parent.opts.data }</p>
+    <!-- parent is not <tag> but parent of it -->
   </tag2>
 </tag>
 `;
