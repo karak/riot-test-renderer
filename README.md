@@ -88,6 +88,7 @@ TODO
 - [ ] Support styles object expressions
 - [ ] Implement CSS class shorthand
 - [x] parent property
+- [ ] inheritance in loop context
 - [x] tags, limited in shallow context
 - [ ] refs [LOW] -- hard to realize without DOM
 - [ ] Make script section working close to real DOM.
