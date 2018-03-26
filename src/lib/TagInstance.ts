@@ -10,17 +10,17 @@ import { VirtualElement, VirtualChild } from './VirtualElement';
 import expand from './expand';
 import isArray from 'lodash/isArray';
 
-export default abstract class TagInstance<UOpts = {}> {
-  abstract readonly name: string;
-  abstract readonly parent: TagInstance<UOpts> | null;
-  abstract opts?: { [name: string]: any };
-  abstract tags: {
+export default interface TagInstance<TOpts = {}, UOpts = {}> {
+  readonly name: string;
+  readonly parent: TagInstance<UOpts> | null;
+  opts?: { [name: string]: any };
+  tags: {
     [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
   };
-  abstract isMounted: boolean;
-  abstract root?: VirtualElement;
-  abstract mount(): void;
-  abstract unmount(): void;
+  isMounted: boolean;
+  root?: VirtualElement;
+  mount(): void;
+  unmount(): void;
 }
 
 export function createTag<TOpts = {}, UOpts = {}>(
@@ -39,7 +39,7 @@ export function createTag<TOpts = {}, UOpts = {}>(
  *
  * @see VirtualElement
  */
-class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
+class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagInstance<UOpts> {
   public readonly name: string;
   public isMounted = false;
   public root?: VirtualElement;
@@ -56,8 +56,6 @@ class CustomTagInstance<TOpts = {}, UOpts = {}> extends TagInstance<UOpts> {
     public readonly opts: TOpts | undefined,
     scriptFn: () => void,
   ) {
-    super();
-
     // mixin riot.Observable
     observable(this);
 
