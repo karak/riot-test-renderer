@@ -66,7 +66,7 @@ export default class VirtualDocument {
   createTagElement<TOpts>(name: string, opts?: TOpts): RiotTag {
     const tag = this.tags[name];
 
-    if (tag === undefined) throw new Error(`Tag "${name} not found`);
+    if (tag === undefined) throw new Error(`Tag <${name}> must have been loaded in loadTags()`);
 
     return tag;
   }
