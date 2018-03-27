@@ -117,9 +117,9 @@ function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
 function expandControllAttributes<TOpts>(
   attributes: { [name: string]: string },
   data: TagInstance<TOpts>,
-  renderCurrent: (attributes: { [name: string]: any }) => VirtualElement,
-  renderChildren: (childData: TagInstance<any>) => void,
-  onComplete: () => void,
+  onStartTag: (attributes: { [name: string]: any }) => void,
+  onContent: (childData: TagInstance<any>) => void,
+  onCloseTag: () => VirtualElement,
 ): VirtualElement | '' {
   const renderedAtrrs = expandAttributes(attributes, data);
 
@@ -136,13 +136,13 @@ function expandControllAttributes<TOpts>(
   }
 
   // render <foo...>
-  const element = renderCurrent(renderedAtrrs.rests);
+  onStartTag(renderedAtrrs.rests);
 
   // render <foo>... on "each" attributes
-  forEachOrOnce(renderedAtrrs.each, data, renderChildren);
+  forEachOrOnce(renderedAtrrs.each, data, onContent);
 
   // render <foo>Hello</foo>...
-  onComplete();
+  const element = onCloseTag();
 
   return element;
 }
@@ -161,7 +161,6 @@ function expandElement<TOpts>(
     data,
     (attributes) => {
       element = document.createElement(tagNode.name, attributes || {}, []);
-      return element;
     },
     (childData) => {
       const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
@@ -172,29 +171,27 @@ function expandElement<TOpts>(
       const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
 
       if (isNestedCustom) {
-        const nestedTag = new NestedTagInstance(
-          tagNode.name,
-          data,
-          element!.attributes,
-          {},
-          element!,
-        );
+        const nestedTag = new NestedTagInstance(element!);
+        nestedTag.mount();
         onMeetCustomTag(tagNode.name, nestedTag);
+        return nestedTag.root!;
       }
+      return element!;
     },
   );
 }
 
 class NestedTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
-  constructor(
-    public readonly name: string,
-    public readonly parent: TagInstance<UOpts> | null = null,
-    public opts?: { [name: string]: any },
-    public tags: {
-      [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
-    } = {},
-    public root: VirtualElement | undefined = undefined,
-  ) {
+  public readonly name: string; // TODO: remove this.
+  public readonly parent: TagInstance<UOpts> | null = null;
+  public opts?: { [name: string]: any };
+  public tags: {
+    [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
+  } = {};
+
+  constructor(public root: VirtualElement) {
+    this.name = root.name;
+    this.opts = root.attributes;
   }
   isMounted: boolean = true;
   // tslint:disable-next-line:no-empty
