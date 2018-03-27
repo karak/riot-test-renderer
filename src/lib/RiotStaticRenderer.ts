@@ -1,7 +1,6 @@
 import RiotRendererBase from './RiotRendererBase';
 import VirtualDocument from './VirtualDocument';
 import createExpand from './createExpand';
-import CustomTagInstance from './CustomTagInstance';
 
 /**
  * A string renderer for `riot`

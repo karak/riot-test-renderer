@@ -2,11 +2,9 @@ import * as React from 'react'; // Only for type definitions.
 import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
-import { mapNativeEventNames } from './utils/index';
 import EvalContext from '../lib/EvalContext';
 import VirtualDocument from '../lib/VirtualDocument';
 import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
-import TagInstance from '../lib/TagInstance';
 import RiotShallowRenderer from '../lib/RiotShallowRenderer';
 import RiotStaticRenderer from '../lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
@@ -52,7 +50,6 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     renderer.loadTags(options['riot-enzyme'].source);
     let cachedNode: React.ReactElement<any> | null = null;
 
-    const adapter = this;
     return {
       render<P>(
         el: React.ReactElement<P>,

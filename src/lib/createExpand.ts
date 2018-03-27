@@ -99,10 +99,7 @@ function expandText(
   return `${rendered !== undefined ? rendered : ''}`;
 }
 
-function expandAttributes<TOpts>(
-  attributes: { [name: string]: string },
-  data: any
-) {
+function expandAttributes(attributes: { [name: string]: string }, data: any) {
   const renderedAttrs = mapObject(attributes, (value, key) =>
     renderTemplate(value, data)
   );
@@ -129,7 +126,7 @@ function expandAttributes<TOpts>(
  * @param current `this` context between {}
  * @param callback render function
  */
-function forEachOrOnce<TOpts>(
+function forEachOrOnce(
   each: any[] | undefined,
   current: any,
   fn: (data: any) => void
@@ -161,7 +158,7 @@ function setDisplay(attrs: { style?: { display?: string } }, visible: boolean) {
  * @param renderCurrent render body, called if needed.
  * @param renderChildren render all the children, called once or any times with "each".
  */
-function expandControllAttributes<TOpts>(
+function expandControllAttributes(
   name: string,
   attributes: { [name: string]: string },
   children: ReadonlyArray<TagNode>,

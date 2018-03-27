@@ -1,5 +1,5 @@
-import { shallow, ShallowWrapper } from '../../src/enzyme/index';
-import { nestedStaticTag, nestedTag } from '../tags/multiTags';
+import { shallow } from '../../src/enzyme/index';
+import { nestedStaticTag } from '../tags/multiTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('multiTags', () => {

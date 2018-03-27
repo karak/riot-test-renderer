@@ -1,6 +1,5 @@
-import * as React from 'react'; // Only for type definitions.
 import { EnzymeNode } from './EnzymeNode';
-import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
+import { VirtualElement } from '../lib/VirtualElement';
 import map from 'lodash/map';
 import isString from 'lodash/isString';
 

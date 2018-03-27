@@ -1,7 +1,6 @@
 import RiotRendererBase from './RiotRendererBase';
 import VirtualDocument from './VirtualDocument';
 import { VirtualElement, VirtualChild } from './VirtualElement';
-import { TagElement } from './parseTag';
 import TagInstance from './TagInstance';
 
 import createExpand from './createExpand';
@@ -9,7 +8,7 @@ import createExpand from './createExpand';
 /** Psuedo tag instance of `shallow()` */
 class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public readonly parent: TagInstance<UOpts> | null = null;
-  public opts?: { [name: string]: any };
+  public opts?: TOpts;
   public tags: {
     [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>;
   } = {};

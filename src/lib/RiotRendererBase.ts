@@ -6,7 +6,6 @@ import TagInstance from './TagInstance';
 import CustomTagInstance from './CustomTagInstance';
 import RiotRenderer from './RiotRenderer';
 import createRenderingMethods from './createRenderingMethods';
-import keys from 'lodash/keys';
 
 export interface ExpandElement {
   <TOpts>(
@@ -116,7 +115,7 @@ export default class RiotRendererBase implements RiotRenderer {
 
     const shallowRender = createRender(this.document, this.expand, type);
     const shallowRenderingMethods = createRenderingMethods(shallowRender);
-    const tagInstance = new CustomTagInstance(
+    const tagInstance = new CustomTagInstance<TOpts>(
       shallowRenderingMethods,
       null,
       opts,
@@ -155,7 +154,7 @@ function createRender(
   expand: ExpandElement,
   rootTagNode: TagElement
 ) {
-  return function render<TOpts>(this: TagInstance) {
+  return function render(this: TagInstance) {
     return expand(document, rootTagNode, this);
   };
 }
