@@ -6,17 +6,13 @@ import TagInstance from './TagInstance';
 import CustomTagInstance from './CustomTagInstance';
 import RiotRenderer from './RiotRenderer';
 import createRenderingMethods from './createRenderingMethods';
-import isArray from 'lodash/isArray';
 import keys from 'lodash/keys';
-
-export type MeetCustomTagCallback = (name: string, tag: TagInstance<any>) => void;
 
 export interface ExpandElement{
   <TOpts>(
     document: VirtualDocument,
     tagNode: TagElement,
     data: TagInstance<TOpts>,
-    onMeetCustomTag: MeetCustomTagCallback,
   ): VirtualElement;
 }
 
@@ -146,20 +142,6 @@ export default class RiotRendererBase implements RiotRenderer {
 
 function createRender(document: VirtualDocument, expand: ExpandElement, rootTagNode: TagElement) {
   return function render<TOpts>(this: TagInstance) {
-    return expand(document, rootTagNode, this, (name, nestedTag) => {
-      // TODO: this.opts rather than embedding into rootTagNode
-      if (!(name in this.tags)) {
-        // 1st path
-        this.tags[name] = nestedTag;
-      } else {
-        if (!isArray(this.tags[name])) {
-          // 2nd path
-          (this.tags[name] as any) = [this.tags[name], nestedTag];
-        } else {
-          // 3rd or greater path
-          (this.tags[name] as any).push(nestedTag);
-        }
-      }
-    });
+    return expand(document, rootTagNode, this);
   };
 }

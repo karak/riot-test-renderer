@@ -5,66 +5,91 @@ import { TagNode, TagTextNode, TagElement } from './parseTag';
 import renderTemplate from './renderTemplate';
 import forEach from 'lodash/forEach';
 import map from 'lodash/map';
+import isArray from 'lodash/isArray';
 import mapObject from '../utils/mapObject';
 
-export type MeetCustomTagCallback = (name: string, tag: TagInstance<any>) => void;
+export type MeetCustomTagCallback = <TOpts>(
+  this: TagInstance<TOpts>,
+  name: string,
+  tag: TagInstance<any>,
+) => void;
 
-export interface RenderNestedTag {
-  <TOpts extends {}>(document: VirtualDocument, element: VirtualElement): TagInstance<TOpts>;
+function onMeetCustomTag<TOpts>(
+  this: TagInstance<TOpts>,
+  name: string,
+  nestedTag: TagInstance<any>,
+) {
+  // TODO: this.opts rather than embedding into rootTagNode
+  if (!(name in this.tags)) {
+    // 1st path
+    this.tags[name] = nestedTag;
+  } else {
+    if (!isArray(this.tags[name])) {
+      // 2nd path
+      (this.tags[name] as any) = [this.tags[name], nestedTag];
+    } else {
+      // 3rd or greater path
+      (this.tags[name] as any).push(nestedTag);
+    }
+  }
 }
 
-export default function createExpand(renderNestedTag: RenderNestedTag) {
+export interface CreateTagInstance {
+  <TOpts extends {}>(name: string, opts: TOpts, children: ReadonlyArray<VirtualChild>):
+    TagInstance<TOpts>;
+}
+
+export default function createExpand(createTagInstance: CreateTagInstance) {
   return <TOpts>(
     document: VirtualDocument,
     tagNode: TagElement,
     data: TagInstance<TOpts>,
-    onMeetCustomTag: MeetCustomTagCallback,
-  ) => expand(document, tagNode, data, onMeetCustomTag, renderNestedTag);
+  ) => expand(document, data, tagNode, data, createTagInstance);
 }
 
 /** Construct VDOM tree */
 function expand<TOpts>(
   document: VirtualDocument,
+  parent: TagInstance<TOpts>,
   tagNode: TagTextNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-  renderNestedTag: RenderNestedTag,
+  data: any,
+  createTagInstance: CreateTagInstance,
 ): string;
 function expand<TOpts>(
   document: VirtualDocument,
+  parent: TagInstance<TOpts>,
   tagNode: TagElement,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-  renderNestedTag: RenderNestedTag,
+  data: any,
+  createTagInstance: CreateTagInstance,
 ): VirtualElement;
 function expand<TOpts>(
   document: VirtualDocument,
+  parent: TagInstance<TOpts>,
   tagNode: TagNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-  renderNestedTag: RenderNestedTag,
+  data: any,
+  createTagInstance: CreateTagInstance,
 ): VirtualChild;
 function expand<TOpts>(
   document: VirtualDocument,
+  parent: TagInstance<TOpts>,
   tagNode: TagNode,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-  renderNestedTag: RenderNestedTag,
+  data: any,
+  createTagInstance: CreateTagInstance,
 ): VirtualChild {
   switch (tagNode.type) {
     case 'text':
       return expandText(document, tagNode, data);
     case 'element':
-      return expandElement(document, tagNode, data, onMeetCustomTag, renderNestedTag);
+      return expandElement(document, parent, tagNode, data, createTagInstance);
     default:
       throw new Error('Unknown type');
   }
 }
 
-function expandText<TOpts>(
+function expandText(
   document: VirtualDocument,
   tagNode: TagTextNode,
-  data: TagInstance<TOpts>,
+  data: any,
 ) {
   const rendered = renderTemplate(tagNode.text, data);
 
@@ -73,7 +98,7 @@ function expandText<TOpts>(
 
 function expandAttributes<TOpts>(
   attributes: { [name: string]: string },
-  data: TagInstance<TOpts>,
+  data: any,
 ) {
   const renderedAttrs = mapObject(attributes, (value, key) => renderTemplate(value, data));
   const ifAttr = renderedAttrs['if'];
@@ -101,7 +126,7 @@ function expandAttributes<TOpts>(
  */
 function forEachOrOnce<TOpts>(
   each: any[] | undefined,
-  current: TagInstance<TOpts>,
+  current: any,
   fn: (data: any) => void,
 ) {
   if (each) {
@@ -132,11 +157,16 @@ function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
  * @param renderChildren render all the children, called once or any times with "each".
  */
 function expandControllAttributes<TOpts>(
+  name: string,
   attributes: { [name: string]: string },
-  data: TagInstance<TOpts>,
-  onStartTag: (attributes: { [name: string]: any }) => void,
-  onContent: (childData: TagInstance<any>) => void,
-  onCloseTag: () => VirtualElement,
+  children: ReadonlyArray<TagNode>,
+  data: any,
+  renderTag: (
+    name: string,
+    attributes: { [name: string]: string },
+    children: ReadonlyArray<VirtualChild>,
+  ) => VirtualElement,
+  expandChild: (child: TagNode, childData: any) => VirtualChild,
 ): VirtualElement | '' {
   const renderedAtrrs = expandAttributes(attributes, data);
 
@@ -152,50 +182,54 @@ function expandControllAttributes<TOpts>(
     setDisplay(renderedAtrrs.rests, !renderedAtrrs.hide);
   }
 
-  // render <foo...>
-  onStartTag(renderedAtrrs.rests);
+  // render children on "each" attributes
+  const renderedChildren: VirtualChild[] = [];
+  forEachOrOnce(renderedAtrrs.each, data, (childData) => {
+    const items = map(children, x => expandChild(x, childData));
+    renderedChildren.push(...items);
+  });
 
-  // render <foo>... on "each" attributes
-  forEachOrOnce(renderedAtrrs.each, data, onContent);
-
-  // render <foo>Hello</foo>...
-  const element = onCloseTag();
+  // create built-in element or root of mounted instance
+  const element = renderTag(
+    name,
+    renderedAtrrs.rests,
+    renderedChildren,
+  );
 
   return element;
 }
 
 function expandElement<TOpts>(
   document: VirtualDocument,
+  parent: TagInstance<TOpts>,
   tagNode: TagElement,
-  data: TagInstance<TOpts>,
-  onMeetCustomTag: MeetCustomTagCallback,
-  renderNestedTag: RenderNestedTag,
+  data: any,
+  createTagInstance: CreateTagInstance,
 ): VirtualElement | '' {
-
-  let element: VirtualElement | null = null;
+  let nestedTag: TagInstance<any> | null = null;
 
   return expandControllAttributes(
+    tagNode.name,
     tagNode.attributes,
+    tagNode.children,
     data,
-    (attributes) => {
-      element = document.createElement(tagNode.name, attributes || {}, []);
-    },
-    (childData) => {
-      const children = map(tagNode.children, x =>
-        expand(document, x, childData, onMeetCustomTag, renderNestedTag));
-      element!.children.push(...children);
-    },
-    () => {
+    (name, opts, children) => {
       const isRoot = tagNode.parent === null;
       const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
 
+      let element: VirtualElement;
       if (isNestedCustom) {
-        const nestedTag = renderNestedTag(document, element!);
+        nestedTag = createTagInstance(tagNode.name, opts, children);
         nestedTag.mount();
-        onMeetCustomTag(tagNode.name, nestedTag);
-        return nestedTag.root!;
+        onMeetCustomTag.apply(parent, [tagNode.name, nestedTag]);
+        element = nestedTag.root!;
+      } else {
+        nestedTag = null;
+        element = document.createElement(tagNode.name, opts, children);
       }
-      return element!;
+      return element;
     },
+    (child, childData) =>
+      expand(document, parent, child, childData, createTagInstance),
   );
 }
