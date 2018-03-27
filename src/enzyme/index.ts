@@ -8,6 +8,8 @@ import {
 
 import EnzymeRiotAdapter from './adapter';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
+import TagInstance from '../lib/TagInstance';
+import toJSON from '../lib/toJSON';
 import isString from 'lodash/isString';
 
 configure({ adapter: new EnzymeRiotAdapter() });
@@ -109,6 +111,11 @@ export class ShallowWrapper<TOpts = any> {
 
   html() {
     return this.adaptee.html();
+  }
+
+  toJson(): object | null {
+    const root = (this.adaptee.instance() as any as TagInstance).root;
+    return toJSON(root !== undefined ? root : null as any) as object | null;
   }
 }
 
