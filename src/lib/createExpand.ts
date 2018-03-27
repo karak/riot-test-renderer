@@ -9,36 +9,53 @@ import mapObject from '../utils/mapObject';
 
 export type MeetCustomTagCallback = (name: string, tag: TagInstance<any>) => void;
 
+export interface RenderNestedTag {
+  <TOpts extends {}>(document: VirtualDocument, element: VirtualElement): TagInstance<TOpts>;
+}
+
+export default function createExpand(renderNestedTag: RenderNestedTag) {
+  return <TOpts>(
+    document: VirtualDocument,
+    tagNode: TagElement,
+    data: TagInstance<TOpts>,
+    onMeetCustomTag: MeetCustomTagCallback,
+  ) => expand(document, tagNode, data, onMeetCustomTag, renderNestedTag);
+}
+
 /** Construct VDOM tree */
-export default function expand<TOpts>(
+function expand<TOpts>(
   document: VirtualDocument,
   tagNode: TagTextNode,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
+  renderNestedTag: RenderNestedTag,
 ): string;
-export default function expand<TOpts>(
+function expand<TOpts>(
   document: VirtualDocument,
   tagNode: TagElement,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
-):VirtualElement;
-export default function expand<TOpts>(
+  renderNestedTag: RenderNestedTag,
+): VirtualElement;
+function expand<TOpts>(
   document: VirtualDocument,
   tagNode: TagNode,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
+  renderNestedTag: RenderNestedTag,
 ): VirtualChild;
-export default function expand<TOpts>(
+function expand<TOpts>(
   document: VirtualDocument,
   tagNode: TagNode,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
+  renderNestedTag: RenderNestedTag,
 ): VirtualChild {
   switch (tagNode.type) {
     case 'text':
       return expandText(document, tagNode, data);
     case 'element':
-      return expandElement(document, tagNode, data, onMeetCustomTag);
+      return expandElement(document, tagNode, data, onMeetCustomTag, renderNestedTag);
     default:
       throw new Error('Unknown type');
   }
@@ -152,6 +169,7 @@ function expandElement<TOpts>(
   tagNode: TagElement,
   data: TagInstance<TOpts>,
   onMeetCustomTag: MeetCustomTagCallback,
+  renderNestedTag: RenderNestedTag,
 ): VirtualElement | '' {
 
   let element: VirtualElement | null = null;
@@ -163,7 +181,8 @@ function expandElement<TOpts>(
       element = document.createElement(tagNode.name, attributes || {}, []);
     },
     (childData) => {
-      const children = map(tagNode.children, x => expand(document, x, childData, onMeetCustomTag));
+      const children = map(tagNode.children, x =>
+        expand(document, x, childData, onMeetCustomTag, renderNestedTag));
       element!.children.push(...children);
     },
     () => {
@@ -171,7 +190,7 @@ function expandElement<TOpts>(
       const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
 
       if (isNestedCustom) {
-        const nestedTag = new NestedTagInstance(element!);
+        const nestedTag = renderNestedTag(document, element!);
         nestedTag.mount();
         onMeetCustomTag(tagNode.name, nestedTag);
         return nestedTag.root!;
@@ -179,23 +198,4 @@ function expandElement<TOpts>(
       return element!;
     },
   );
-}
-
-class NestedTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
-  public readonly name: string; // TODO: remove this.
-  public readonly parent: TagInstance<UOpts> | null = null;
-  public opts?: { [name: string]: any };
-  public tags: {
-    [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
-  } = {};
-
-  constructor(public root: VirtualElement) {
-    this.name = root.name;
-    this.opts = root.attributes;
-  }
-  isMounted: boolean = true;
-  // tslint:disable-next-line:no-empty
-  mount(): void {}
-  // tslint:disable-next-line:no-empty
-  unmount(): void {}
 }
