@@ -9,7 +9,7 @@ describe('enzyme-riot-adapter', () => {
     let wrapper: ShallowWrapper<{}>;
 
     beforeEach(() => {
-      wrapper = shallow({ name: 'static' }, { source: staticTag });
+      wrapper = shallow(staticTag, 'static');
     });
 
     it('renders html', () => {

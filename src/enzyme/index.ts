@@ -1,6 +1,7 @@
 import {
   configure,
   shallow as reactShallow,
+  ShallowRendererProps as ReactShallowRendererProps,
   ShallowWrapper as ReactShallowWrapper,
   EnzymePropSelector,
 } from 'enzyme';
@@ -9,29 +10,33 @@ import EnzymeRiotAdapter from './adapter';
 
 configure({ adapter: new EnzymeRiotAdapter() });
 
-/** {@see shallow} */
-export interface RiotElement<TOpts> {
-  name: string;
-  opts?: TOpts;
-}
 /** Options of {@see shallow} */
-export interface RiotShallowRendererOptions {
+type RiotShallowRendererProps = ReactShallowRendererProps & {
   /** tag sources */
   source: string;
 }
 
-export function shallow<TOpts>(el: RiotElement<TOpts>, options: RiotShallowRendererOptions) {
+/**
+ * Shallow render
+ *
+ * @param source tag source
+ * @param name tag name
+ * @param opts tag interface
+ * @param options renderer options see {@see enzyme~shallow}
+ * @returns wrapper object of rendered element.
+ */
+export function shallow<TOpts>(source: string, name: string, opts?: TOpts, options?: ReactShallowRendererProps): ShallowWrapper<TOpts> {
   const adaptee = reactShallow(
-    {
-      type: el.name,
-      props: el.opts || {},
-      key: null,
-    },
-    options as {},
+    { type: name, props: opts || {}, key: null },
+    { source, ...options } as RiotShallowRendererProps,
   );
   return new ShallowWrapper(adaptee);
 }
 
+/**
+ * Wrapper of shallow-rendered element
+ * like {@see enzyme~ShallowWrapper}
+ */
 export class ShallowWrapper<TOpts = any> {
   constructor(private adaptee: ReactShallowWrapper) {}
 
