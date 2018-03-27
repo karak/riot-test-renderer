@@ -115,7 +115,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     return elementToTree(toVirtualElement(element)); // TODO:
   }
 
-  nodeToHostNode<P>(node: EnzymeElement<P>): Element | null {
+  nodeToHostNode<P>(node: EnzymeElement<P>): VirtualElement | null {
     if (!node || typeof node !== 'object') return null;
     return node.instance!.root || null; // TODO:
   }

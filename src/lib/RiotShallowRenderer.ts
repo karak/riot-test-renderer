@@ -8,7 +8,6 @@ import createExpand from './createExpand';
 
 /** Psuedo tag instance of `shallow()` */
 class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
-  public readonly name: string; // TODO: remove this.
   public readonly parent: TagInstance<UOpts> | null = null;
   public opts?: { [name: string]: any };
   public tags: {
@@ -19,7 +18,6 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public isMounted: boolean = false;
 
   constructor(name: string, opts: TOpts, children: ReadonlyArray<VirtualChild>) {
-    this.name = name;
     this.opts = opts;
     this.rootToMount = {
       type: 'html',
