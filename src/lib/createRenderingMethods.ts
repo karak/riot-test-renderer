@@ -6,7 +6,7 @@ import forEachRight from 'lodash/forEachRight';
 import isArray from 'lodash/isArray';
 
 export default function createRenderingMethods<TOpts>(
-  render: (this: TagInstance<TOpts>) => VirtualElement,
+  render: (this: TagInstance<TOpts>) => VirtualElement
 ): RenderingMethods<TOpts> {
   return {
     mount(this: CustomTagInstance<TOpts>) {
@@ -27,7 +27,7 @@ export default function createRenderingMethods<TOpts>(
 
       try {
         // unmount reverse order against mount
-        forEachRight(this.tags, (tagOrTags) => {
+        forEachRight(this.tags, tagOrTags => {
           if (isArray(tagOrTags)) {
             forEachRight(tagOrTags, x => x.unmount());
           } else {

@@ -1,8 +1,6 @@
 import { shallow, ShallowWrapper } from '../../src/enzyme/index';
 
-import {
-  staticTag,
-} from '../tags/singleTags';
+import { staticTag } from '../tags/singleTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('staticTag', () => {

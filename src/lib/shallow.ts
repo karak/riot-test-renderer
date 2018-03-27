@@ -8,7 +8,11 @@ import RiotShallowRenderer from './RiotShallowRenderer';
  * @param name - tagName. You can skip this if src contains a single tag.
  * @param opts - opts to create tag with
  */
-function shallow<TOpts>(src: string, name: string, opts?: TOpts): ShallowWrapper<TOpts>;
+function shallow<TOpts>(
+  src: string,
+  name: string,
+  opts?: TOpts
+): ShallowWrapper<TOpts>;
 function shallow<TOpts>(src: string, opts?: TOpts): ShallowWrapper<TOpts>;
 function shallow<TOpts>(): ShallowWrapper<TOpts> {
   const renderer = new RiotShallowRenderer();

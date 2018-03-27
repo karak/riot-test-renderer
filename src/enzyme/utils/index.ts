@@ -1,5 +1,3 @@
 import mapNativeEventNames from './mapNativeEventNames';
 
-export {
-  mapNativeEventNames,
-};
+export { mapNativeEventNames };

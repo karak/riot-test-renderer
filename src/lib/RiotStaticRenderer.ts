@@ -9,8 +9,8 @@ import CustomTagInstance from './CustomTagInstance';
 export default class RiotStaticRenderer extends RiotRendererBase {
   constructor(document?: VirtualDocument) {
     const expandStatic = createExpand((name, opts, children) =>
-      this.createInstance(name, opts, children));
+      this.createInstance(name, opts, children)
+    );
     super(expandStatic, document);
   }
 }
-

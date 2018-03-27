@@ -54,7 +54,10 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
 
     const adapter = this;
     return {
-      render<P>(el: React.ReactElement<P>, context: any): React.ReactElement<P> {
+      render<P>(
+        el: React.ReactElement<P>,
+        context: any
+      ): React.ReactElement<P> {
         if (!isString(el.type)) throw new Error('el.type must be string');
 
         cachedNode = el;
@@ -75,7 +78,11 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
           rendered: elementToTree(output),
         };
       },
-      simulateEvent<TEvent>(node: React.ReactInstance, event: TEvent, ...args: any[]) {
+      simulateEvent<TEvent>(
+        node: React.ReactInstance,
+        event: TEvent,
+        ...args: any[]
+      ) {
         // TODO:
       },
       batchedUpdates(fn: () => void) {
@@ -95,11 +102,16 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
 
   createRenderer(options: { mode: string } & any) {
     switch (options.mode) {
-      case EnzymeAdapter.MODES.MOUNT: return this.createMountRenderer(options);
-      case EnzymeAdapter.MODES.SHALLOW: return this.createShallowRenderer(options);
-      case EnzymeAdapter.MODES.STRING: return this.createStringRenderer(options);
+      case EnzymeAdapter.MODES.MOUNT:
+        return this.createMountRenderer(options);
+      case EnzymeAdapter.MODES.SHALLOW:
+        return this.createShallowRenderer(options);
+      case EnzymeAdapter.MODES.STRING:
+        return this.createStringRenderer(options);
       default:
-        throw new Error(`Enzyme Internal Error: Unrecognized mode: ${options.mode}`);
+        throw new Error(
+          `Enzyme Internal Error: Unrecognized mode: ${options.mode}`
+        );
     }
   }
 
@@ -121,7 +133,11 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     return true; // TODO:
   }
 
-  createElement<P>(name: string, props: P, children: React.ReactChild[]): React.ReactElement<P> {
+  createElement<P>(
+    name: string,
+    props: P,
+    children: React.ReactChild[]
+  ): React.ReactElement<P> {
     return {
       type: name,
       props: assign({}, props, { children }),
@@ -139,9 +155,7 @@ function toReactElement(el: VirtualElement): React.ReactElement<any> {
 }
 function toVirtualElement<P>(el: React.ReactElement<P>): VirtualElement;
 function toVirtualElement(el: React.ReactChild): VirtualChild;
-function toVirtualElement(
-  el: React.ReactChild,
-): VirtualChild {
+function toVirtualElement(el: React.ReactChild): VirtualChild {
   if (isString(el) || isNumber(el)) return <VirtualChild>el;
 
   const { children, ...attributes } = el.props;

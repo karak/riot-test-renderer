@@ -11,7 +11,7 @@ export default function elementToTree(el: VirtualElement): EnzymeNode<any> {
     props: el.attributes,
     key: null,
     instance: null,
-    rendered: map(el.children, (x) => {
+    rendered: map(el.children, x => {
       if (isString(x)) {
         return x;
       }

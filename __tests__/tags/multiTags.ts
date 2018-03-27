@@ -1,4 +1,3 @@
-
 export const nestedStaticTag = `
 <inner>
   <p></p>

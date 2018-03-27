@@ -8,11 +8,11 @@ import RiotRenderer from './RiotRenderer';
 import createRenderingMethods from './createRenderingMethods';
 import keys from 'lodash/keys';
 
-export interface ExpandElement{
+export interface ExpandElement {
   <TOpts>(
     document: VirtualDocument,
     tagNode: TagElement,
-    data: TagInstance<TOpts>,
+    data: TagInstance<TOpts>
   ): VirtualElement;
 }
 
@@ -63,16 +63,16 @@ export default class RiotRendererBase implements RiotRenderer {
     // compile
     // tslint:disable-next-line:no-magic-numbers
     if (arguments.length === 3) {
-      [src, tagName, opts] = <any>(arguments);
-    // tslint:disable-next-line:no-magic-numbers
+      [src, tagName, opts] = <any>arguments;
+      // tslint:disable-next-line:no-magic-numbers
     } else if (arguments.length === 2) {
-      if (typeof (arguments[1]) === 'string') {
-        [src, tagName, opts] = <any>(arguments);
+      if (typeof arguments[1] === 'string') {
+        [src, tagName, opts] = <any>arguments;
       } else {
-        [src, opts] = <any>(arguments);
+        [src, opts] = <any>arguments;
       }
     } else {
-      [src] = <any>(arguments);
+      [src] = <any>arguments;
     }
 
     if (/^\s*</m.test(src)) {
@@ -95,7 +95,7 @@ export default class RiotRendererBase implements RiotRenderer {
     const rendered = tagInstance.root!;
 
     this.instance = tagInstance;
-    return this.rendered = rendered;
+    return (this.rendered = rendered);
   }
 
   /**
@@ -106,13 +106,22 @@ export default class RiotRendererBase implements RiotRenderer {
    * @param children Ignored currently
    * @returns created instance unmounted
    */
-  createInstance<TOpts>(name: string, opts: TOpts, children?: ReadonlyArray<VirtualChild>) {
+  createInstance<TOpts>(
+    name: string,
+    opts: TOpts,
+    children?: ReadonlyArray<VirtualChild>
+  ) {
     // create tag element, equivalent to React.ReactElement
     const { type, fn } = this.document.createTagElement(name, opts!);
 
     const shallowRender = createRender(this.document, this.expand, type);
     const shallowRenderingMethods = createRenderingMethods(shallowRender);
-    const tagInstance = new CustomTagInstance(shallowRenderingMethods, null, opts, fn);
+    const tagInstance = new CustomTagInstance(
+      shallowRenderingMethods,
+      null,
+      opts,
+      fn
+    );
 
     return tagInstance;
   }
@@ -125,7 +134,8 @@ export default class RiotRendererBase implements RiotRenderer {
   }
 
   /** Get latest result of `render` */
-  getRenderedOutput() { // TODO: rename to getRenderOutput
+  getRenderedOutput() {
+    // TODO: rename to getRenderOutput
     if (this.rendered === null) throw new Error('Call after render');
 
     return this.rendered!;
@@ -140,7 +150,11 @@ export default class RiotRendererBase implements RiotRenderer {
   }
 }
 
-function createRender(document: VirtualDocument, expand: ExpandElement, rootTagNode: TagElement) {
+function createRender(
+  document: VirtualDocument,
+  expand: ExpandElement,
+  rootTagNode: TagElement
+) {
   return function render<TOpts>(this: TagInstance) {
     return expand(document, rootTagNode, this);
   };

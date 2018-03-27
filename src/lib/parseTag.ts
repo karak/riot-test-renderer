@@ -1,9 +1,9 @@
 import { Parser } from 'htmlparser2';
 
 export type TagElement = {
-  type: 'element',
+  type: 'element';
   name: string;
-  attributes: { [name: string]: string }
+  attributes: { [name: string]: string };
   children: TagNode[];
   parent: TagElement | null;
 };
@@ -16,7 +16,11 @@ export type TagTextNode = {
 
 export type TagNode = TagElement | TagTextNode;
 
-export default function parseTag(name: string, attributes: string | undefined, template: string) {
+export default function parseTag(
+  name: string,
+  attributes: string | undefined,
+  template: string
+) {
   const rootNode = parseXml(`<${name} ${attributes}>${template}</${name}>`);
   if (rootNode === null) throw new Error('rootNode is null');
   if (rootNode.type === 'text') throw new Error('rootNode is text');
@@ -44,7 +48,7 @@ function parseXml(rootXml: string): TagNode | null {
       }
       parent = node;
     },
-    ontext: (text) => {
+    ontext: text => {
       const node: TagTextNode = {
         type: 'text',
         text,

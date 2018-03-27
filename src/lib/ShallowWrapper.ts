@@ -1,6 +1,6 @@
-import TagInstance from "./TagInstance";
-import toHTML from "./toHTML";
-import toJSON from "./toJSON";
+import TagInstance from './TagInstance';
+import toHTML from './toHTML';
+import toJSON from './toJSON';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -29,7 +29,7 @@ export default class ShallowWrapper<TOpts> {
 
   /** Get outer-HTML string */
   html() {
-    if (this.tagInstance.root === undefined) throw Error("Mount first");
+    if (this.tagInstance.root === undefined) throw Error('Mount first');
 
     if (this.htmlCache === null) {
       this.htmlCache = toHTML(this.tagInstance.root, false);

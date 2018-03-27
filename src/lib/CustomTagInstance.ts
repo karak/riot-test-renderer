@@ -1,7 +1,4 @@
-import {
-  observable,
-  ObservableCallback,
-} from 'riot';
+import { observable, ObservableCallback } from 'riot';
 import TagInstance from './TagInstance';
 import { VirtualElement } from './VirtualElement';
 import assign from 'lodash/assign';
@@ -19,19 +16,20 @@ export interface RenderingMethods<TOpts> {
  *
  * @see VirtualElement
  */
-export default class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagInstance<TOpts> {
+export default class CustomTagInstance<TOpts = {}, UOpts = {}>
+  implements TagInstance<TOpts> {
   public isMounted = false;
   public root?: VirtualElement;
 
   public tags: {
-    [name: string]: TagInstance<any> | Array<TagInstance<any>>,
+    [name: string]: TagInstance<any> | Array<TagInstance<any>>;
   } = {};
 
   constructor(
     methods: RenderingMethods<TOpts>,
     public readonly parent: CustomTagInstance<UOpts> | null,
     public readonly opts: TOpts | undefined,
-    scriptFn: () => void,
+    scriptFn: () => void
   ) {
     // delegate to mount, update, unmount
     assign(this, methods);
@@ -45,14 +43,21 @@ export default class CustomTagInstance<TOpts = {}, UOpts = {}> implements TagIns
 
   /** Dummy functions for type definitions, which is realized by `riot.observable()` */
   /** @inheritDoc */
-  on(event: string, callback: ObservableCallback): this { return this; }
+  on(event: string, callback: ObservableCallback): this {
+    return this;
+  }
   /** @inheritDoc */
-  one(event: string, callback: ObservableCallback): this { return this; }
+  one(event: string, callback: ObservableCallback): this {
+    return this;
+  }
   /** @inheritDoc */
-  off(event: string, callback?: ObservableCallback): this { return this; }
+  off(event: string, callback?: ObservableCallback): this {
+    return this;
+  }
   /** @inheritDoc */
-  trigger(event: string, ...args: any[]): this { return this; }
-
+  trigger(event: string, ...args: any[]): this {
+    return this;
+  }
 
   /** Dummy functions for typedefinitions, which is delegated to methods parameter */
   // tslint:disable-next-line:no-empty

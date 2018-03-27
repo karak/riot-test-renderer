@@ -39,7 +39,11 @@ function guessNameFromSource(singleSource: string): string {
  * @param options renderer options see {@see enzyme~shallow}
  * @returns wrapper object of rendered element.
  */
-export function shallow<TOpts>(singleSource: string, opts?: TOpts, options?: ReactShallowRendererProps): ShallowWrapper<TOpts>;
+export function shallow<TOpts>(
+  singleSource: string,
+  opts?: TOpts,
+  options?: ReactShallowRendererProps
+): ShallowWrapper<TOpts>;
 /**
  * Shallow render
  *
@@ -49,8 +53,16 @@ export function shallow<TOpts>(singleSource: string, opts?: TOpts, options?: Rea
  * @param options renderer options see {@see enzyme~shallow}
  * @returns wrapper object of rendered element.
  */
-export function shallow<TOpts>(source: string, name: string, opts?: TOpts, options?: ReactShallowRendererProps): ShallowWrapper<TOpts>;
-export function shallow<TOpts>(source: string, ...args: any[]): ShallowWrapper<TOpts> {
+export function shallow<TOpts>(
+  source: string,
+  name: string,
+  opts?: TOpts,
+  options?: ReactShallowRendererProps
+): ShallowWrapper<TOpts>;
+export function shallow<TOpts>(
+  source: string,
+  ...args: any[]
+): ShallowWrapper<TOpts> {
   let name: string;
   let opts: TOpts | undefined;
   let options: ReactShallowRendererProps | undefined;
@@ -68,10 +80,10 @@ export function shallow<TOpts>(source: string, ...args: any[]): ShallowWrapper<T
     options = args[3];
   }
 
-  const adaptee = reactShallow(
-    { type: name, props: opts || {}, key: null },
-    { 'riot-enzyme': { source }, ...options } as RiotShallowRendererProps,
-  );
+  const adaptee = reactShallow({ type: name, props: opts || {}, key: null }, {
+    'riot-enzyme': { source },
+    ...options,
+  } as RiotShallowRendererProps);
   return new ShallowWrapper(adaptee);
 }
 
@@ -114,8 +126,7 @@ export class ShallowWrapper<TOpts = any> {
   }
 
   toJson(): object | null {
-    const root = (this.adaptee.instance() as any as TagInstance).root;
-    return toJSON(root !== undefined ? root : null as any) as object | null;
+    const root = ((this.adaptee.instance() as any) as TagInstance).root;
+    return toJSON(root !== undefined ? root : (null as any)) as object | null;
   }
 }
-

@@ -11,13 +11,17 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public readonly parent: TagInstance<UOpts> | null = null;
   public opts?: { [name: string]: any };
   public tags: {
-    [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
+    [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>;
   } = {};
   public rootToMount: VirtualElement;
   public root?: VirtualElement;
   public isMounted: boolean = false;
 
-  constructor(name: string, opts: TOpts, children: ReadonlyArray<VirtualChild>) {
+  constructor(
+    name: string,
+    opts: TOpts,
+    children: ReadonlyArray<VirtualChild>
+  ) {
     this.opts = opts;
     this.rootToMount = {
       type: 'html',
@@ -44,8 +48,9 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   }
 }
 
-const expandShallow = createExpand((name, opts, children) =>
-  new ShallowTagInstance(name, opts, children));
+const expandShallow = createExpand(
+  (name, opts, children) => new ShallowTagInstance(name, opts, children)
+);
 
 /**
  * A shallow renderer for `riot`

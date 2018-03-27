@@ -8,11 +8,20 @@ describe('enzyme-riot-adapter', () => {
       });
 
       it('should accept 3 args', () => {
-        expect(() => shallow('<tag></tag>', 'tag', { data: 'test' })).not.toThrow();
+        expect(() =>
+          shallow('<tag></tag>', 'tag', { data: 'test' })
+        ).not.toThrow();
       });
 
       it('should accept 4 args', () => {
-        expect(() => shallow('<tag></tag>', 'tag', { data: 'test' }, { disableLifecycleMethods: true })).not.toThrow();
+        expect(() =>
+          shallow(
+            '<tag></tag>',
+            'tag',
+            { data: 'test' },
+            { disableLifecycleMethods: true }
+          )
+        ).not.toThrow();
       });
 
       describe('shorthand for single tags', () => {
@@ -25,12 +34,18 @@ describe('enzyme-riot-adapter', () => {
         });
 
         it('should accept one tag source beginning with javascript expressions', () => {
-          expect(() => shallow('(function() {})();\n<tag></tag>')).not.toThrow();
+          expect(() =>
+            shallow('(function() {})();\n<tag></tag>')
+          ).not.toThrow();
         });
 
         it('cannot accept one tag source beginning with specific sequence as well as non-shorthand', () => {
-          expect(() => shallow('var x = "<is-not-tag>";<tag></tag>', 'tag')).toThrowError();
-          expect(() => shallow('var x = "<is-not-tag>";<tag></tag>')).toThrowError();
+          expect(() =>
+            shallow('var x = "<is-not-tag>";<tag></tag>', 'tag')
+          ).toThrowError();
+          expect(() =>
+            shallow('var x = "<is-not-tag>";<tag></tag>')
+          ).toThrowError();
         });
       });
     });
