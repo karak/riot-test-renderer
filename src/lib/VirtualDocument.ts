@@ -1,10 +1,10 @@
 import { compile } from 'riot-compiler';
-import TagMap from './TagMap';
 import EvalContext from './EvalContext';
 import { VirtualElement, VirtualChild } from './VirtualElement';
 import parseTag, { TagElement } from './parseTag';
 import htmlTags from '../utils/htmlTags';
 import assign from 'lodash/assign';
+import mapObject from '../utils/mapObject';
 
 export type TagKind = { custom: false } | { custom: true; registered: boolean; };
 
@@ -16,7 +16,7 @@ export interface RiotTag {
 
 /** Top-level Virtual DOM object */
 export default class VirtualDocument {
-  private readonly tags: TagMap = {};
+  private readonly tags: { [name: string]: RiotTag } = {};
 
   constructor(private context: EvalContext) {}
 
@@ -30,9 +30,22 @@ export default class VirtualDocument {
     const tagCompiled = compile(source);
     const { tags, names } = this.context.evalTag(tagCompiled);
 
-    assign(this.tags, tags);
+    const parsedTags = mapObject(tags, (args, name) => {
+      // tslint:disable-next-line:no-magic-numbers
+      const template = args[1];
+      // tslint:disable-next-line:no-magic-numbers
+      const attributes = args[3];
+      // tslint:disable-next-line:no-magic-numbers
+      const fn = args[4];
+
+      const rootTagNode = parseTag(name, attributes, template);
+      return { type: rootTagNode, fn } as RiotTag;
+    });
+    // TODO: lazy parsing until lookup
 
     // TODO: Handle <style> like real `styleManager`
+
+    assign(this.tags, parsedTags);
 
     return names;
   }
@@ -51,20 +64,11 @@ export default class VirtualDocument {
   }
 
   createTagElement<TOpts>(name: string, opts?: TOpts): RiotTag {
-    if (!(name in this.tags)) throw new Error(`Tag "${name} not found`);
+    const tag = this.tags[name];
 
-    const args = this.tags[name];
+    if (tag === undefined) throw new Error(`Tag "${name} not found`);
 
-    // tslint:disable-next-line:no-magic-numbers
-    const template = args[1];
-    // tslint:disable-next-line:no-magic-numbers
-    const attributes = args[3];
-    // tslint:disable-next-line:no-magic-numbers
-    const fn = args[4];
-
-    const rootTagNode = parseTag(name, attributes, template); // TODO: cache, excluding "attributes"
-
-    return { type: rootTagNode, fn };
+    return tag;
   }
 
   createElement(name: string, attributes: { [name: string]: any }, children: VirtualChild[]) {
