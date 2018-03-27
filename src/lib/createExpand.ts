@@ -44,7 +44,7 @@ export default function createExpand(createTagInstance: CreateTagInstance) {
     document: VirtualDocument,
     tagNode: TagElement,
     data: TagInstance<TOpts>,
-  ) => expand(document, data, tagNode, data, createTagInstance);
+  ) => expandElement(document, data, tagNode, data, createTagInstance);
 }
 
 /** Construct VDOM tree */
