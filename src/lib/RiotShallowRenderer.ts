@@ -29,7 +29,7 @@ export default class RiotShallowRenderer implements RiotRenderer{
     this.rendered = null;
   }
 
-  loadTags(source: string) {
+  loadTags(source: string): void {
     this.document.loadTags(source);
   }
 
@@ -70,15 +70,17 @@ export default class RiotShallowRenderer implements RiotRenderer{
     }
 
     if (/^\s*</m.test(src)) {
-      this.loadTags(src);
-    }
+      // Case: src is tag source
+      const tagNames = this.document.loadTags(src);
+      // Select tagName when single tag use.
+      if (tagName === undefined) {
+        if (tagNames.length !== 1) throw new Error('Tag source must be single');
 
-    // Select tagName when single tag use.
-    if (tagName === undefined) {
-      const tagNames = keys(this.document.tags); // FIXME: only loaded this time
-      if (tagNames.length !== 1) throw new Error('Tag source must be single');
-
-      tagName = tagNames[0] as string;
+        tagName = tagNames[0] as string;
+      }
+    } else {
+      // Case: src is tag name
+      tagName = src;
     }
 
     const tagInstance = this.createInstance(tagName, opts);

@@ -16,17 +16,25 @@ export interface RiotTag {
 
 /** Top-level Virtual DOM object */
 export default class VirtualDocument {
-  public readonly tags: TagMap = {};
+  private readonly tags: TagMap = {};
 
   constructor(private context: EvalContext) {}
 
-  loadTags(source: string) {
+  /**
+   * Load tag(s)
+   *
+   * @param source tag sources
+   * @returns list of loaded tags in this method.
+   */
+  loadTags(source: string): string[] {
     const tagCompiled = compile(source);
     const { tags, names } = this.context.evalTag(tagCompiled);
 
     assign(this.tags, tags);
 
     // TODO: Handle <style> like real `styleManager`
+
+    return names;
   }
 
   /** Decide tag is custom? */
