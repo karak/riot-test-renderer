@@ -1,6 +1,7 @@
 import * as React from 'react'; // Only for type definitions.
 import { EnzymeAdapter } from 'enzyme';
-import { mapNativeEventNames, } from './utils/index';
+import { EnzymeNode, EnzymeElement } from './EnzymeNode';
+import { mapNativeEventNames } from './utils/index';
 import EvalContext from '../lib/EvalContext';
 import VirtualDocument from '../lib/VirtualDocument';
 import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
@@ -26,12 +27,6 @@ declare module 'enzyme' {
     options: {};
   }
 }
-
-export type EnzymeNode<P> = React.ReactElement<P> & {
-  nodeType: 'host' | 'class' | 'function';
-  instance: TagInstance<P>;
-  rendered: React.ReactInstance | React.ReactInstance[];
-};
 
 export interface ShallowRendererOptions {
   source: string;
@@ -70,14 +65,15 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
       unmount() {
         renderer.unmount();
       },
-      getNode<P>(): EnzymeNode<P> {
+      getNode<P>(): EnzymeElement<P> {
         const output = renderer.getRenderedOutput();
+        const mountedInstance = renderer.getMountedInstance();
         return {
           nodeType: 'host',
           type: cachedNode!.type,
           props: cachedNode!.props,
           key: cachedNode!.key,
-          instance: renderer.getMountedInstance(),
+          instance: mountedInstance,
           rendered: elementToTree(output),
         };
       },
@@ -115,16 +111,16 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
 
   nodeToElement<P>(node: EnzymeNode<P>): React.ReactElement<P> | null {
     if (!node || typeof node !== 'object') return null;
-    return toReactElement(node.instance.root!);
+    return toReactElement(node.instance!.root!); // TODO:
   }
 
-  elementToNode<P extends Object>(element: React.ReactElement<P>): React.ReactInstance {
-    return elementToTree(toVirtualElement(element));
+  elementToNode<P>(element: React.ReactElement<P>): EnzymeNode<P> {
+    return elementToTree(toVirtualElement(element)); // TODO:
   }
 
-  nodeToHostNode<P>(node: EnzymeNode<P>): Element {
-    const element = node.instance!.root!;
-    return element; // TODO:
+  nodeToHostNode<P>(node: EnzymeElement<P>): Element | null {
+    if (!node || typeof node !== 'object') return null;
+    return node.instance!.root || null; // TODO:
   }
 
   isValidElement<P>(element: React.ReactElement<P>) {
