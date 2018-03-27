@@ -15,30 +15,35 @@ describe('shallow', () => {
         const wrapper = shallow(staticTag);
 
         expect(wrapper.html()).toBe('<static><p>Hello, world!</p></static>');
+        expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('renders ignoring style', () => {
         const wrapper = shallow(staticTagWithStyle);
 
         expect(wrapper.html()).toBe('<static><p>Hello, world!</p></static>');
+        expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('extracts template', () => {
         const wrapper = shallow(tagWithOpts, { data: 'Hello, world!' });
 
         expect(wrapper.html()).toBe('<tag><p>Hello, world!</p></tag>');
+        expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('template "each" work', () => {
         const wrapper = shallow(tagWithEach, { items: ['A', 'B', 'C'] });
 
         expect(wrapper.html()).toBe('<tag><p>A</p><p>B</p><p>C</p></tag>');
+        expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('escapes HTML special characters in template', () => {
         const wrapper = shallow(tagWithOpts, { data: '"&<>' });
 
         expect(wrapper.html()).toBe('<tag><p>&quot;&amp;&lt;&gt;</p></tag>');
+        expect(wrapper.toJSON()).toMatchSnapshot();
       });
     });
 

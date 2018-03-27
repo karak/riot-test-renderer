@@ -1,5 +1,6 @@
 import TagInstance from './TagInstance';
 import toHTML from './toHTML';
+import toJSON from './toJSON';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -35,5 +36,10 @@ export default class ShallowWrapper<TOpts> {
       this.htmlCache = toHTML(this.tagInstance.root, false);
     }
     return this.htmlCache;
+  }
+
+  toJson(): object | null {
+    const root = this.tagInstance.root;
+    return toJSON(root !== undefined ? root as any : null);
   }
 }
