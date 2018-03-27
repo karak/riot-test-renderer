@@ -85,6 +85,7 @@ TODO
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
 - [x] Support attributes if, each, show, and hide
+- [ ] To test the attributes of root opts
 - [ ] Support boolean attributes
 - [ ] Support styles object expressions
 - [ ] Implement CSS class shorthand
@@ -110,6 +111,3 @@ Known Bugs
 -----------
 
 Template is incomplete, actually just interpolating expressions between "{}" area.
-
-- [ ] if and each don't work.
-- [x] Never escape HTML special characters.
