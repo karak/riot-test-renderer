@@ -1,6 +1,6 @@
 import EvalContext from './EvalContext';
 import VirtualDocument from './VirtualDocument';
-import { VirtualElement } from './VirtualElement';
+import { VirtualElement, VirtualChild } from './VirtualElement';
 import { TagElement } from './parseTag';
 import TagInstance from './TagInstance';
 import CustomTagInstance from './CustomTagInstance';
@@ -102,7 +102,15 @@ export default class RiotRendererBase implements RiotRenderer {
     return this.rendered = rendered;
   }
 
-  createInstance<TOpts>(name: string, opts: TOpts) {
+  /**
+   * instanciate tag
+   *
+   * @param name tag name
+   * @param opts tag interface
+   * @param children Ignored currently
+   * @returns created instance unmounted
+   */
+  createInstance<TOpts>(name: string, opts: TOpts, children?: ReadonlyArray<VirtualChild>) {
     // create tag element, equivalent to React.ReactElement
     const { type, fn } = this.document.createTagElement(name, opts!);
 

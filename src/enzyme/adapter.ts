@@ -7,6 +7,7 @@ import VirtualDocument from '../lib/VirtualDocument';
 import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
 import TagInstance from '../lib/TagInstance';
 import RiotShallowRenderer from '../lib/RiotShallowRenderer';
+import RiotStaticRenderer from '../lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
@@ -87,13 +88,9 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createStringRenderer(options: any) {
-    const renderer = new RiotShallowRenderer(this.vdom);
+    const renderer = new RiotStaticRenderer(this.vdom);
     return {
       render<TOpts>(el: React.ReactElement<TOpts>, context: any): string {
-        if (global.console) {
-          // tslint:disable-next-line:no-console
-          console.warn('String renderer is incomplete, shallow.');
-        }
         return renderToStaticMarkup(renderer, el, context);
       },
     };

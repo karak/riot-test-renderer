@@ -1,26 +1,12 @@
 import { shallow } from '../../src/index';
+import {
+  nestedStaticTag,
+  nestedTag,
+} from '../tags/multiTags';
 
 describe('shallow', () => {
   describe('multiTags', () => {
     describe('template', () => {
-      const nestedStaticTag = `
-      <inner>
-        <p></p>
-      </inner>
-      <outer>
-        <inner />
-      </outer>
-      `;
-
-      const nestedTag = `
-      <inner>
-        <p>{opts.data}</p>
-      </inner>
-      <outer>
-        <inner data={opts.innerData} />
-      </outer>
-      `;
-
       it('doesn\'t extract nested tag', () => {
         const wrapper = shallow(nestedStaticTag, 'outer');
 
