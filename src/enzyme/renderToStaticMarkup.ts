@@ -15,5 +15,7 @@ export default function renderToStaticMarkup<P>(
 ): string {
   const tagInstance = renderer.createInstance(el.type as string, el.props);
   tagInstance.mount();
-  return toHTML(tagInstance.root!, false);
+  const html = toHTML(tagInstance.root!, false);
+  tagInstance.unmount();
+  return html;
 }

@@ -1,6 +1,9 @@
 import TagInstance from './TagInstance';
 import CustomTagInstance, { RenderingMethods } from './CustomTagInstance';
 import { VirtualElement } from './VirtualElement';
+import forEach from 'lodash/forEach';
+import forEachRight from 'lodash/forEachRight';
+import isArray from 'lodash/isArray';
 
 export default function createRenderingMethods<TOpts>(
   render: (this: TagInstance<TOpts>) => VirtualElement,
@@ -23,6 +26,17 @@ export default function createRenderingMethods<TOpts>(
       if (!this.isMounted) return;
 
       try {
+        // unmount reverse order against mount
+        forEachRight(this.tags, (tagOrTags) => {
+          if (isArray(tagOrTags)) {
+            forEachRight(tagOrTags, x => x.unmount());
+          } else {
+            tagOrTags.unmount();
+          }
+        });
+        forEach(this.tags, (_, key) => {
+          delete this.tags[key];
+        });
         // TODO: this.trigger('before-unmount');
       } finally {
         delete this.root;
