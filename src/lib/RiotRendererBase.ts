@@ -103,12 +103,15 @@ export default class RiotRendererBase implements RiotRenderer {
    *
    * @param name tag name
    * @param opts tag interface
-   * @param children Ignored currently
+   * @param children children to yield. Ignored currently
    * @returns created instance unmounted
    */
-  createInstance<TOpts>(name: string, opts: TOpts, children?: ReadonlyArray<VirtualChild>) {
+  createInstance<TOpts>(
+    name: string,
+    opts: TOpts,
+    children: ReadonlyArray<VirtualChild> = []) {
     // create tag element, equivalent to React.ReactElement
-    const { type, fn } = this.document.createTagElement(name, opts!);
+    const { type, fn } = this.document.createTagElement(name);
 
     const shallowRender = createRender(this.document, this.expand, type);
     const shallowRenderingMethods = createRenderingMethods(shallowRender);
