@@ -8,6 +8,12 @@ import assign from 'lodash/assign';
 
 export type TagKind = { custom: false } | { custom: true; registered: boolean; };
 
+/** Objectified tag definition */
+export interface RiotTag {
+  type: TagElement;
+  fn: () => void;
+}
+
 /** Top-level Virtual DOM object */
 export default class VirtualDocument {
   public readonly tags: TagMap = {};
@@ -36,7 +42,7 @@ export default class VirtualDocument {
     return { custom: false };
   }
 
-  createTagElement<TOpts>(name: string, opts?: TOpts): { type: TagElement, fn: () => void } {
+  createTagElement<TOpts>(name: string, opts?: TOpts): RiotTag {
     if (!(name in this.tags)) throw new Error(`Tag "${name} not found`);
 
     const args = this.tags[name];
