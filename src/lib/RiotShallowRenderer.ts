@@ -14,16 +14,29 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public tags: {
     [name: string]: TagInstance<any> | ReadonlyArray<TagInstance<any>>,
   } = {};
+  public root?: VirtualElement;
+  public isMounted: boolean = false;
 
-  constructor(public root: VirtualElement) {
-    this.name = root.name;
-    this.opts = root.attributes;
+  constructor(private rootToMount: VirtualElement) {
+    this.name = rootToMount.name;
+    this.opts = rootToMount.attributes;
   }
-  isMounted: boolean = true;
+
   // tslint:disable-next-line:no-empty
-  mount(): void {}
+  mount(): void {
+    if (this.isMounted) return;
+
+    this.isMounted = true;
+    this.root = this.rootToMount;
+  }
+
   // tslint:disable-next-line:no-empty
-  unmount(): void {}
+  unmount(): void {
+    if (!this.isMounted) return;
+
+    delete this.root;
+    this.isMounted = false;
+  }
 }
 
 const expandShallow = createExpand((_, element) => new ShallowTagInstance(element!));
