@@ -15,9 +15,9 @@ describe('enzyme-riot-adapter', () => {
       });
 
       it('does extract nested tag with passed attributes', () => {
-        const wrapper = shallow({ name: 'outer', opts: { innerData: 'DATA' } }, { source: nestedStaticTag });
+        const wrapper = shallow({ name: 'outer', opts: { innerData: 'DATA' } }, { source: nestedTag });
 
-        expect(wrapper.html()).toBe('<outer><inner>DATA</inner></outer>');
+        expect(wrapper.html()).toBe('<outer><inner><p>DATA</p></inner></outer>');
       });
     });
   });
