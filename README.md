@@ -111,3 +111,9 @@ Known Bugs
 -----------
 
 Template is incomplete, actually just interpolating expressions between "{}" area.
+
+Nested tags:
+
+- [ ] No parent of nested tags(shallow, stataic)
+- [ ] Templating `this` is same as its parent.
+
