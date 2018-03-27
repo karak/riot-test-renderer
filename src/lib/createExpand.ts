@@ -6,6 +6,7 @@ import renderTemplate from './renderTemplate';
 import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
 import mapObject from '../utils/mapObject';
 
 export type MeetCustomTagCallback = <TOpts>(
@@ -44,7 +45,12 @@ export default function createExpand(createTagInstance: CreateTagInstance) {
     document: VirtualDocument,
     tagNode: TagElement,
     data: TagInstance<TOpts>,
-  ) => expandElement(document, data, tagNode, data, createTagInstance);
+  ) => {
+    const element = expandElement(document, data, tagNode, data, createTagInstance);
+    if (isString(element)) throw new Error('Rendered element is string. "if" attribute?');
+
+    return element;
+  };
 }
 
 /** Construct VDOM tree */
