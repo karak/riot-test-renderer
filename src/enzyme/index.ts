@@ -7,6 +7,7 @@ import {
 } from 'enzyme';
 
 import EnzymeRiotAdapter from './adapter';
+import RiotShallowRendererProps from './RiotShallowRendererProps';
 import isString from 'lodash/isString';
 
 configure({ adapter: new EnzymeRiotAdapter() });
@@ -27,12 +28,6 @@ function guessNameFromSource(singleSource: string): string {
 
   return m[1];
 }
-
-/** Options of {@see shallow} */
-type RiotShallowRendererProps = ReactShallowRendererProps & {
-  /** tag sources */
-  source: string;
-};
 
 /**
  * Shallow render
@@ -73,7 +68,7 @@ export function shallow<TOpts>(source: string, ...args: any[]): ShallowWrapper<T
 
   const adaptee = reactShallow(
     { type: name, props: opts || {}, key: null },
-    { source, ...options } as RiotShallowRendererProps,
+    { 'riot-enzyme': { source }, ...options } as RiotShallowRendererProps,
   );
   return new ShallowWrapper(adaptee);
 }

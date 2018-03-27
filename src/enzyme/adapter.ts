@@ -1,5 +1,6 @@
 import * as React from 'react'; // Only for type definitions.
 import { EnzymeAdapter } from 'enzyme';
+import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
 import { mapNativeEventNames } from './utils/index';
 import EvalContext from '../lib/EvalContext';
@@ -29,10 +30,6 @@ declare module 'enzyme' {
   }
 }
 
-export interface ShallowRendererOptions {
-  source: string;
-}
-
 export default class EnzymeRiotAdapter extends EnzymeAdapter {
   private vdom: VirtualDocument;
 
@@ -50,9 +47,9 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     throw new Error('Not supported yet');
   }
 
-  createShallowRenderer(options: ShallowRendererOptions) {
+  createShallowRenderer(options: RiotShallowRendererProps) {
     const renderer = new RiotShallowRenderer(this.vdom);
-    renderer.loadTags(options.source);
+    renderer.loadTags(options['riot-enzyme'].source);
     let cachedNode: React.ReactElement<any> | null = null;
 
     const adapter = this;
