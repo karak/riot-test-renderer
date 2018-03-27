@@ -114,7 +114,7 @@ describe('vdom', () => {
       expect(rootTag.tags).toBeDefined();
 
       expect(rootTag.tags.tag2).toBeDefined();
-      expect((rootTag.tags.tag2 as any).name).toBe('tag2');
+      expect((rootTag.tags.tag2 as TagInstance).root!.name).toBe('tag2');
     });
 
     it('has no tag itself in tags', () => {

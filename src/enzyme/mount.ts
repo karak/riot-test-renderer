@@ -8,7 +8,8 @@ export default function mount<TOpts>(
 ): Element | null {
   const tagInstance: TagInstance<TOpts> = (el as any)._tagInstance;
 
-  const container: HTMLElement = document.createElement(tagInstance.name);
+  const name = el.type as string;
+  const container: HTMLElement = document.createElement(name);
   container.innerHTML = toHTML(tagInstance.root!, false);
   const hostNode = container.firstElementChild;
   if (hostNode !== null) {
