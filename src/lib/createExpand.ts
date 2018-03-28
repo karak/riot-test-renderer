@@ -20,7 +20,6 @@ function onMeetCustomTag<TOpts>(
   name: string,
   nestedTag: TagInstance<any>
 ) {
-  // TODO: this.opts rather than embedding into rootTagNode
   if (!(name in this.tags)) {
     // 1st path
     this.tags[name] = nestedTag;
@@ -124,6 +123,7 @@ function expandAttributes(attributes: { [name: string]: string }, data: any) {
   delete renderedAttrs['each'];
   delete renderedAttrs['show'];
   delete renderedAttrs['hide'];
+
   return {
     if: ifAttr,
     each: eachAttr,
@@ -167,9 +167,6 @@ function setDisplay(attrs: { style?: { display?: string } }, visible: boolean) {
 
 /**
  * Controll rendering on "if", "each", "show" and "hide" attributes
- *
- * @param renderCurrent render body, called if needed.
- * @param renderChildren render all the children, called once or any times with "each".
  */
 function expandControllAttributes(
   name: string,
@@ -237,7 +234,7 @@ function expandElement<TOpts>(
         element = nestedTag.root!;
       } else {
         nestedTag = null;
-        element = document.createElement(tagNode.name, opts, children);
+        element = document.createElement(tagNode.name, opts, children); // TODO: remove and use AS-IS
       }
       return element;
     },
