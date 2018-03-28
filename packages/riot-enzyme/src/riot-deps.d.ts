@@ -6,3 +6,8 @@ declare module 'riot-tmpl' {
   function tmpl(template: string, data: any): any;
   const brackets: any;
 }
+
+declare module 'riot-observable' {
+  import { observable, ObservableCallback } from 'riot';
+  export { observable, ObservableCallback };
+}

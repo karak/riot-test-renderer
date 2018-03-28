@@ -43,6 +43,7 @@
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
     "riot-compiler": "^3.4.0",
+    "riot-observable": "^3.0.0",
     "riot-tmpl": "^3.0.8"
   },
   "repository": {
