@@ -1,2 +1,1 @@
-export * from './shallow';
-export * from './vdom';
+export * from './enzyme';
