@@ -9,7 +9,7 @@ describe('enzyme-riot-adapter', () => {
     let wrapper: ShallowWrapper<{}>;
 
     beforeEach(() => {
-      wrapper = shallow({ name: 'static' }, { source: staticTag });
+      wrapper = shallow(staticTag, 'static');
     });
 
     it('renders html', () => {
@@ -22,6 +22,20 @@ describe('enzyme-riot-adapter', () => {
 
     it('has empty opts from undefined', () => {
       expect(wrapper.opts()).toEqual({});
+    });
+
+    it('has a JSON expression', () => {
+      expect(wrapper.toJson()).toEqual({
+        name: 'static',
+        opts: {},
+        children: [
+          {
+            name: 'p',
+            opts: {},
+            children: ['Hello, world!'],
+          },
+        ],
+      });
     });
   });
 });
