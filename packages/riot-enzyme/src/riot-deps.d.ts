@@ -9,5 +9,6 @@ declare module 'riot-tmpl' {
 
 declare module 'riot-observable' {
   import { observable, ObservableCallback } from 'riot';
-  export { observable, ObservableCallback };
+  export default observable;
+  export { ObservableCallback };
 }

@@ -1,4 +1,4 @@
-import { observable, ObservableCallback } from 'riot-observable';
+import { default as observable, ObservableCallback } from 'riot-observable';
 import TagInstance from './TagInstance';
 import { VirtualElement } from './VirtualElement';
 import assign from 'lodash/assign';
