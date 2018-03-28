@@ -1,5 +1,8 @@
-import { shallow } from '../../src/enzyme/index';
-import { nestedStaticTag, nestedTag } from '../tags/multiTags';
+import { shallow } from '../src';
+import {
+  nestedStaticTag,
+  nestedTag,
+} from 'riot-test-renderer-shared/tags/multiTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('multiTags', () => {

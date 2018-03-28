@@ -1,6 +1,8 @@
-import { shallow, ShallowWrapper } from '../../src';
-
-import { staticTag, tagWithOpts } from '../tags/singleTags';
+import { shallow } from '../src';
+import {
+  staticTag,
+  tagWithOpts,
+} from 'riot-test-renderer-shared/tags/singleTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('staticTag', () => {

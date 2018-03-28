@@ -1,4 +1,4 @@
-import { shallow } from '../../src/enzyme';
+import { shallow } from '../src';
 
 describe('enzyme-riot-adapter', () => {
   describe('shallow', () => {

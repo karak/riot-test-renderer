@@ -35,6 +35,7 @@
     "lodash": "^4.17.5",
     "riot-compiler": "^3.4.0",
     "riot-observable": "^3.0.0",
+    "riot-test-renderer-shared": "^0.1.3",
     "riot-tmpl": "^3.0.8"
   },
   "repository": {
