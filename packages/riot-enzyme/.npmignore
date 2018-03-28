@@ -1,0 +1,10 @@
+__tests__/
+node_modules/
+src/
+.editorconfig
+.gitignore
+.prettierrc
+jest.config.js
+package-lock.json
+tsconfig.json
+
