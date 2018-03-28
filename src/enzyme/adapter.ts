@@ -159,7 +159,6 @@ function toVirtualElement(el: React.ReactChild): VirtualChild {
   return {
     attributes,
     children: map(children || [], toVirtualElement),
-    type: 'html',
     name: el.type as string,
     key: el.key !== null ? el.key : undefined,
   };

@@ -6,5 +6,7 @@
   //*.tsx
   "[typescriptreact]": {
     "editor.formatOnSave": true
-  }
+  },
+  "eslint.enable": false,
+  "tslint.enable": false
 }

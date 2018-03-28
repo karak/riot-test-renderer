@@ -18,7 +18,7 @@ export interface RiotTag {
 export default class VirtualDocument {
   private readonly tags: { [name: string]: RiotTag } = {};
 
-  constructor(private context: EvalContext) {}
+  constructor(private context: EvalContext) { }
 
   /**
    * Load tag(s)
@@ -63,7 +63,7 @@ export default class VirtualDocument {
     return { custom: false };
   }
 
-  createTagElement<TOpts>(name: string): RiotTag {
+  createTagElement(name: string): RiotTag {
     const tag = this.tags[name];
 
     if (tag === undefined)

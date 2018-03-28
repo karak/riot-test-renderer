@@ -1,6 +1,5 @@
 /** Virtual element like `HTMLElement` */
 type VirtualElement = {
-  type: 'html';
   name: string;
   attributes: { [name: string]: any };
   children: VirtualChild[];
