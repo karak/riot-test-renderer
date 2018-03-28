@@ -4,15 +4,13 @@ import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
 import EvalContext from '../lib/EvalContext';
 import VirtualDocument from '../lib/VirtualDocument';
-import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
 import RiotShallowRenderer from '../lib/RiotShallowRenderer';
 import RiotStaticRenderer from '../lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
+import { toReactElement, toVirtualElement, VirtualElementProps } from './elementInterop';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
-import isNumber from 'lodash/isNumber';
 import assign from 'lodash/assign';
-import map from 'lodash/map';
 
 declare module 'enzyme' {
   namespace EnzymeAdapter {
@@ -51,10 +49,10 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     let cachedNode: React.ReactElement<any> | null = null;
 
     return {
-      render<P>(
-        el: React.ReactElement<P>,
+      render(
+        el: React.ReactElement<VirtualElementProps>,
         context: any
-      ): React.ReactElement<P> {
+      ): React.ReactElement<VirtualElementProps> {
         if (!isString(el.type)) throw new Error('el.type must be string');
 
         cachedNode = el;
@@ -91,8 +89,8 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   createStringRenderer(options: any) {
     const renderer = new RiotStaticRenderer(this.vdom);
     return {
-      render<TOpts>(el: React.ReactElement<TOpts>, context: any): string {
-        return renderToStaticMarkup(renderer, el, context);
+      render(el: React.ReactElement<VirtualElementProps>, context: any): string {
+        return renderToStaticMarkup(renderer, toVirtualElement(el), context);
       },
     };
   }
@@ -112,18 +110,23 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     }
   }
 
-  nodeToElement<P>(node: EnzymeNode<P>): React.ReactElement<P> | null {
+  nodeToElement<P>(node: EnzymeElement<P>): React.ReactElement<VirtualElementProps> | null {
     if (!node || typeof node !== 'object') return null;
-    return toReactElement(node.instance!.root!); // TODO:
+
+    const root = (node as any).instance!.root;
+    return toReactElement(root, false); // Not tag but element!
   }
 
-  elementToNode<P>(element: React.ReactElement<P>): EnzymeNode<P> {
-    return elementToTree(toVirtualElement(element)); // TODO:
+  elementToNode<P>(element: React.ReactElement<VirtualElementProps>): EnzymeNode<P> {
+    return elementToTree(toVirtualElement(element));
   }
 
-  nodeToHostNode<P>(node: EnzymeElement<P>): VirtualElement | null {
+  nodeToHostNode<P>(node: EnzymeElement<P>): Element | null {
     if (!node || typeof node !== 'object') return null;
-    return node.instance!.root || null; // TODO:
+
+    throw new Error('Not implemented');
+
+    // TODO: return findDOMNode(node.instance!)
   }
 
   isValidElement<P>(element: React.ReactElement<P>) {
@@ -141,26 +144,4 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
       key: null,
     };
   }
-}
-
-function toReactElement(el: VirtualElement): React.ReactElement<any> {
-  return {
-    type: el.name,
-    props: assign({}, el.attributes, { children: el.children }),
-    key: el.key !== undefined ? el.key : null,
-  };
-}
-function toVirtualElement<P>(el: React.ReactElement<P>): VirtualElement;
-function toVirtualElement(el: React.ReactChild): VirtualChild;
-function toVirtualElement(el: React.ReactChild): VirtualChild {
-  if (isString(el) || isNumber(el)) return <VirtualChild>el;
-
-  const { children, ...attributes } = el.props;
-  return {
-    type: 'element',
-    attributes,
-    children: map(children || [], toVirtualElement),
-    name: el.type as string,
-    key: el.key !== null ? el.key : undefined,
-  };
 }

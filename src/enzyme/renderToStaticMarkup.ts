@@ -1,5 +1,6 @@
 import RiotRenderer from '../lib/RiotRenderer';
 import toHTML from '../lib/toHTML';
+import { VirtualElement } from '../lib/VirtualElement';
 
 /**
  * Compatible except first parameter
@@ -8,14 +9,22 @@ import toHTML from '../lib/toHTML';
  * @param el - react element to render
  * @param context - ignored in riot
  */
-export default function renderToStaticMarkup<P>(
+export default function renderToStaticMarkup(
   renderer: RiotRenderer,
-  el: React.ReactElement<P>,
+  el: VirtualElement,
   context: any
 ): string {
-  const tagInstance = renderer.createInstance(el.type as string, el.props);
-  tagInstance.mount();
-  const html = toHTML(tagInstance.root!, false);
-  tagInstance.unmount();
-  return html;
+  switch (el.type) {
+    case 'element':
+      // TODO: expand leaf-tags
+      // return toHTML(el);
+    case 'tag':
+      const tagInstance = renderer.createInstance(el.name, el.attributes, el.children);
+      tagInstance.mount();
+      const html = toHTML(tagInstance.root!);
+      tagInstance.unmount();
+      return html;
+    default:
+      throw new Error(`Unknown type: ${el.type}`);
+  }
 }

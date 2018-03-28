@@ -7,6 +7,7 @@ import {
 } from 'enzyme';
 
 import EnzymeRiotAdapter from './adapter';
+import { toReactElement, VirtualElementProps } from './elementInterop';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import TagInstance from '../lib/TagInstance';
 import toJSON from '../lib/toJSON';
@@ -15,6 +16,10 @@ import isString from 'lodash/isString';
 configure({ adapter: new EnzymeRiotAdapter() });
 
 const SINGLE_TAG_NAME_REGEX = /^[^<]*<(.*?)>/m;
+
+export interface TagOpts {
+  [name: string]: any;
+}
 
 /**
  * Guess its name from single tag source
@@ -53,13 +58,13 @@ export function shallow<TOpts>(
  * @param options renderer options see {@see enzyme~shallow}
  * @returns wrapper object of rendered element.
  */
-export function shallow<TOpts>(
+export function shallow<TOpts extends TagOpts>(
   source: string,
   name: string,
   opts?: TOpts,
   options?: ReactShallowRendererProps
 ): ShallowWrapper<TOpts>;
-export function shallow<TOpts>(
+export function shallow<TOpts extends TagOpts>(
   source: string,
   ...args: any[]
 ): ShallowWrapper<TOpts> {
@@ -80,7 +85,8 @@ export function shallow<TOpts>(
     options = args[3];
   }
 
-  const adaptee = reactShallow({ type: name, props: opts || {}, key: null }, {
+  const element = toReactElement({ type: 'tag', name, attributes: opts || {}, children: []});
+  const adaptee = reactShallow(element, {
     'riot-enzyme': { source },
     ...options,
   } as RiotShallowRendererProps);
@@ -92,7 +98,7 @@ export function shallow<TOpts>(
  * like {@see enzyme~ShallowWrapper}
  */
 export class ShallowWrapper<TOpts = any> {
-  constructor(private adaptee: ReactShallowWrapper) {}
+  constructor(private adaptee: ReactShallowWrapper<VirtualElementProps>) {}
 
   unmount() {
     this.adaptee.unmount();
