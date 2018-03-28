@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TagInstance from '../lib/TagInstance';
+import TagInstance from 'riot-test-utils/dist/lib/TagInstance';
 
 export interface EnzymeElement<P> extends React.ReactElement<P> {
   nodeType: 'host' | 'class' | 'function';

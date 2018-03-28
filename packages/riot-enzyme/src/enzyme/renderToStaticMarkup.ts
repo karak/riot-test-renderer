@@ -1,6 +1,6 @@
-import RiotRenderer from '../lib/RiotRenderer';
-import toHTML from '../lib/toHTML';
-import { VirtualElement } from '../lib/VirtualElement';
+import RiotRenderer from 'riot-test-utils/dist/lib/RiotRenderer';
+import toHTML from 'riot-test-utils/dist/lib/toHTML';
+import { VirtualElement } from 'riot-test-utils/dist/lib/VirtualElement';
 
 /**
  * Compatible except first parameter

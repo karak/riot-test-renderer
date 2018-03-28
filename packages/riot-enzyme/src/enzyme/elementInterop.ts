@@ -1,4 +1,7 @@
-import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
+import {
+  VirtualElement,
+  VirtualChild,
+} from 'riot-test-utils/dist/lib/VirtualElement';
 import map from 'lodash/map';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';

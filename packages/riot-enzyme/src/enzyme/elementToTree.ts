@@ -1,5 +1,5 @@
 import { EnzymeElement } from './EnzymeNode';
-import { VirtualElement } from '../lib/VirtualElement';
+import { VirtualElement } from 'riot-test-utils/dist/lib/VirtualElement';
 import map from 'lodash/map';
 import isString from 'lodash/isString';
 

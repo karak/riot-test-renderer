@@ -1,6 +1,6 @@
-import TagInstance from '../lib/TagInstance';
-import VirtualDocument from '../lib/VirtualDocument';
-import toHTML from '../lib/toHTML';
+import TagInstance from 'riot-test-utils/dist/lib/TagInstance';
+import VirtualDocument from 'riot-test-utils/dist/lib/VirtualDocument';
+import toHTML from 'riot-test-utils/dist/lib/toHTML';
 
 export default function mount<TOpts>(
   vdom: VirtualDocument,

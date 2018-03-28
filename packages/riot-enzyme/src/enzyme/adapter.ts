@@ -2,10 +2,10 @@ import * as React from 'react'; // Only for type definitions.
 import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
-import EvalContext from '../lib/EvalContext';
-import VirtualDocument from '../lib/VirtualDocument';
-import RiotShallowRenderer from '../lib/RiotShallowRenderer';
-import RiotStaticRenderer from '../lib/RiotStaticRenderer';
+import EvalContext from 'riot-test-utils/dist/lib/EvalContext';
+import VirtualDocument from 'riot-test-utils/dist/lib/VirtualDocument';
+import RiotShallowRenderer from 'riot-test-utils/dist/lib/RiotShallowRenderer';
+import RiotStaticRenderer from 'riot-test-utils/dist/lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
 import {
   toReactElement,
