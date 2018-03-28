@@ -1,7 +1,7 @@
 {
-  "name": "riot-test-renderer",
+  "name": "riot-enzyme",
   "version": "0.1.0",
-  "description": "Lightweight testing utility for Riot",
+  "description": "Enzyme wrapper for Riot",
   "main": "dist/index.js",
   "scripts": {
     "pretest": "tsc --noEmit && npm run lint",
@@ -18,7 +18,8 @@
     "testing",
     "testing utils",
     "assertion helpers",
-    "tdd"
+    "tdd",
+    "enzyme"
   ],
   "author": "Karak",
   "license": "MIT",
