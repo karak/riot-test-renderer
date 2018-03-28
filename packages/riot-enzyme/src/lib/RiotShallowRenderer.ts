@@ -16,9 +16,7 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public root?: VirtualElement;
   public isMounted: boolean = false;
 
-  constructor(
-    rootToMount: VirtualElement,
-  ) {
+  constructor(rootToMount: VirtualElement) {
     this.opts = rootToMount.attributes as any;
     this.rootToMount = rootToMount;
   }
@@ -45,12 +43,10 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
  */
 export default class RiotShallowRenderer extends RiotRendererBase {
   constructor(document?: VirtualDocument) {
-    const expandShallow = createExpand(
-      (name, opts, children) => {
-        const rootToMount = this.document.createElement(name, opts, children);
-        return new ShallowTagInstance(rootToMount)
-      }
-    );
+    const expandShallow = createExpand((name, opts, children) => {
+      const rootToMount = this.document.createElement(name, opts, children);
+      return new ShallowTagInstance(rootToMount);
+    });
 
     super(expandShallow, document);
   }

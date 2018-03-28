@@ -9,9 +9,7 @@ import escapeHTML from '../utils/escapeHTML';
  *
  * @param deep select deep or shallow, default is false
  */
-export default function toHTML(
-  element: VirtualChild
-): string {
+export default function toHTML(element: VirtualChild): string {
   if (isString(element)) {
     return escapeHTML(element);
   }

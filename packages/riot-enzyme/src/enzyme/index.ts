@@ -85,7 +85,12 @@ export function shallow<TOpts extends TagOpts>(
     options = args[3];
   }
 
-  const element = toReactElement({ type: 'tag', name, attributes: opts || {}, children: []});
+  const element = toReactElement({
+    type: 'tag',
+    name,
+    attributes: opts || {},
+    children: [],
+  });
   const adaptee = reactShallow(element, {
     'riot-enzyme': { source },
     ...options,

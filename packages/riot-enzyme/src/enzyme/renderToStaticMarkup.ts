@@ -20,7 +20,11 @@ export default function renderToStaticMarkup(
       console.warn('Current riot-enzyme always renders shallow tree');
       return toHTML(el);
     case 'tag':
-      const tagInstance = renderer.createInstance(el.name, el.attributes, el.children);
+      const tagInstance = renderer.createInstance(
+        el.name,
+        el.attributes,
+        el.children
+      );
       tagInstance.mount();
       const html = toHTML(tagInstance.root!);
       tagInstance.unmount();

@@ -7,7 +7,11 @@ import VirtualDocument from '../lib/VirtualDocument';
 import RiotShallowRenderer from '../lib/RiotShallowRenderer';
 import RiotStaticRenderer from '../lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
-import { toReactElement, toVirtualElement, VirtualElementProps } from './elementInterop';
+import {
+  toReactElement,
+  toVirtualElement,
+  VirtualElementProps,
+} from './elementInterop';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
 import assign from 'lodash/assign';
@@ -89,7 +93,10 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   createStringRenderer(options: any) {
     const renderer = new RiotStaticRenderer(this.vdom);
     return {
-      render(el: React.ReactElement<VirtualElementProps>, context: any): string {
+      render(
+        el: React.ReactElement<VirtualElementProps>,
+        context: any
+      ): string {
         return renderToStaticMarkup(renderer, toVirtualElement(el), context);
       },
     };
@@ -110,14 +117,18 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     }
   }
 
-  nodeToElement<P>(node: EnzymeElement<P>): React.ReactElement<VirtualElementProps> | null {
+  nodeToElement<P>(
+    node: EnzymeElement<P>
+  ): React.ReactElement<VirtualElementProps> | null {
     if (!node || typeof node !== 'object') return null;
 
     const root = (node as any).instance!.root;
     return toReactElement(root, false); // Not tag but element!
   }
 
-  elementToNode<P>(element: React.ReactElement<VirtualElementProps>): EnzymeNode<P> {
+  elementToNode<P>(
+    element: React.ReactElement<VirtualElementProps>
+  ): EnzymeNode<P> {
     return elementToTree(toVirtualElement(element));
   }
 
