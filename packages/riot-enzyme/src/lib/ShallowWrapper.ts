@@ -32,7 +32,7 @@ export default class ShallowWrapper<TOpts> {
     if (this.tagInstance.root === undefined) throw Error('Mount first');
 
     if (this.htmlCache === null) {
-      this.htmlCache = toHTML(this.tagInstance.root, false);
+      this.htmlCache = toHTML(this.tagInstance.root);
     }
     return this.htmlCache;
   }

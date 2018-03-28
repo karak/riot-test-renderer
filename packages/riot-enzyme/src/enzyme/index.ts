@@ -97,7 +97,7 @@ export function shallow<TOpts extends TagOpts>(
  * Wrapper of shallow-rendered element
  * like {@see enzyme~ShallowWrapper}
  */
-export class ShallowWrapper<TOpts = any> {
+export class ShallowWrapper<TOpts extends TagOpts = any> {
   constructor(private adaptee: ReactShallowWrapper<VirtualElementProps>) {}
 
   unmount() {
@@ -109,13 +109,13 @@ export class ShallowWrapper<TOpts = any> {
   }
 
   opts(): TOpts {
-    return this.adaptee.props() as TOpts;
+    return (this.adaptee.props() as any) as TOpts;
   }
 
   find(props: EnzymePropSelector): ShallowWrapper<any>;
   find(selector: string): ShallowWrapper<any>;
   find(selector: any) {
-    const nextAdaptee = this.adaptee.find(selector);
+    const nextAdaptee = this.adaptee.find(selector) as ReactShallowWrapper<any>;
     return new ShallowWrapper(nextAdaptee);
   }
 

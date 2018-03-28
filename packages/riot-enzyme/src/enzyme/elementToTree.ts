@@ -5,6 +5,7 @@ import isString from 'lodash/isString';
 
 export default function elementToTree(el: VirtualElement): EnzymeElement<any>;
 export default function elementToTree(el: string): string;
+export default function elementToTree(el: VirtualElement | string): EnzymeElement<any> | string;
 export default function elementToTree(el: VirtualElement | string): EnzymeElement<any> | string {
   if (isString(el)) return el;
 

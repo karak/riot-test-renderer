@@ -10,7 +10,7 @@ export default function mount<TOpts>(
 
   const name = el.type as string;
   const container: HTMLElement = document.createElement(name);
-  container.innerHTML = toHTML(tagInstance.root!, false);
+  container.innerHTML = toHTML(tagInstance.root!);
   const hostNode = container.firstElementChild;
   if (hostNode !== null) {
     hostNode.parentNode!.removeChild(hostNode);
