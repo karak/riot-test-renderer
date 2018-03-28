@@ -16,7 +16,9 @@ describe('enzyme-riot-adapter', () => {
           innerData: 'DATA',
         });
 
-        expect(wrapper.html()).toBe('<outer><inner><p>DATA</p></inner></outer>');
+        expect(wrapper.html()).toBe(
+          '<outer><inner><p>DATA</p></inner></outer>'
+        );
       });
     });
   });

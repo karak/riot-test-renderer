@@ -18,7 +18,7 @@ export interface RiotTag {
 export default class VirtualDocument {
   private readonly tags: { [name: string]: RiotTag } = {};
 
-  constructor(private context: EvalContext) { }
+  constructor(private context: EvalContext) {}
 
   /**
    * Load tag(s)

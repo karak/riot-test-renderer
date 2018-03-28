@@ -47,10 +47,17 @@ export default function createExpand(createTagInstance: CreateTagInstance) {
   return <TOpts>(
     document: VirtualDocument,
     tagNode: TagElement,
-    data: TagInstance<TOpts>,
+    data: TagInstance<TOpts>
   ) => {
-    const element = expandElement(document, data, tagNode, data, createTagInstance);
-    if (isString(element)) throw new Error('Rendered element is string. "if" attribute?');
+    const element = expandElement(
+      document,
+      data,
+      tagNode,
+      data,
+      createTagInstance
+    );
+    if (isString(element))
+      throw new Error('Rendered element is string. "if" attribute?');
 
     return element;
   };
