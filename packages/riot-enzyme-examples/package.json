@@ -1,0 +1,7 @@
+{
+  "name": "riot-enzyme-examples",
+  "private": true,
+  "dependencies": {
+    "riot-enzyme": "^0.1.3"
+  }
+}
