@@ -43,7 +43,7 @@ var wrapper = shallow('<tag><p>{opts.greeting}</p></tag>', { greeting: 'Hello, w
 assert(wrapper.html() === '<tag><p>Hello, world!</p></tag>');
 ```
 
-**WARNING**: Special sequence, such as each, if, show, hide, and virtual , doesn't work currently.
+**WARNING**: Special sequence, such as each, if, show, hide, and virtual, works *LIMITED*.
 
 Specify the name to test when you have multiple tags:
 
@@ -73,6 +73,25 @@ var wrapper = shallow('<root><nested data="Hello" /></root>');
 assert(wrapper.html() === '<root><nested data="Hello"></nested></root>');
 ```
 
+You can use `toJSON()` to use **[snapshot-testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html)**
+to keep your tags.
+
+With `jest` for example:
+
+```js
+it('should match snapshot', function () {
+  var wrapper = shallow('<tag><h1>Example:</h1><p>Hello, world!</p></tag>');
+
+  expect(wrapper.toJSON()).toMatchSnapshot();
+});
+```
+
+Enzyme integration
+------------------
+
+This currently provides shallow rendering with finding and snapshot testing:
+`shallow()`, `.find()`, `.toJson()` as `enzyme-to-json`.
+
 Requirement
 -----------
 
@@ -82,6 +101,7 @@ TODO
 ----
 
 - [ ] Event simulated
+- [ ] Deep rendering
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
 - [x] Support attributes if, each, show, and hide
@@ -102,10 +122,16 @@ TODO
 - [ ] Handle &lt;virtual&gt; tag. [LOW Priority]
 - [ ] Handle yield. [LOW Priority]
 - [ ] Mixin [LOW]
-- [ ] Helper API for **snapshot testing**
+- [x] Helper API for snapshot testing
 - [ ] Other testing utility.
 - [ ] Exclude requirement of polyfill using `babel-runtime-transform`.
 - [ ] Testing method for SSR with [`cheerio`](https://github.com/cheeriojs/cheerio) like one of `Enzyme`.
+
+NOT-TODOS
+---------
+
+- [ ] Mount onto actual DOM
+- [ ] Support style sections
 
 Known Bugs
 -----------
@@ -114,6 +140,4 @@ Template is incomplete, actually just interpolating expressions between "{}" are
 
 Nested tags:
 
-- [ ] No parent of nested tags(shallow, stataic)
-- [ ] Templating `this` is same as its parent.
-
+- [ ] No parent of nested tags(shallow, static)
