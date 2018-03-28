@@ -16,8 +16,9 @@ export default function renderToStaticMarkup(
 ): string {
   switch (el.type) {
     case 'element':
-      // TODO: expand leaf-tags
-      // return toHTML(el);
+      // TODO: recursive expansion of 'tag' children.
+      console.warn('Current riot-enzyme always renders shallow tree');
+      return toHTML(el);
     case 'tag':
       const tagInstance = renderer.createInstance(el.name, el.attributes, el.children);
       tagInstance.mount();
