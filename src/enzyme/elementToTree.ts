@@ -1,6 +1,5 @@
-import * as React from 'react'; // Only for type definitions.
 import { EnzymeNode } from './EnzymeNode';
-import { VirtualElement, VirtualChild } from '../lib/VirtualElement';
+import { VirtualElement } from '../lib/VirtualElement';
 import map from 'lodash/map';
 import isString from 'lodash/isString';
 
@@ -11,7 +10,7 @@ export default function elementToTree(el: VirtualElement): EnzymeNode<any> {
     props: el.attributes,
     key: null,
     instance: null,
-    rendered: map(el.children, (x) => {
+    rendered: map(el.children, x => {
       if (isString(x)) {
         return x;
       }

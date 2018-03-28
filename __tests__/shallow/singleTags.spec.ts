@@ -8,9 +8,7 @@ import {
 
 describe('shallow', () => {
   describe('singleTags', () => {
-
     describe('template', () => {
-
       it('renders static tag', () => {
         const wrapper = shallow(staticTag);
 

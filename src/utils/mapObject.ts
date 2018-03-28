@@ -1,6 +1,6 @@
 export default function mapObject<TValue, UValue>(
   obj: { [key: string]: TValue },
-  fn: (value: TValue, key: string) => UValue,
+  fn: (value: TValue, key: string) => UValue
 ) {
   const result: { [key: string]: UValue } = {};
   for (const key in obj) {

@@ -1,8 +1,5 @@
-import { shallow, ShallowWrapper } from '../../src/enzyme/index';
-import {
-  nestedStaticTag,
-  nestedTag,
-} from '../tags/multiTags';
+import { shallow } from '../../src/enzyme/index';
+import { nestedStaticTag, nestedTag } from '../tags/multiTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('multiTags', () => {
@@ -15,7 +12,9 @@ describe('enzyme-riot-adapter', () => {
       });
 
       it('does extract nested tag with passed attributes', () => {
-        const wrapper = shallow(nestedTag, 'outer', { innerData: 'DATA' });
+        const wrapper = shallow(nestedTag, 'outer', {
+          innerData: 'DATA',
+        });
 
         expect(wrapper.html()).toBe('<outer><inner><p>DATA</p></inner></outer>');
       });

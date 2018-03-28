@@ -17,7 +17,7 @@ describe('vdom', () => {
   describe('staticTag', () => {
     let rootTag: TagInstance;
 
-    setupTags(staticTag, 'static', (tag) => {
+    setupTags(staticTag, 'static', tag => {
       rootTag = tag;
     });
 
@@ -49,7 +49,7 @@ describe('vdom', () => {
     const rootOpts = { data: 'Hello, world!' };
     let rootTag: TagInstance;
 
-    setupTags(tagWithOpts, 'tag', rootOpts, (tag) => {
+    setupTags(tagWithOpts, 'tag', rootOpts, tag => {
       rootTag = tag;
     });
 
@@ -80,7 +80,7 @@ describe('vdom', () => {
   describe('tagWithParent', () => {
     const rootOpts = {};
     let rootTag: TagInstance<{}>;
-    setupTags(tagWithParent, 'tag', rootOpts, (tag) => {
+    setupTags(tagWithParent, 'tag', rootOpts, tag => {
       rootTag = tag;
       // Mock parent
       (rootTag as any).parent = {
@@ -96,7 +96,9 @@ describe('vdom', () => {
       const tag2 = rootTag.root!.children[0] as VirtualElement;
       expect(tag2).toHaveProperty('name', 'tag2');
 
-      const p = tag2.children.find(x => (x as any).name === 'p') as VirtualElement;
+      const p = tag2.children.find(
+        x => (x as any).name === 'p'
+      ) as VirtualElement;
       expect(p).toBeDefined();
       expect(p).toHaveProperty('name', 'p');
       expect(p!.children.join('')).toEqual('Hello, world!');
@@ -106,7 +108,7 @@ describe('vdom', () => {
   describe('tagWithTags', () => {
     let rootTag: TagInstance;
 
-    setupTags(tagWithTags, 'tag', (tag) => {
+    setupTags(tagWithTags, 'tag', tag => {
       rootTag = tag;
     });
 
@@ -122,7 +124,7 @@ describe('vdom', () => {
       expect(rootTag.tags.tag).not.toBeDefined();
     });
 
-    it('has two tag3\'s in tags', () => {
+    it("has two tag3's in tags", () => {
       expect(rootTag.tags).toBeDefined();
       expect(rootTag.tags.tag3).toBeDefined();
       // tslint:disable-next-line:no-magic-numbers
@@ -134,16 +136,16 @@ describe('vdom', () => {
     const rootOpts = { items: ['a', 'b', 'c'] };
     let rootTag: TagInstance;
 
-    setupTags(tagWithEachAndTags, 'tag', rootOpts, (tag) => {
+    setupTags(tagWithEachAndTags, 'tag', rootOpts, tag => {
       rootTag = tag;
     });
 
-    it('should have 3 p\'s', () => {
+    it("should have 3 p's", () => {
       expect(rootTag.root).toBeDefined();
       expect(rootTag.root!.children).toHaveLength(rootOpts.items.length);
     });
 
-    it('should have 3 tag2\'s', () => {
+    it("should have 3 tag2's", () => {
       expect(rootTag.tags.tag2).toBeDefined();
       expect(rootTag.root!.children).toHaveLength(rootOpts.items.length);
       expect(rootTag.tags.tag2).toHaveLength(rootOpts.items.length);
@@ -153,11 +155,13 @@ describe('vdom', () => {
   describe('tagWithIf exists', () => {
     const rootOpts = { exists: true };
     let rootTag: TagInstance;
-    setupTags(tagWithIf, 'tag', rootOpts, tag => rootTag = tag);
+    setupTags(tagWithIf, 'tag', rootOpts, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('tag2');
@@ -167,11 +171,13 @@ describe('vdom', () => {
   describe('tagWithIf not exists', () => {
     const rootOpts = { exists: false };
     let rootTag: TagInstance;
-    setupTags(tagWithIf, 'tag', rootOpts, tag => rootTag = tag);
+    setupTags(tagWithIf, 'tag', rootOpts, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(0);
     });
@@ -179,15 +185,19 @@ describe('vdom', () => {
 
   describe('tagWithIfNested exists', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithIfNested, 'tag', { exists: true }, tag => rootTag = tag);
+    setupTags(tagWithIfNested, 'tag', { exists: true }, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('div');
-      const childChildElements = getNonEmptyChildren(childElements[0]) as VirtualElement[];
+      const childChildElements = getNonEmptyChildren(
+        childElements[0]
+      ) as VirtualElement[];
 
       expect(childChildElements).toHaveLength(1);
       expect(childChildElements[0].name).toBe('p');
@@ -196,15 +206,24 @@ describe('vdom', () => {
 
   describe('tagWithIfNested exists', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithIfNested, 'tag', { exists: false }, tag => rootTag = tag);
+    setupTags(
+      tagWithIfNested,
+      'tag',
+      { exists: false },
+      tag => (rootTag = tag)
+    );
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('div');
-      const childChildElements = getNonEmptyChildren(childElements[0]) as VirtualElement[];
+      const childChildElements = getNonEmptyChildren(
+        childElements[0]
+      ) as VirtualElement[];
 
       expect(childChildElements).toHaveLength(0);
     });
@@ -212,53 +231,69 @@ describe('vdom', () => {
 
   describe('tagWithShow visible', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithShow, 'tag', { visible: true }, tag => rootTag = tag);
+    setupTags(tagWithShow, 'tag', { visible: true }, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', { display: '' });
+      expect(childElements[0].attributes).toHaveProperty('style', {
+        display: '',
+      });
     });
   });
 
   describe('tagWithShow not visible', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithShow, 'tag', { visible: false }, tag => rootTag = tag);
+    setupTags(tagWithShow, 'tag', { visible: false }, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', { display: 'none' });
+      expect(childElements[0].attributes).toHaveProperty('style', {
+        display: 'none',
+      });
     });
   });
 
   describe('tagWithHide visible', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithHide, 'tag', { visible: true }, tag => rootTag = tag);
+    setupTags(tagWithHide, 'tag', { visible: true }, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', { display: '' });
+      expect(childElements[0].attributes).toHaveProperty('style', {
+        display: '',
+      });
     });
   });
 
   describe('tagWithHide not visible', () => {
     let rootTag: TagInstance;
-    setupTags(tagWithHide, 'tag', { visible: false }, tag => rootTag = tag);
+    setupTags(tagWithHide, 'tag', { visible: false }, tag => (rootTag = tag));
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!) as VirtualElement[];
+      const childElements = getNonEmptyChildren(
+        rootTag.root!
+      ) as VirtualElement[];
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', { display: 'none' });
+      expect(childElements[0].attributes).toHaveProperty('style', {
+        display: 'none',
+      });
     });
   });
 });

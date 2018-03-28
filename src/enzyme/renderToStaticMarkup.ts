@@ -11,7 +11,7 @@ import toHTML from '../lib/toHTML';
 export default function renderToStaticMarkup<P>(
   renderer: RiotRenderer,
   el: React.ReactElement<P>,
-  context: any,
+  context: any
 ): string {
   const tagInstance = renderer.createInstance(el.type as string, el.props);
   tagInstance.mount();

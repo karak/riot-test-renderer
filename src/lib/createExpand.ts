@@ -12,13 +12,13 @@ import mapObject from '../utils/mapObject';
 export type MeetCustomTagCallback = <TOpts>(
   this: TagInstance<TOpts>,
   name: string,
-  tag: TagInstance<any>,
+  tag: TagInstance<any>
 ) => void;
 
 function onMeetCustomTag<TOpts>(
   this: TagInstance<TOpts>,
   name: string,
-  nestedTag: TagInstance<any>,
+  nestedTag: TagInstance<any>
 ) {
   // TODO: this.opts rather than embedding into rootTagNode
   if (!(name in this.tags)) {
@@ -36,8 +36,11 @@ function onMeetCustomTag<TOpts>(
 }
 
 export interface CreateTagInstance {
-  <TOpts extends {}>(name: string, opts: TOpts, children: ReadonlyArray<VirtualChild>):
-    TagInstance<TOpts>;
+  <TOpts extends {}>(
+    name: string,
+    opts: TOpts,
+    children: ReadonlyArray<VirtualChild>
+  ): TagInstance<TOpts>;
 }
 
 export default function createExpand(createTagInstance: CreateTagInstance) {
@@ -59,28 +62,28 @@ function expand<TOpts>(
   parent: TagInstance<TOpts>,
   tagNode: TagTextNode,
   data: any,
-  createTagInstance: CreateTagInstance,
+  createTagInstance: CreateTagInstance
 ): string;
 function expand<TOpts>(
   document: VirtualDocument,
   parent: TagInstance<TOpts>,
   tagNode: TagElement,
   data: any,
-  createTagInstance: CreateTagInstance,
+  createTagInstance: CreateTagInstance
 ): VirtualElement;
 function expand<TOpts>(
   document: VirtualDocument,
   parent: TagInstance<TOpts>,
   tagNode: TagNode,
   data: any,
-  createTagInstance: CreateTagInstance,
+  createTagInstance: CreateTagInstance
 ): VirtualChild;
 function expand<TOpts>(
   document: VirtualDocument,
   parent: TagInstance<TOpts>,
   tagNode: TagNode,
   data: any,
-  createTagInstance: CreateTagInstance,
+  createTagInstance: CreateTagInstance
 ): VirtualChild {
   switch (tagNode.type) {
     case 'text':
@@ -95,18 +98,17 @@ function expand<TOpts>(
 function expandText(
   document: VirtualDocument,
   tagNode: TagTextNode,
-  data: any,
+  data: any
 ) {
   const rendered = renderTemplate(tagNode.text, data);
 
-  return `${rendered !== undefined? rendered : ''}`;
+  return `${rendered !== undefined ? rendered : ''}`;
 }
 
-function expandAttributes<TOpts>(
-  attributes: { [name: string]: string },
-  data: any,
-) {
-  const renderedAttrs = mapObject(attributes, (value, key) => renderTemplate(value, data));
+function expandAttributes(attributes: { [name: string]: string }, data: any) {
+  const renderedAttrs = mapObject(attributes, (value, key) =>
+    renderTemplate(value, data)
+  );
   const ifAttr = renderedAttrs['if'];
   const eachAttr = renderedAttrs['each'];
   const showAttr = renderedAttrs['show'];
@@ -130,13 +132,13 @@ function expandAttributes<TOpts>(
  * @param current `this` context between {}
  * @param callback render function
  */
-function forEachOrOnce<TOpts>(
+function forEachOrOnce(
   each: any[] | undefined,
   current: any,
-  fn: (data: any) => void,
+  fn: (data: any) => void
 ) {
   if (each) {
-    forEach(each, (item) => {
+    forEach(each, item => {
       fn(item);
     });
   } else {
@@ -145,7 +147,7 @@ function forEachOrOnce<TOpts>(
 }
 
 /** Set "display" attribute after ensure existense of "style" property for CSS. */
-function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
+function setDisplay(attrs: { style?: { display?: string } }, visible: boolean) {
   if (!('style' in attrs)) {
     attrs.style = {};
   }
@@ -162,7 +164,7 @@ function setDisplay(attrs: { style?: { display?: string }}, visible: boolean) {
  * @param renderCurrent render body, called if needed.
  * @param renderChildren render all the children, called once or any times with "each".
  */
-function expandControllAttributes<TOpts>(
+function expandControllAttributes(
   name: string,
   attributes: { [name: string]: string },
   children: ReadonlyArray<TagNode>,
@@ -170,9 +172,9 @@ function expandControllAttributes<TOpts>(
   renderTag: (
     name: string,
     attributes: { [name: string]: string },
-    children: ReadonlyArray<VirtualChild>,
+    children: ReadonlyArray<VirtualChild>
   ) => VirtualElement,
-  expandChild: (child: TagNode, childData: any) => VirtualChild,
+  expandChild: (child: TagNode, childData: any) => VirtualChild
 ): VirtualElement | '' {
   const renderedAtrrs = expandAttributes(attributes, data);
 
@@ -190,17 +192,13 @@ function expandControllAttributes<TOpts>(
 
   // render children on "each" attributes
   const renderedChildren: VirtualChild[] = [];
-  forEachOrOnce(renderedAtrrs.each, data, (childData) => {
+  forEachOrOnce(renderedAtrrs.each, data, childData => {
     const items = map(children, x => expandChild(x, childData));
     renderedChildren.push(...items);
   });
 
   // create built-in element or root of mounted instance
-  const element = renderTag(
-    name,
-    renderedAtrrs.rests,
-    renderedChildren,
-  );
+  const element = renderTag(name, renderedAtrrs.rests, renderedChildren);
 
   return element;
 }
@@ -210,7 +208,7 @@ function expandElement<TOpts>(
   parent: TagInstance<TOpts>,
   tagNode: TagElement,
   data: any,
-  createTagInstance: CreateTagInstance,
+  createTagInstance: CreateTagInstance
 ): VirtualElement | '' {
   let nestedTag: TagInstance<any> | null = null;
 
@@ -221,7 +219,8 @@ function expandElement<TOpts>(
     data,
     (name, opts, children) => {
       const isRoot = tagNode.parent === null;
-      const isNestedCustom = !isRoot && document.getTagKind(tagNode.name).custom;
+      const isNestedCustom =
+        !isRoot && document.getTagKind(tagNode.name).custom;
 
       let element: VirtualElement;
       if (isNestedCustom) {
@@ -236,6 +235,6 @@ function expandElement<TOpts>(
       return element;
     },
     (child, childData) =>
-      expand(document, parent, child, childData, createTagInstance),
+      expand(document, parent, child, childData, createTagInstance)
   );
 }

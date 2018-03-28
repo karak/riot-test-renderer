@@ -1,5 +1,5 @@
 /** Arguments passed to `riot.tag2()` in `riot-compiler` */
-type TagArgs= [
+type TagArgs = [
   /** name/id of the new riot tag */
   string,
   /** tag template */

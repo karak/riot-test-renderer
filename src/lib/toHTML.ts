@@ -1,6 +1,4 @@
-import {
-  VirtualChild,
-} from './VirtualElement';
+import { VirtualChild } from './VirtualElement';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import map from 'lodash/map';
@@ -11,7 +9,10 @@ import escapeHTML from '../utils/escapeHTML';
  *
  * @param deep select deep or shallow, default is false
  */
-export default function toHTML(element: VirtualChild, deep: boolean = true): string {
+export default function toHTML(
+  element: VirtualChild,
+  deep: boolean = true
+): string {
   if (deep) throw new Error('Not implemented');
 
   if (isString(element)) {
@@ -22,9 +23,10 @@ export default function toHTML(element: VirtualChild, deep: boolean = true): str
   const attributes = attributesToHTML(element.attributes);
   const children = map(element.children, x => toHTML(x, deep));
 
-  return `<${name}${attributes? ' ' + attributes : ''}>${children.join('')}</${name}>`;
+  return `<${name}${attributes ? ' ' + attributes : ''}>${children.join(
+    ''
+  )}</${name}>`;
 }
-
 
 function attributesToHTML(attributes?: { [name: string]: any }) {
   return map(attributes || {}, (value, key) => {

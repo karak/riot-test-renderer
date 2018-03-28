@@ -6,7 +6,7 @@ import htmlTags from '../utils/htmlTags';
 import assign from 'lodash/assign';
 import mapObject from '../utils/mapObject';
 
-export type TagKind = { custom: false } | { custom: true; registered: boolean; };
+export type TagKind = { custom: false } | { custom: true; registered: boolean };
 
 /** Objectified tag definition */
 export interface RiotTag {
@@ -66,7 +66,8 @@ export default class VirtualDocument {
   createTagElement<TOpts>(name: string): RiotTag {
     const tag = this.tags[name];
 
-    if (tag === undefined) throw new Error(`Tag <${name}> must have been loaded in loadTags()`);
+    if (tag === undefined)
+      throw new Error(`Tag <${name}> must have been loaded in loadTags()`);
 
     return tag;
   }
@@ -74,7 +75,7 @@ export default class VirtualDocument {
   createElement(
     name: string,
     attributes: { [name: string]: any },
-    children: ReadonlyArray<VirtualChild>,
+    children: ReadonlyArray<VirtualChild>
   ) {
     return { name, attributes, children } as VirtualElement;
   }

@@ -5,17 +5,14 @@ export default function setupTags<TOpts>(
   source: string,
   name: string,
   opts: TOpts,
-  beforeMount: (tag: TagInstance<TOpts>) => void,
+  beforeMount: (tag: TagInstance<TOpts>) => void
 ): void;
 export default function setupTags<TOpts>(
   source: string,
   name: string,
-  beforeMount: (tag: TagInstance<TOpts>) => void,
+  beforeMount: (tag: TagInstance<TOpts>) => void
 ): void;
-export default function setupTags<TOpts>(
-  source: string,
-  name: string,
-): void {
+export default function setupTags<TOpts>(source: string, name: string): void {
   let opts: TOpts | undefined;
   let beforeMount: (tag: TagInstance<TOpts>) => void;
 

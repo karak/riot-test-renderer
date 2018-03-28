@@ -8,8 +8,7 @@ import TagMap from './TagMap';
  */
 export default class EvalContext {
   evalTag(tagjs: string) {
-    const code =
-    `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`;
+    const code = `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`;
     const [tags, names] = eval(code) as [TagMap, string[]];
     return { tags, names };
   }
