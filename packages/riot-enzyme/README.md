@@ -6,6 +6,8 @@ Riot-enzyme is a powerful testing utility to test tags of [Riot](http://riotjs.c
 
 It is **under development**.
 
+Soory, this package is working progress and doe **NOT WORK** from JavaScript outside the package.
+
 Features
 --------
 
