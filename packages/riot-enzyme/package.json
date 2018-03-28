@@ -1,6 +1,6 @@
 {
   "name": "riot-enzyme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Enzyme wrapper for Riot",
   "main": "dist/index.js",
   "scripts": {
