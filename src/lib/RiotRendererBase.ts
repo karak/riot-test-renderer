@@ -110,6 +110,9 @@ export default class RiotRendererBase implements RiotRenderer {
     opts: TOpts,
     children: ReadonlyArray<VirtualChild> = []
   ) {
+    if (children.length > 0) {
+      console.warn('Tag with children(<yield />) is not supported.', children);
+    }
     // create tag element, equivalent to React.ReactElement
     const { type, fn } = this.document.createTagElement(name);
 
