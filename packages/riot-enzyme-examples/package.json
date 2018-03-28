@@ -2,6 +2,7 @@
   "name": "riot-enzyme-examples",
   "private": true,
   "dependencies": {
+    "jest": "^22.4.3",
     "riot-enzyme": "^0.1.3"
   }
 }
