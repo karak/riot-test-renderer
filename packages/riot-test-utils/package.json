@@ -1,0 +1,22 @@
+{
+  "name": "riot-test-utils",
+  "version": "0.1.3",
+  "description": "lightweight testing utility of Riot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shallow rendering",
+    "test",
+    "riotjs",
+    "riot.js",
+    "testing",
+    "testing utils",
+    "assertion helpers",
+    "tdd",
+    "vdom"
+  ],
+  "author": "Karak",
+  "license": "MIT"
+}

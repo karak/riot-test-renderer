@@ -1,9 +1,9 @@
-README
-======
+Riot-test-utils
+===============
 
 This provides lightweight testing of `Riot` tags without any DOM environemnt such as browsers nor `js-dom`.
 
-It is highly inspired by [`Enzyme`](https://github.com/airbnb/enzyme), great testing utility for [`React`](https://reactjs.org/).
+It is highly inspired by [`React-test-utils`](https://reactjs.org/docs/test-utils.html) [`Enzyme`](https://github.com/airbnb/enzyme), great testing utility for [`React`](https://reactjs.org/).
 
 Features:
 
@@ -15,16 +15,16 @@ This library is **under development** and for my personal use. Any contributions
 Usage
 -----
 
-Install by `npm`(not yet):
+Install by `npm`:
 
 ```bash
-npm install -D riot-test-renderer
+npm install -D riot-test-utils
 ```
 
 Create wrapper for single tag source as:
 
 ```js
-var shallow = require('riot-test-renderer').shallow;
+var shallow = require('riot-test-utils').shallow;
 
 var wrapper = shallow('<tag><p>Hello, world!</p></tag>');
 ```
@@ -89,8 +89,7 @@ it('should match snapshot', function () {
 Enzyme integration
 ------------------
 
-This currently provides shallow rendering with finding and snapshot testing:
-`shallow()`, `.find()`, `.toJson()` as `enzyme-to-json`.
+Check [Riot-enzyme](https://www.npmjs.com/package/riot-enzyme) out.
 
 Requirement
 -----------
