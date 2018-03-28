@@ -1,6 +1,6 @@
-import { shallow, ShallowWrapper } from '../../src/enzyme/index';
+import { shallow, ShallowWrapper } from '../../src';
 
-import { staticTag } from '../tags/singleTags';
+import { staticTag, tagWithOpts } from '../tags/singleTags';
 
 describe('enzyme-riot-adapter', () => {
   describe('staticTag', () => {
@@ -34,6 +34,36 @@ describe('enzyme-riot-adapter', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('tagWithOpts', () => {
+    let wrapper: ShallowWrapper<{}>;
+
+    beforeEach(() => {
+      wrapper = shallow(tagWithOpts, 'tag', { data: 'Hello, world!' });
+    });
+
+    it('shoud have the same opts as passed', () => {
+      expect(wrapper.opts()).toEqual({ data: 'Hello, world!' });
+    });
+
+    it('should have a JSON expression', () => {
+      expect(wrapper.toJson()).toEqual({
+        name: 'tag',
+        opts: {},
+        children: [
+          {
+            name: 'p',
+            opts: {},
+            children: ['Hello, world!'],
+          },
+        ],
+      });
+    });
+
+    it('should match snapshot', () => {
+      expect(wrapper.toJson()).toMatchSnapshot();
     });
   });
 });
