@@ -1,5 +1,8 @@
-import { shallow } from '../../src/index';
-import { nestedStaticTag, nestedTag } from '../tags/multiTags';
+import { shallow } from '../../src';
+import {
+  nestedStaticTag,
+  nestedTag,
+} from 'riot-test-renderer-shared/tags/multiTags';
 
 describe('shallow', () => {
   describe('multiTags', () => {

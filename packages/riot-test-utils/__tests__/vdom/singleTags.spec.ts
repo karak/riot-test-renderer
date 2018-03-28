@@ -1,5 +1,5 @@
-import { TagInstance, VirtualElement } from '../../src/index';
-import setupTags from '../tags/setupTags';
+import { TagInstance, VirtualElement } from '../../src';
+import setupTags from 'riot-test-renderer-shared/tags/setupTags';
 import {
   staticTag,
   tagWithOpts,
@@ -10,7 +10,7 @@ import {
   tagWithShow,
   tagWithHide,
   tagWithIfNested,
-} from '../tags/singleTags';
+} from 'riot-test-renderer-shared/tags/singleTags';
 import isString from 'lodash/isString';
 
 describe('vdom', () => {

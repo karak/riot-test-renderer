@@ -1,10 +1,10 @@
-import { shallow } from '../../src/index';
+import { shallow } from '../../src';
 import {
   staticTag,
   staticTagWithStyle,
   tagWithOpts,
   tagWithEach,
-} from '../tags/singleTags';
+} from 'riot-test-renderer-shared/tags/singleTags';
 
 describe('shallow', () => {
   describe('singleTags', () => {
