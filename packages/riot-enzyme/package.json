@@ -43,5 +43,9 @@
     "lodash": "^4.17.5",
     "riot-compiler": "^3.4.0",
     "riot-tmpl": "^3.0.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karak/riot-test-renderer"
   }
 }
