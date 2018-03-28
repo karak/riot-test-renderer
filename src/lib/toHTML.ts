@@ -10,18 +10,15 @@ import escapeHTML from '../utils/escapeHTML';
  * @param deep select deep or shallow, default is false
  */
 export default function toHTML(
-  element: VirtualChild,
-  deep: boolean = true
+  element: VirtualChild
 ): string {
-  if (deep) throw new Error('Not implemented');
-
   if (isString(element)) {
     return escapeHTML(element);
   }
 
   const name = element.name;
   const attributes = attributesToHTML(element.attributes);
-  const children = map(element.children, x => toHTML(x, deep));
+  const children = map(element.children, x => toHTML(x));
 
   return `<${name}${attributes ? ' ' + attributes : ''}>${children.join(
     ''
