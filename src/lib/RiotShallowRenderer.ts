@@ -1,6 +1,6 @@
 import RiotRendererBase from './RiotRendererBase';
 import VirtualDocument from './VirtualDocument';
-import { VirtualElement, VirtualChild } from './VirtualElement';
+import { VirtualElement } from './VirtualElement';
 import TagInstance from './TagInstance';
 
 import createExpand from './createExpand';
@@ -17,17 +17,10 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   public isMounted: boolean = false;
 
   constructor(
-    name: string,
-    opts: TOpts,
-    children: ReadonlyArray<VirtualChild>
+    rootToMount: VirtualElement,
   ) {
-    this.opts = opts;
-    this.rootToMount = {
-      type: 'element',
-      name,
-      attributes: opts,
-      children: children as VirtualChild[],
-    };
+    this.opts = rootToMount.attributes as any;
+    this.rootToMount = rootToMount;
   }
 
   // tslint:disable-next-line:no-empty
@@ -47,15 +40,18 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   }
 }
 
-const expandShallow = createExpand(
-  (name, opts, children) => new ShallowTagInstance(name, opts, children)
-);
-
 /**
  * A shallow renderer for `riot`
  */
 export default class RiotShallowRenderer extends RiotRendererBase {
   constructor(document?: VirtualDocument) {
+    const expandShallow = createExpand(
+      (name, opts, children) => {
+        const rootToMount = this.document.createElement(name, opts, children);
+        return new ShallowTagInstance(rootToMount)
+      }
+    );
+
     super(expandShallow, document);
   }
 }

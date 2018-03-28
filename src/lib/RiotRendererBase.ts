@@ -19,7 +19,7 @@ export interface ExpandElement {
  * base class of some shallow renderer for `riot`
  */
 export default class RiotRendererBase implements RiotRenderer {
-  private readonly document: VirtualDocument;
+  protected readonly document: VirtualDocument;
   private instance: TagInstance<any> | null;
   private rendered: VirtualElement | null;
 
