@@ -1,5 +1,5 @@
 import { TagInstance, VirtualElement } from '../../src';
-import setupTags from 'riot-test-renderer-shared/tags/setupTags';
+import setupTags from '../helpers/setupTags';
 import {
   staticTag,
   tagWithOpts,

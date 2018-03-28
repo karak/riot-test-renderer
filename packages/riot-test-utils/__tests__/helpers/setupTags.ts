@@ -1,4 +1,4 @@
-import { loadTags, createTag, TagInstance } from '../../src/index';
+import { loadTags, createTag, TagInstance } from '../../src/vdom';
 
 /** Setup utility to load and mount tags for jasmine */
 export default function setupTags<TOpts>(
