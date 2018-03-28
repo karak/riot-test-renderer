@@ -76,7 +76,7 @@ export default class VirtualDocument {
     name: string,
     attributes: { [name: string]: any },
     children: ReadonlyArray<VirtualChild>
-  ) {
-    return { name, attributes, children } as VirtualElement;
+  ): VirtualElement {
+    return { type: 'element', name, attributes, children: children as VirtualChild[] }
   }
 }

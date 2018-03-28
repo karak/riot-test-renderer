@@ -23,6 +23,7 @@ class ShallowTagInstance<TOpts, UOpts> implements TagInstance<TOpts> {
   ) {
     this.opts = opts;
     this.rootToMount = {
+      type: 'element',
       name,
       attributes: opts,
       children: children as VirtualChild[],

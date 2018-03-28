@@ -157,6 +157,7 @@ function toVirtualElement(el: React.ReactChild): VirtualChild {
 
   const { children, ...attributes } = el.props;
   return {
+    type: 'element',
     attributes,
     children: map(children || [], toVirtualElement),
     name: el.type as string,
