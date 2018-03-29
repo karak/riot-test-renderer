@@ -10,5 +10,11 @@
     "riot": "^3.9.0",
     "ts-jest": "^22.4.2",
     "typescript": "^2.8.1"
+  },
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap && npm run build",
+    "build": "sh scripts/build-all.sh",
+    "test": "jest"
   }
 }
