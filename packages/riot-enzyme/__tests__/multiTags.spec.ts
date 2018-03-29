@@ -1,4 +1,4 @@
-import { shallow } from '../src';
+import { shallow, ShallowWrapper } from '../src';
 import {
   nestedStaticTag,
   nestedTag,
