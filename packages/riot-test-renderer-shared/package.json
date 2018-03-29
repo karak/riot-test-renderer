@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "private": true,
   "scripts": {
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsc"
   }
 }
