@@ -1,14 +1,10 @@
 var shallow = require('riot-enzyme').shallow;
 
-var tag = `
-<tag>
-  <p>{opts.data}</p>
-</tag>
-`;
+var tag = '<tag><p>{opts.data}</p></tag>';
 
 var wrapper;
 beforeEach(function () {
-   wrapper = shallow(tag, { data: 'Hello, world'});
+   wrapper = shallow(tag, {data: 'Hello, world!'});
 });
 
 it('should have json form', function () {
@@ -29,7 +25,7 @@ it('should have json form', function () {
 
 it('should have opts', function () {
   // Opts are passed
-  expect(wrapper.opts()).toBe({data: 'Hello, world'});
+  expect(wrapper.opts()).toEqual({data: 'Hello, world!'});
 });
 
 it('should have <p> inside', function () {
