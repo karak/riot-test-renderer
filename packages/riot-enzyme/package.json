@@ -4,7 +4,7 @@
   "description": "Enzyme wrapper for Riot",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist; tsc",
     "prepublishOnly": "npm run-script build",
     "pretest": "tsc --noEmit && npm run lint",
     "test": "jest",
