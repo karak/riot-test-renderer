@@ -1,6 +1,6 @@
 {
   "name": "riot-test-renderer-shared",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "prepublishOnly": "npm run build",
