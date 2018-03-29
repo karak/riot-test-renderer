@@ -3,10 +3,7 @@ Riot-enzyme
 
 Riot-enzyme is a powerful testing utility to test tags of [Riot](http://riotjs.com/).
 
-
 It is **under development**.
-
-Soory, this package is working progress and doe **NOT WORK** from JavaScript outside the package.
 
 Features
 --------
@@ -17,7 +14,6 @@ Features
 - Snapshot testing
 
 It is a thin wrapper of [Enzyme](http://airbnb.io/enzyme/).
-
 
 Install
 -------
@@ -46,8 +42,6 @@ var tag = '<tag><p>{opts.data}</p></tag>';
 
 var wrapper = shallow(tag, { data: 'Hello, world!'});
 ```
-
-`shallow()` constructs *shallow* tree "&lt;outer&gt;&lt;inner data=&quot;Hello, world&quot;&gt;&lt;/inner&gt;&lt;/outer&gt;" rather than "&lt;outer&gt;&lt;p&gt;Hello, world&lt;/p&gt;&lt;/outer&gt;", keeping your tags highly independent.
 
 WARNING: `{}` expressions have many bugs and limits.
 
@@ -84,3 +78,5 @@ var tags = `
 var wrapper = shallow(tags, 'outer', { innerData: 'Hello, world'});
 ```
 
+`shallow()` constructs *shallow* tree "&lt;outer&gt;&lt;inner data=&quot;Hello, world&quot;&gt;&lt;/inner&gt;&lt;/outer&gt;" rather than "&lt;outer&gt;&lt;inner&gt;&lt;p&gt;Hello, world&lt;/p&gt;&lt;/inner&gt;&lt;/outer&gt;",
+keeping your tags highly independent and requiring *single* root tag definition in most cases.
