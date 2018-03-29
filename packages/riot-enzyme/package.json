@@ -29,6 +29,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-utils": "^1.3.0",
     "lodash": "^4.17.5",
+    "riot-test-utils": "^0.1.4",
     "riot-test-renderer-shared": "^0.1.4"
   },
   "repository": {
