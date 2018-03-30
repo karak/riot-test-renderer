@@ -15,6 +15,6 @@
   "scripts": {
     "postinstall": "lerna bootstrap && npm run build",
     "build": "sh scripts/build-all.sh",
-    "test": "jest"
+    "test": "sh scripts/test-all.sh"
   }
 }
