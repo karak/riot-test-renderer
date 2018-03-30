@@ -4,6 +4,10 @@
     "module": "commonjs",
     "outDir": "./dist",
   },
+  "include": [
+    "src",
+    "./node_modules/riot-test-renderer-shared/typings/riot-deps.d.ts"
+  ],
   "exclude": [
     "__tests__/",
     "dist/"

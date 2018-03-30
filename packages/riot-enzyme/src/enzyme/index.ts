@@ -73,16 +73,18 @@ export function shallow<TOpts extends TagOpts>(
   let options: ReactShallowRendererProps | undefined;
 
   if (isString(args[0])) {
+    /* Case: source, name, opts?, options?*/
     name = args[0];
     opts = args[1];
     // tslint:disable-next-line:no-magic-numbers
     options = args[2];
   } else {
+    /* Case: source, opts?, options?*/
     name = guessNameFromSource(source);
     // tslint:disable-next-line:no-magic-numbers
-    opts = args[2];
+    opts = args[0];
     // tslint:disable-next-line:no-magic-numbers
-    options = args[3];
+    options = args[1];
   }
 
   const element = toReactElement({
