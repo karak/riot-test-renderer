@@ -2,7 +2,7 @@
   "name": "riot-enzyme-examples",
   "private": true,
   "dependencies": {
-    "riot-enzyme": "^0.1.4"
+    "riot-enzyme": "^0.1.5"
   },
-  "version": "0.1.4"
+  "version": "0.1.5"
 }

@@ -1,11 +1,11 @@
 {
   "name": "riot-test-utils",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "lightweight testing utility of Riot",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rm -rf dist; tsc",
+    "build": "rm -rf dist; tsc -p .",
     "test": "jest"
   },
   "keywords": [
@@ -29,7 +29,7 @@
     "lodash": "^4.17.5",
     "riot-compiler": "^3.4.0",
     "riot-observable": "^3.0.0",
-    "riot-test-renderer-shared": "^0.1.4",
+    "riot-test-renderer-shared": "^0.1.5",
     "riot-tmpl": "^3.0.8"
   },
   "repository": {
