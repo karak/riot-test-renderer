@@ -5,7 +5,7 @@
     "outDir": "./dist",
   },
   "include": [
-    "src",
+    "src/**/*",
     "./node_modules/riot-test-renderer-shared/typings/riot-deps.d.ts"
   ],
   "exclude": [

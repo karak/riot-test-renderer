@@ -4,6 +4,6 @@
   "private": true,
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rm -rf dist; tsc"
+    "build": "rm -rf dist; tsc -p ."
   }
 }
