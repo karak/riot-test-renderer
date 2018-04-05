@@ -7,4 +7,4 @@ src/
 jest.config.js
 package-lock.json
 tsconfig.json
-
+dist/__tests__

@@ -3,13 +3,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "./dist",
+    "rootDir": "src/"
   },
   "include": [
-    "src/**/*",
+    "src/*.ts",
     "./node_modules/riot-test-renderer-shared/typings/riot-deps.d.ts"
   ],
   "exclude": [
-    "__tests__/",
     "dist/"
   ]
 }
