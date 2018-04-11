@@ -5,7 +5,7 @@ import EvalContext from './EvalContext';
 
 // hack to retrieve internal function
 const shallow = (function() {
-  const namespace = shallowize({});
+  const namespace = shallowize({} as any); // stub
   return namespace.shallow as typeof mount;
 })();
 
