@@ -1,5 +1,8 @@
 // tslint:disable:no-eval
 import TagMap from './TagMap';
+import TagArgs from './TagArgs';
+import { tag } from 'riot';
+import each from 'lodash/each';
 
 /**
  * Unifiyed `this` object during riot.compile().
@@ -8,8 +11,16 @@ import TagMap from './TagMap';
  */
 export default class EvalContext {
   evalTag(tagjs: string) {
-    const code = `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`;
-    const [tags, names] = eval(code) as [TagMap, string[]];
-    return { tags, names };
+    // @TODO: use Module in serverside.
+    const [tags, tagNames] = eval(
+      `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`
+    );
+
+    each(tags, (x: TagArgs) => tag.apply(this, x));
+
+    return {
+      tags: tags as TagMap,
+      tagNames: tagNames as string[],
+    };
   }
 }

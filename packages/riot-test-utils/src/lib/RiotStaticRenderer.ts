@@ -1,15 +1,12 @@
+import { mount } from 'riot';
 import RiotRendererBase from './RiotRendererBase';
-import VirtualDocument from './VirtualDocument';
-import createExpand from './createExpand';
+import EvalContext from './EvalContext';
 
 /**
- * A string renderer for `riot`
+ * A renderer for `riot`
  */
 export default class RiotStaticRenderer extends RiotRendererBase {
-  constructor(document?: VirtualDocument) {
-    const expandStatic = createExpand((name, opts, children) =>
-      this.createInstance(name, opts, children)
-    );
-    super(expandStatic, document);
+  constructor(context: EvalContext) {
+    super(mount, context);
   }
 }

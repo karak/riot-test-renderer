@@ -1,52 +1,49 @@
+import * as riot from 'riot';
+import RiotRenderer, { RiotElement } from './RiotRenderer';
 import EvalContext from './EvalContext';
-import VirtualDocument from './VirtualDocument';
-import { VirtualElement, VirtualChild } from './VirtualElement';
-import { TagElement } from './parseTag';
-import TagInstance from './TagInstance';
-import CustomTagInstance from './CustomTagInstance';
-import RiotRenderer from './RiotRenderer';
-import createRenderingMethods from './createRenderingMethods';
 
-export interface ExpandElement {
-  <TOpts>(
-    document: VirtualDocument,
-    tagNode: TagElement,
-    data: TagInstance<TOpts>
-  ): VirtualElement;
+export interface MountFunction {
+  (
+    this: typeof riot,
+    element: Element,
+    tagName: string,
+    opts: any
+  ): riot.TagInstance[];
+}
+
+function createElementToMountTo(tagName: string) {
+  // TODO: SVG
+  // TODO: fallback "data-is"
+  return document.createElement(tagName);
 }
 
 /**
  * base class of some shallow renderer for `riot`
  */
 export default class RiotRendererBase implements RiotRenderer {
-  protected readonly document: VirtualDocument;
-  private instance: TagInstance<any> | null;
-  private rendered: VirtualElement | null;
+  private instance: riot.TagInstance | null;
+  private rendered: RiotElement | null;
 
-  constructor(private expand: ExpandElement, document?: VirtualDocument) {
-    if (document !== undefined) {
-      this.document = document;
-    } else {
-      const context = new EvalContext();
-      this.document = new VirtualDocument(context);
-    }
+  constructor(private mount: MountFunction, private context: EvalContext) {
     this.instance = null;
     this.rendered = null;
   }
 
-  loadTags(source: string): void {
-    this.document.loadTags(source);
+  loadTags(source: string) {
+    const tagjs = riot.compile(source);
+    const result = this.context.evalTag(tagjs);
+    return result.tagNames;
   }
 
   /**
-   * Execute shallow rendering
+   * Execute mount and rendering
    *
    * @param src multiple tag sources
    * @param name name of the tag to render
    * @param opts tag interface
-   * @returns rendered tree
+   * @returns mounted element
    */
-  render<TOpts>(src: string, name: string, opts?: TOpts): VirtualElement;
+  render(src: string, name: string, opts?: riot.TagOpts): RiotElement;
   /**
    * Execute shallow rendering
    *
@@ -54,11 +51,11 @@ export default class RiotRendererBase implements RiotRenderer {
    * @param opts tag interface
    * @returns rendered tree
    */
-  render<TOpts>(src: string, opts?: TOpts): VirtualElement;
-  render<TOpts>(): VirtualElement {
+  render(src: string, opts?: riot.TagOpts): RiotElement;
+  render(): RiotElement {
     let src: string;
     let tagName: string | undefined;
-    let opts: TOpts | undefined;
+    let opts: riot.TagOpts | undefined;
     // compile
     // tslint:disable-next-line:no-magic-numbers
     if (arguments.length === 3) {
@@ -76,7 +73,7 @@ export default class RiotRendererBase implements RiotRenderer {
 
     if (/^\s*</m.test(src)) {
       // Case: src is tag source
-      const tagNames = this.document.loadTags(src);
+      const tagNames = this.loadTags(src);
       // Select tagName when single tag use.
       if (tagName === undefined) {
         if (tagNames.length !== 1) throw new Error('Tag source must be single');
@@ -105,27 +102,15 @@ export default class RiotRendererBase implements RiotRenderer {
    * @param children children to yield. Ignored currently
    * @returns created instance unmounted
    */
-  createInstance<TOpts>(
+  createInstance(
     name: string,
-    opts: TOpts,
-    children: ReadonlyArray<VirtualChild> = []
+    opts: riot.TagOpts = {},
+    children: ReadonlyArray<RiotElement> = []
   ) {
-    if (children.length > 0) {
-      console.warn('Tag with children(<yield />) is not supported.', children);
-    }
-    // create tag element, equivalent to React.ReactElement
-    const { type, fn } = this.document.createTagElement(name);
-
-    const shallowRender = createRender(this.document, this.expand, type);
-    const shallowRenderingMethods = createRenderingMethods(shallowRender);
-    const tagInstance = new CustomTagInstance<TOpts>(
-      shallowRenderingMethods,
-      null,
-      opts,
-      fn
-    );
-
-    return tagInstance;
+    const element = createElementToMountTo(name);
+    const rendered = this.mount.apply(riot, [element, name, opts]);
+    this.rendered = rendered[0].root;
+    return (this.instance = rendered[0]);
   }
 
   /** Get created instance of `render` */
@@ -150,14 +135,4 @@ export default class RiotRendererBase implements RiotRenderer {
     this.rendered = null;
     this.instance = null;
   }
-}
-
-function createRender(
-  document: VirtualDocument,
-  expand: ExpandElement,
-  rootTagNode: TagElement
-) {
-  return function render(this: TagInstance) {
-    return expand(document, rootTagNode, this);
-  };
 }

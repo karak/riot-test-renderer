@@ -1,7 +1,9 @@
-import TagInstance from './TagInstance';
+import { TagInstance, TagOpts } from 'riot';
 import RiotShallowRenderer from './RiotShallowRenderer';
+import EvalContext from './EvalContext';
 
-const renderer = new RiotShallowRenderer();
+const context = new EvalContext();
+const renderer = new RiotShallowRenderer(context);
 
 /** @deprecated */
 function loadTags(source: string) {
@@ -9,8 +11,8 @@ function loadTags(source: string) {
 }
 
 /** @deprecated */
-function createTag<TOpts>(name: string, opts?: TOpts): TagInstance<TOpts> {
+function createTag(name: string, opts?: TagOpts): TagInstance {
   return renderer.createInstance(name, opts);
 }
 
-export { TagInstance, loadTags, createTag };
+export { TagInstance, TagOpts, loadTags, createTag };
