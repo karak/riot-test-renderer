@@ -1,4 +1,4 @@
-import { TagInstance, VirtualElement } from '../../src';
+import { TagInstance } from '../../src/vdom';
 import setupTags from '../helpers/setupTags';
 import {
   staticTag,
@@ -28,16 +28,16 @@ describe('vdom', () => {
     it('renders after mount', () => {
       const root = rootTag.root;
       expect(root).toBeDefined();
-      expect(root).toHaveProperty('name', 'static');
+      expect(root).toHaveProperty('tagName', 'static');
       expect(root!.attributes).toEqual({});
     });
 
     it('has one child of <p>', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const child = rootTag.root!.children[0] as VirtualElement;
+      const child = rootTag.root!.children[0];
 
-      expect(child).toHaveProperty('name', 'p');
+      expect(child).toHaveProperty('tagName', 'p');
       expect(child).not.toHaveProperty('opts');
       expect(child.attributes).toEqual({});
       expect(child.children).toHaveLength(1);
@@ -60,16 +60,16 @@ describe('vdom', () => {
     it('renders after mount', () => {
       const root = rootTag.root;
       expect(root).toBeDefined();
-      expect(root).toHaveProperty('name', 'tag');
+      expect(root).toHaveProperty('tagName', 'tag');
       expect(root!.attributes).toEqual({}); // root attributes is no opts
     });
 
     it('has one child of <p>', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const child = rootTag.root!.children[0] as VirtualElement;
+      const child = rootTag.root!.children[0];
 
-      expect(child).toHaveProperty('name', 'p');
+      expect(child).toHaveProperty('tagName', 'p');
       expect(child).not.toHaveProperty('opts');
       expect(child.attributes).toEqual({});
       expect(child.children).toHaveLength(1);
@@ -79,7 +79,7 @@ describe('vdom', () => {
 
   describe('tagWithParent', () => {
     const rootOpts = {};
-    let rootTag: TagInstance<{}>;
+    let rootTag: TagInstance;
     setupTags(tagWithParent, 'tag', rootOpts, tag => {
       rootTag = tag;
       // Mock parent
@@ -93,15 +93,13 @@ describe('vdom', () => {
     it('render data via parent', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
-      const tag2 = rootTag.root!.children[0] as VirtualElement;
-      expect(tag2).toHaveProperty('name', 'tag2');
+      const tag2 = rootTag.root!.children[0];
+      expect(tag2).toHaveProperty('tagName', 'tag2');
 
-      const p = tag2.children.find(
-        x => (x as any).name === 'p'
-      ) as VirtualElement;
+      const p = tag2.querySelector('> p');
       expect(p).toBeDefined();
-      expect(p).toHaveProperty('name', 'p');
-      expect(p!.children.join('')).toEqual('Hello, world!');
+      expect(p).toHaveProperty('tagName', 'p');
+      expect(p.textContent).toEqual('Hello, world!');
     });
   });
 
@@ -159,9 +157,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('tag2');
@@ -175,9 +171,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(0);
     });
@@ -189,15 +183,11 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('div');
-      const childChildElements = getNonEmptyChildren(
-        childElements[0]
-      ) as VirtualElement[];
+      const childChildElements = getNonEmptyChildren(childElements[0]);
 
       expect(childChildElements).toHaveLength(1);
       expect(childChildElements[0].name).toBe('p');
@@ -215,15 +205,11 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].name).toBe('div');
-      const childChildElements = getNonEmptyChildren(
-        childElements[0]
-      ) as VirtualElement[];
+      const childChildElements = getNonEmptyChildren(childElements[0]);
 
       expect(childChildElements).toHaveLength(0);
     });
@@ -235,9 +221,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].attributes).toHaveProperty('style', {
@@ -252,9 +236,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].attributes).toHaveProperty('style', {
@@ -269,9 +251,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].attributes).toHaveProperty('style', {
@@ -286,9 +266,7 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(
-        rootTag.root!
-      ) as VirtualElement[];
+      const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
       expect(childElements[0].attributes).toHaveProperty('style', {
@@ -298,6 +276,17 @@ describe('vdom', () => {
   });
 });
 
-function getNonEmptyChildren(el: VirtualElement) {
-  return el.children.filter(x => !isString(x) || !/^\s*$/.test(x));
+function getNonEmptyChildren(el: Element) {
+  const result: Element[] = [];
+  for (let i = 0; i < el.children.length; i += 1) {
+    const x = el.children.item(i);
+    if (
+      x.nodeType !== x.TEXT_NODE ||
+      !isString(x.nodeValue) ||
+      !/^\s*$/.test(x.nodeValue)
+    ) {
+      result.push(x);
+    }
+  }
+  return result;
 }

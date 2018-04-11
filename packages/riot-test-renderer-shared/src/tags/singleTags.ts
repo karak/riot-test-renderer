@@ -18,10 +18,10 @@ export const tagWithOpts = `
 `;
 
 export const tagWithEach = `
-<tag each={ opts.items }>
-  <p>{ this }</p>
+<tag>
+  <p each={ item in opts.items }>{ item }</p>
 </tag>
-`; // TODO: Fix position of "each"
+`;
 
 export const tagWithIfNested = `
 <tag>
@@ -55,8 +55,8 @@ export const tagWithTags = `
 `;
 
 export const tagWithEachAndTags = `
-<tag each={ opts.items }>
-  <tag2>{ this }</tags>
+<tag>
+  <tag2 each={ item in opts.items }>{ item }</tags>
 </tag>
 `;
 

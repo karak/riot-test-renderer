@@ -10,7 +10,9 @@ describe('enzyme-riot-adapter', () => {
       xit('does extract nested tag', () => {
         const wrapper = shallow(nestedStaticTag, 'outer');
 
-        expect(wrapper.html()).toBe('<outer><inner><p></p></inner></outer>');
+        expect(wrapper.html()).toBe(
+          '<outer data-is="outer"><inner><p></p></inner></outer>'
+        );
         // NOTE: Self-closing tags should always be extracted.
       });
 
@@ -20,7 +22,7 @@ describe('enzyme-riot-adapter', () => {
         });
 
         expect(wrapper.html()).toBe(
-          '<outer><inner><p>DATA</p></inner></outer>'
+          '<outer data-is="outer"><inner><p>DATA</p></inner></outer>'
         );
       });
     });
