@@ -3,120 +3,99 @@
 exports[`shallow singleTags template escapes HTML special characters in template 1`] = `
 Object {
   "attributes": Object {
-    "data-is": "tag",
+    "data-is": Array [
+      "tag",
+    ],
   },
-  "childNodes": Array [
+  "children": Array [
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "\\"&<>",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
   ],
-  "tagName": "tag",
+  "name": "tag",
 }
 `;
 
 exports[`shallow singleTags template extracts template 1`] = `
 Object {
   "attributes": Object {
-    "data-is": "tag",
+    "data-is": Array [
+      "tag",
+    ],
   },
-  "childNodes": Array [
+  "children": Array [
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "Hello, world!",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
   ],
-  "tagName": "tag",
+  "name": "tag",
 }
 `;
 
 exports[`shallow singleTags template renders ignoring style 1`] = `
 Object {
   "attributes": Object {
-    "data-is": "static",
+    "data-is": Array [
+      "static",
+    ],
   },
-  "childNodes": Array [
+  "children": Array [
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "Hello, world!",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
   ],
-  "tagName": "static",
+  "name": "static",
 }
 `;
 
 exports[`shallow singleTags template renders static tag 1`] = `
 Object {
   "attributes": Object {
-    "data-is": "static",
+    "data-is": Array [
+      "static",
+    ],
   },
-  "childNodes": Array [
+  "children": Array [
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "Hello, world!",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
   ],
-  "tagName": "static",
+  "name": "static",
 }
 `;
 
 exports[`shallow singleTags template template "each" work 1`] = `
 Object {
   "attributes": Object {
-    "data-is": "tag",
+    "data-is": Array [
+      "tag",
+    ],
   },
-  "childNodes": Array [
+  "children": Array [
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "A",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "B",
-        },
-      ],
-      "tagName": "p",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
     Object {
-      "childNodes": Array [
-        Object {
-          "nodeName": "#text",
-          "nodeValue": "C",
-        },
-      ],
-      "tagName": "p",
-    },
-    Object {
-      "nodeName": "#text",
+      "attributes": Object {},
+      "children": Array [],
+      "name": "p",
     },
   ],
-  "tagName": "tag",
+  "name": "tag",
 }
 `;

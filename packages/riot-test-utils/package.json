@@ -22,7 +22,6 @@
   "author": "Karak",
   "license": "MIT",
   "dependencies": {
-    "@wildpeaks/snapshot-dom": "^1.2.1",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
     "riot": "^3.9.1",
