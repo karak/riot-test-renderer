@@ -1,35 +1,24 @@
-import RiotRenderer from 'riot-test-utils/dist/lib/RiotRenderer';
 import toHTML from 'riot-test-utils/dist/lib/toHTML';
-import { VirtualElement } from 'riot-test-utils/dist/lib/VirtualElement';
+import RiotRenderer from 'riot-test-utils/dist/lib/RiotRenderer';
 
 /**
  * Compatible except first parameter
  *
- * @param vdom - virtual document to host
  * @param el - react element to render
  * @param context - ignored in riot
+ *
+ * @todo replace by riot/server
  */
-export default function renderToStaticMarkup(
+export default function renderToStaticMarkup<P>(
   renderer: RiotRenderer,
-  el: VirtualElement,
+  el: React.ReactElement<P>,
   context: any
 ): string {
-  switch (el.type) {
-    case 'element':
-      // TODO: recursive expansion of 'tag' children.
-      console.warn('Current riot-enzyme always renders shallow tree');
-      return toHTML(el);
-    case 'tag':
-      const tagInstance = renderer.createInstance(
-        el.name,
-        el.attributes,
-        el.children
-      );
-      tagInstance.mount();
-      const html = toHTML(tagInstance.root!);
-      tagInstance.unmount();
-      return html;
-    default:
-      throw new Error(`Unknown type: ${el.type}`);
+  const instance = renderer.createInstance(el.type, el.props);
+  try {
+    const html = toHTML(instance.root!);
+    return html;
+  } finally {
+    instance.unmount();
   }
 }

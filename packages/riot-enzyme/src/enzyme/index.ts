@@ -5,11 +5,10 @@ import {
   ShallowWrapper as ReactShallowWrapper,
   EnzymePropSelector,
 } from 'enzyme';
+import { TagInstance } from 'riot';
 
 import EnzymeRiotAdapter from './adapter';
-import { toReactElement, VirtualElementProps } from './elementInterop';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
-import TagInstance from 'riot-test-utils/dist/lib/TagInstance';
 import toJSON from 'riot-test-utils/dist/lib/toJSON';
 import isString from 'lodash/isString';
 
@@ -63,7 +62,7 @@ export function shallow<TOpts extends TagOpts>(
   name: string,
   opts?: TOpts,
   options?: ReactShallowRendererProps
-): ShallowWrapper<TOpts>;
+): ShallowWrapper<TOpts | {}>;
 export function shallow<TOpts extends TagOpts>(
   source: string,
   ...args: any[]
@@ -87,12 +86,11 @@ export function shallow<TOpts extends TagOpts>(
     options = args[1];
   }
 
-  const element = toReactElement({
-    type: 'tag',
-    name,
-    attributes: opts || {},
-    children: [],
-  });
+  const element = {
+    type: name,
+    props: opts,
+    key: null,
+  };
   const adaptee = reactShallow(element, {
     'riot-enzyme': { source },
     ...options,
@@ -105,7 +103,7 @@ export function shallow<TOpts extends TagOpts>(
  * like {@see enzyme~ShallowWrapper}
  */
 export class ShallowWrapper<TOpts extends TagOpts = any> {
-  constructor(private adaptee: ReactShallowWrapper<VirtualElementProps>) {}
+  constructor(private adaptee: ReactShallowWrapper<TOpts | undefined>) {}
 
   unmount() {
     this.adaptee.unmount();
@@ -115,8 +113,8 @@ export class ShallowWrapper<TOpts extends TagOpts = any> {
     return this.adaptee.type() as string;
   }
 
-  opts(): TOpts {
-    return (this.adaptee.props() as any) as TOpts;
+  opts(): TOpts | {} {
+    return this.adaptee.props() || {};
   }
 
   find(props: EnzymePropSelector): ShallowWrapper<any>;

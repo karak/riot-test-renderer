@@ -3,15 +3,9 @@ import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
 import EvalContext from 'riot-test-utils/dist/lib/EvalContext';
-import VirtualDocument from 'riot-test-utils/dist/lib/VirtualDocument';
 import RiotShallowRenderer from 'riot-test-utils/dist/lib/RiotShallowRenderer';
 import RiotStaticRenderer from 'riot-test-utils/dist/lib/RiotStaticRenderer';
 import renderToStaticMarkup from './renderToStaticMarkup';
-import {
-  toReactElement,
-  toVirtualElement,
-  VirtualElementProps,
-} from './elementInterop';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
 import assign from 'lodash/assign';
@@ -31,7 +25,7 @@ declare module 'enzyme' {
 }
 
 export default class EnzymeRiotAdapter extends EnzymeAdapter {
-  private vdom: VirtualDocument;
+  private context: EvalContext;
 
   constructor() {
     super();
@@ -40,7 +34,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
       enableComponentDidUpdateOnSetState: true,
     };
 
-    this.vdom = new VirtualDocument(new EvalContext());
+    this.context = new EvalContext();
   }
 
   createMountRenderer(options: any) {
@@ -48,19 +42,16 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createShallowRenderer(options: RiotShallowRendererProps) {
-    const renderer = new RiotShallowRenderer(this.vdom);
+    const renderer = new RiotShallowRenderer(this.context);
     renderer.loadTags(options['riot-enzyme'].source);
     let cachedNode: React.ReactElement<any> | null = null;
 
     return {
-      render(
-        el: React.ReactElement<VirtualElementProps>,
-        context: any
-      ): React.ReactElement<VirtualElementProps> {
+      render(el: React.ReactElement<any>, context: any) {
         if (!isString(el.type)) throw new Error('el.type must be string');
 
         cachedNode = el;
-        return toReactElement(renderer.render(el.type, el.props));
+        return renderer.render(el.type, el.props);
       },
       unmount() {
         renderer.unmount();
@@ -90,14 +81,11 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     };
   }
 
-  createStringRenderer(options: any) {
-    const renderer = new RiotStaticRenderer(this.vdom);
+  createStringRenderer<P>(options: any) {
+    const renderer = new RiotStaticRenderer(this.context);
     return {
-      render(
-        el: React.ReactElement<VirtualElementProps>,
-        context: any
-      ): string {
-        return renderToStaticMarkup(renderer, toVirtualElement(el), context);
+      render(el: React.ReactElement<P>, context: any): string {
+        return renderToStaticMarkup(renderer, el, context);
       },
     };
   }
@@ -117,19 +105,14 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     }
   }
 
-  nodeToElement<P>(
-    node: EnzymeElement<P>
-  ): React.ReactElement<VirtualElementProps> | null {
+  nodeToElement<P>(node: EnzymeElement<P>): React.ReactElement<P> | null {
     if (!node || typeof node !== 'object') return null;
 
-    const root = (node as any).instance!.root;
-    return toReactElement(root, false); // Not tag but element!
+    return { type: node.type, props: node.props, key: null }; // Not tag but element!
   }
 
-  elementToNode<P>(
-    element: React.ReactElement<VirtualElementProps>
-  ): EnzymeNode<P> {
-    return elementToTree(toVirtualElement(element));
+  elementToNode<P>(element: React.ReactElement<P>): EnzymeNode<P> {
+    return elementToTree(element);
   }
 
   nodeToHostNode<P>(node: EnzymeElement<P>): Element | null {
