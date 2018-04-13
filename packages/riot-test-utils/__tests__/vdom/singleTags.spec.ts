@@ -224,12 +224,10 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!);
+      const childElements = getNonEmptyChildren<HTMLElement>(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', {
-        display: '',
-      });
+      expect(childElements[0].style).toHaveProperty('display', '');
     });
   });
 
@@ -239,12 +237,10 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!);
+      const childElements = getNonEmptyChildren<HTMLElement>(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', {
-        display: 'none',
-      });
+      expect(childElements[0].style).toHaveProperty('display', 'none');
     });
   });
 
@@ -254,12 +250,10 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!);
+      const childElements = getNonEmptyChildren<HTMLElement>(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', {
-        display: '',
-      });
+      expect(childElements[0].style).toHaveProperty('display', '');
     });
   });
 
@@ -269,18 +263,16 @@ describe('vdom', () => {
 
     it('should render tree', () => {
       expect(rootTag.root).toBeDefined();
-      const childElements = getNonEmptyChildren(rootTag.root!);
+      const childElements = getNonEmptyChildren<HTMLElement>(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].attributes).toHaveProperty('style', {
-        display: 'none',
-      });
+      expect(childElements[0].style).toHaveProperty('display', 'none');
     });
   });
 });
 
-function getNonEmptyChildren(el: Element) {
-  const result: Element[] = [];
+function getNonEmptyChildren<T extends Element>(el: Element) {
+  const result: T[] = [];
   for (let i = 0; i < el.children.length; i += 1) {
     const x = el.children.item(i);
     if (
