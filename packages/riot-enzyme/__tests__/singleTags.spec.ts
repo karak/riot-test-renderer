@@ -13,7 +13,9 @@ describe('enzyme-riot-adapter', () => {
     });
 
     it('renders html', () => {
-      expect(wrapper.html()).toBe('<static><p>Hello, world!</p></static>');
+      expect(wrapper.html()).toBe(
+        '<static data-is="static"><p>Hello, world!</p></static>'
+      );
     });
 
     it('finds by name', () => {
@@ -27,11 +29,11 @@ describe('enzyme-riot-adapter', () => {
     it('has a JSON expression', () => {
       expect(wrapper.toJson()).toEqual({
         name: 'static',
-        opts: {},
+        attributes: { 'data-is': ['static'] },
         children: [
           {
             name: 'p',
-            opts: {},
+            attributes: {},
             children: ['Hello, world!'],
           },
         ],
@@ -53,11 +55,11 @@ describe('enzyme-riot-adapter', () => {
     it('should have a JSON expression', () => {
       expect(wrapper.toJson()).toEqual({
         name: 'tag',
-        opts: {},
+        attributes: { 'data-is': ['tag'] },
         children: [
           {
             name: 'p',
-            opts: {},
+            attributes: {},
             children: ['Hello, world!'],
           },
         ],

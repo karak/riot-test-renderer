@@ -43,7 +43,7 @@ function guessNameFromSource(singleSource: string): string {
  * @param options renderer options see {@see enzyme~shallow}
  * @returns wrapper object of rendered element.
  */
-export function shallow<TOpts>(
+export function shallow<TOpts extends TagOpts>(
   singleSource: string,
   opts?: TOpts,
   options?: ReactShallowRendererProps

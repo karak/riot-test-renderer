@@ -1,10 +1,12 @@
 import * as React from 'react'; // Only for type definitions.
+import { TagOpts } from 'riot';
 import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
 import EvalContext from 'riot-test-utils/dist/lib/EvalContext';
 import RiotShallowRenderer from 'riot-test-utils/dist/lib/RiotShallowRenderer';
 import RiotStaticRenderer from 'riot-test-utils/dist/lib/RiotStaticRenderer';
+import toReactElement from './toReactElement';
 import renderToStaticMarkup from './renderToStaticMarkup';
 import elementToTree from './elementToTree';
 import isString from 'lodash/isString';
@@ -51,13 +53,12 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
         if (!isString(el.type)) throw new Error('el.type must be string');
 
         cachedNode = el;
-        return renderer.render(el.type, el.props);
+        renderer.render(el.type, el.props);
       },
       unmount() {
         renderer.unmount();
       },
       getNode<P>(): EnzymeElement<P> {
-        const output = renderer.getRenderedOutput();
         const mountedInstance = renderer.getMountedInstance();
         return {
           nodeType: 'host',
@@ -65,7 +66,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
           props: cachedNode!.props,
           key: cachedNode!.key,
           instance: mountedInstance,
-          rendered: elementToTree(output),
+          rendered: elementToTree(toReactElement(mountedInstance)),
         };
       },
       simulateEvent<TEvent>(
@@ -105,25 +106,27 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     }
   }
 
-  nodeToElement<P>(node: EnzymeElement<P>): React.ReactElement<P> | null {
+  nodeToElement(
+    node: EnzymeElement<TagOpts>
+  ): React.ReactElement<TagOpts> | null {
     if (!node || typeof node !== 'object') return null;
 
-    return { type: node.type, props: node.props, key: null }; // Not tag but element!
+    // React.createElement
+    // @todo with key and ref
+    return { type: node.type, props: node.props, key: node.key };
   }
 
-  elementToNode<P>(element: React.ReactElement<P>): EnzymeNode<P> {
+  elementToNode(element: React.ReactElement<TagOpts>): EnzymeNode {
     return elementToTree(element);
   }
 
   nodeToHostNode<P>(node: EnzymeElement<P>): Element | null {
     if (!node || typeof node !== 'object') return null;
 
-    throw new Error('Not implemented');
-
-    // TODO: return findDOMNode(node.instance!)
+    return node.instance ? node.instance.root : null;
   }
 
-  isValidElement<P>(element: React.ReactElement<P>) {
+  isValidElement<P>(element: object): element is React.ReactElement<P> {
     return true; // TODO:
   }
 
