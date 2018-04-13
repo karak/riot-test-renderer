@@ -12,6 +12,10 @@ describe('enzyme-riot-adapter', () => {
       wrapper = shallow(staticTag, 'static');
     });
 
+    afterEach(() => {
+      wrapper.unmount();
+    });
+
     it('renders html', () => {
       expect(wrapper.html()).toBe(
         '<static data-is="static"><p>Hello, world!</p></static>'
@@ -46,6 +50,10 @@ describe('enzyme-riot-adapter', () => {
 
     beforeEach(() => {
       wrapper = shallow(tagWithOpts, 'tag', { data: 'Hello, world!' });
+    });
+
+    afterEach(() => {
+      wrapper.unmount();
     });
 
     it('shoud have the same opts as passed', () => {
