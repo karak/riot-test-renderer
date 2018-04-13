@@ -35,6 +35,10 @@ export default class RiotRendererBase implements RiotRenderer {
     return result.tagNames;
   }
 
+  unloadTag(tagName: string) {
+    riot.unregister(tagName);
+  }
+
   /**
    * Execute mount and rendering
    *
@@ -91,7 +95,7 @@ export default class RiotRendererBase implements RiotRenderer {
     const rendered = tagInstance.root!;
 
     this.instance = tagInstance;
-    return (this.rendered = rendered);
+    return (this.rendered = rendered as HTMLElement | SVGElement);
   }
 
   /**
@@ -108,9 +112,12 @@ export default class RiotRendererBase implements RiotRenderer {
     children: ReadonlyArray<RiotElement> = []
   ) {
     const element = createElementToMountTo(name);
-    const rendered = this.mount.apply(riot, [element, name, opts]);
-    this.rendered = rendered[0].root;
-    return (this.instance = rendered[0]);
+    const rendered: riot.TagInstance[] = this.mount.apply(riot, [
+      element,
+      name,
+      opts,
+    ]);
+    return rendered[0];
   }
 
   /** Get created instance of `render` */

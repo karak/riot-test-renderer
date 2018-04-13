@@ -28,7 +28,7 @@ describe('vdom', () => {
     it('renders after mount', () => {
       const root = rootTag.root;
       expect(root).toBeDefined();
-      expect(root).toHaveProperty('tagName', 'static');
+      expect(root).toHaveProperty('nodeName', 'static');
       expect(root!.attributes).toEqual({});
     });
 
@@ -37,7 +37,7 @@ describe('vdom', () => {
 
       const child = rootTag.root!.children[0];
 
-      expect(child).toHaveProperty('tagName', 'p');
+      expect(child).toHaveProperty('nodeName', 'p');
       expect(child).not.toHaveProperty('opts');
       expect(child.attributes).toEqual({});
       expect(child.children).toHaveLength(1);
@@ -60,7 +60,7 @@ describe('vdom', () => {
     it('renders after mount', () => {
       const root = rootTag.root;
       expect(root).toBeDefined();
-      expect(root).toHaveProperty('tagName', 'tag');
+      expect(root).toHaveProperty('nodeName', 'tag');
       expect(root!.attributes).toEqual({}); // root attributes is no opts
     });
 
@@ -69,7 +69,7 @@ describe('vdom', () => {
 
       const child = rootTag.root!.children[0];
 
-      expect(child).toHaveProperty('tagName', 'p');
+      expect(child).toHaveProperty('nodeName', 'p');
       expect(child).not.toHaveProperty('opts');
       expect(child.attributes).toEqual({});
       expect(child.children).toHaveLength(1);
@@ -94,11 +94,11 @@ describe('vdom', () => {
       expect(rootTag.root!.children).toHaveLength(1);
 
       const tag2 = rootTag.root!.children[0];
-      expect(tag2).toHaveProperty('tagName', 'tag2');
+      expect(tag2).toHaveProperty('nodeName', 'tag2');
 
       const p = tag2.querySelector('> p');
       expect(p).toBeDefined();
-      expect(p).toHaveProperty('tagName', 'p');
+      expect(p).toHaveProperty('nodeName', 'p');
       expect(p.textContent).toEqual('Hello, world!');
     });
   });
@@ -114,7 +114,10 @@ describe('vdom', () => {
       expect(rootTag.tags).toBeDefined();
 
       expect(rootTag.tags.tag2).toBeDefined();
-      expect((rootTag.tags.tag2 as TagInstance).root!.name).toBe('tag2');
+      expect((rootTag.tags.tag2 as TagInstance).root).toHaveProperty(
+        'nodeName',
+        'tag2'
+      );
     });
 
     it('has no tag itself in tags', () => {
@@ -160,7 +163,7 @@ describe('vdom', () => {
       const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].name).toBe('tag2');
+      expect(childElements[0].nodeName).toBe('tag2');
     });
   });
 
@@ -186,11 +189,11 @@ describe('vdom', () => {
       const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].name).toBe('div');
+      expect(childElements[0].nodeName).toBe('div');
       const childChildElements = getNonEmptyChildren(childElements[0]);
 
       expect(childChildElements).toHaveLength(1);
-      expect(childChildElements[0].name).toBe('p');
+      expect(childChildElements[0].nodeName).toBe('p');
     });
   });
 
@@ -208,7 +211,7 @@ describe('vdom', () => {
       const childElements = getNonEmptyChildren(rootTag.root!);
 
       expect(childElements).toHaveLength(1);
-      expect(childElements[0].name).toBe('div');
+      expect(childElements[0].nodeName).toBe('div');
       const childChildElements = getNonEmptyChildren(childElements[0]);
 
       expect(childChildElements).toHaveLength(0);

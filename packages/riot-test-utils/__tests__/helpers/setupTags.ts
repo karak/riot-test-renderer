@@ -1,20 +1,30 @@
-import { loadTags, createTag, TagInstance } from '../../src/vdom';
+import {
+  loadTags,
+  unloadTag,
+  createTag,
+  TagInstance,
+  TagOpts,
+} from '../../src/vdom';
+import each from 'lodash/each';
 
 /** Setup utility to load and mount tags for jasmine */
-export default function setupTags<TOpts>(
+export default function setupTags<TOpts extends TagOpts>(
   source: string,
   name: string,
   opts: TOpts,
-  beforeMount: (tag: TagInstance<TOpts>) => void
+  beforeMount: (tag: TagInstance) => void
 ): void;
-export default function setupTags<TOpts>(
+export default function setupTags<TOpts extends TagOpts>(
   source: string,
   name: string,
-  beforeMount: (tag: TagInstance<TOpts>) => void
+  beforeMount: (tag: TagInstance) => void
 ): void;
-export default function setupTags<TOpts>(source: string, name: string): void {
+export default function setupTags<TOpts extends TagOpts>(
+  source: string,
+  name: string
+): void {
   let opts: TOpts | undefined;
-  let beforeMount: (tag: TagInstance<TOpts>) => void;
+  let beforeMount: (tag: TagInstance) => void;
 
   // tslint:disable-next-line:no-magic-numbers
   if (arguments.length <= 3) {
@@ -28,10 +38,11 @@ export default function setupTags<TOpts>(source: string, name: string): void {
     beforeMount = arguments[3];
   }
 
-  let tag: TagInstance<TOpts> | null = null;
+  let tag: TagInstance | null = null;
+  let tagNames: string[] | null = null;
 
   beforeAll(() => {
-    loadTags(source);
+    tagNames = loadTags(source);
   });
 
   beforeEach(() => {
@@ -44,6 +55,12 @@ export default function setupTags<TOpts>(source: string, name: string): void {
     if (tag !== null) {
       tag.unmount();
       tag = null;
+    }
+  });
+
+  afterAll(() => {
+    if (tagNames) {
+      each(tagNames, unloadTag);
     }
   });
 }
