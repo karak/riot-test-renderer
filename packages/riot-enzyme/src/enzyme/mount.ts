@@ -1,5 +1,5 @@
 import { TagInstance } from 'riot';
-import toHTML from 'riot-test-utils/dist/lib/toHTML';
+import { toHTML } from 'riot-test-utils';
 
 export default function mount<TOpts>(
   el: React.ReactElement<TOpts>

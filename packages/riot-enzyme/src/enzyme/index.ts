@@ -9,7 +9,7 @@ import { TagInstance } from 'riot';
 
 import EnzymeRiotAdapter from './adapter';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
-import toJSON from 'riot-test-utils/dist/lib/toJSON';
+import { toJSON } from 'riot-test-utils';
 import isString from 'lodash/isString';
 
 configure({ adapter: new EnzymeRiotAdapter() });

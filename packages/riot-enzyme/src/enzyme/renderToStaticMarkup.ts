@@ -1,5 +1,4 @@
-import toHTML from 'riot-test-utils/dist/lib/toHTML';
-import RiotRenderer from 'riot-test-utils/dist/lib/RiotRenderer';
+import { RiotRenderer, toHTML } from 'riot-test-utils';
 import isString from 'lodash/isString';
 
 /**
