@@ -1,6 +1,6 @@
 {
   "name": "riot-test-utils",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "lightweight testing utility of Riot",
   "main": "dist/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "lodash": "^4.17.5",
     "riot": "^3.9.1",
     "riot-shallowize": "^0.1.4",
-    "riot-test-renderer-shared": "^0.1.5"
+    "riot-test-renderer-shared": "^0.2.0"
   },
   "repository": {
     "type": "git",
