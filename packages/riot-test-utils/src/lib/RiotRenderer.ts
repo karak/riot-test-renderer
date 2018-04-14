@@ -1,10 +1,11 @@
-import TagInstance from '../lib/TagInstance';
-import { VirtualChild } from '../lib/VirtualElement';
+import { TagInstance, TagOpts } from 'riot';
+
+export type RiotElement = HTMLElement | SVGElement;
 
 export default interface RiotRenderer {
-  createInstance<TOpts>(
+  createInstance(
     name: string,
-    opts: TOpts,
-    children: ReadonlyArray<VirtualChild>
-  ): TagInstance<TOpts>;
+    opts?: TagOpts,
+    children?: ReadonlyArray<RiotElement>
+  ): TagInstance;
 };

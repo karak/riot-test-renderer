@@ -1,12 +1,14 @@
 {
   "name": "riot-test-utils",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "lightweight testing utility of Riot",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rm -rf dist; tsc -p .",
-    "test": "jest"
+    "test": "jest",
+    "lint": "prettier \"**/*.ts\" -l",
+    "lint:fix": "prettier \"**/*.ts\" --write"
   },
   "keywords": [
     "shallow rendering",
@@ -21,19 +23,18 @@
   ],
   "author": "Karak",
   "license": "MIT",
-  "devDependencies": {
-    "riot": "^3.9.0"
-  },
   "dependencies": {
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
-    "riot-compiler": "^3.4.0",
-    "riot-observable": "^3.0.0",
-    "riot-test-renderer-shared": "^0.1.5",
-    "riot-tmpl": "^3.0.8"
+    "riot": "^3.9.1",
+    "riot-shallowize": "^0.1.4",
+    "riot-test-renderer-shared": "^0.2.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/karak/riot-test-renderer"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3"
   }
 }

@@ -1,4 +1,4 @@
-import TagInstance from './TagInstance';
+import { TagInstance, TagOpts } from 'riot';
 import toHTML from './toHTML';
 import toJSON from './toJSON';
 
@@ -7,34 +7,33 @@ import toJSON from './toJSON';
  *
  * @see shallow
  */
-export default class ShallowWrapper<TOpts> {
-  private htmlCache: string | null = null;
-
+export default class ShallowWrapper<TOpts extends TagOpts> {
   /**
    * Constructor
    *
    * @param tagInstance - tag instance to wrap
    */
-  constructor(private tagInstance: TagInstance<TOpts>) {}
+  constructor(private tagInstance: TagInstance) {}
 
   /** Get tag instance */
   instance() {
     return this.tagInstance;
   }
 
-  /** Emulate tounmount tag */
+  /** Get the root element */
+  root() {
+    return this.tagInstance.root;
+  }
+
+  /** Unmount tag */
   unmount() {
-    this.tagInstance.unmount();
+    this.tagInstance.unmount(); // keepTheParent is always false
   }
 
   /** Get outer-HTML string */
   html() {
-    if (this.tagInstance.root === undefined) throw Error('Mount first');
-
-    if (this.htmlCache === null) {
-      this.htmlCache = toHTML(this.tagInstance.root);
-    }
-    return this.htmlCache;
+    const root = this.tagInstance.root;
+    return root !== undefined ? toHTML(root) : '';
   }
 
   toJSON(): object | null {

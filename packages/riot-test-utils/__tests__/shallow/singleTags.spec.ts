@@ -12,35 +12,50 @@ describe('shallow', () => {
       it('renders static tag', () => {
         const wrapper = shallow(staticTag);
 
-        expect(wrapper.html()).toBe('<static><p>Hello, world!</p></static>');
+        expect(wrapper.html()).toBe(
+          '<static data-is="static"><p>Hello, world!</p></static>'
+        );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('static');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('renders ignoring style', () => {
         const wrapper = shallow(staticTagWithStyle);
 
-        expect(wrapper.html()).toBe('<static><p>Hello, world!</p></static>');
+        expect(wrapper.html()).toBe(
+          '<static data-is="static"><p>Hello, world!</p></static>'
+        );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('static');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('extracts template', () => {
         const wrapper = shallow(tagWithOpts, { data: 'Hello, world!' });
 
-        expect(wrapper.html()).toBe('<tag><p>Hello, world!</p></tag>');
+        expect(wrapper.html()).toBe(
+          '<tag data-is="tag"><p>Hello, world!</p></tag>'
+        );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('tag');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('template "each" work', () => {
         const wrapper = shallow(tagWithEach, { items: ['A', 'B', 'C'] });
 
-        expect(wrapper.html()).toBe('<tag><p>A</p><p>B</p><p>C</p></tag>');
+        expect(wrapper.html()).toBe(
+          '<tag data-is="tag"><p>A</p><p>B</p><p>C</p></tag>'
+        );
+        expect(wrapper.root().querySelectorAll('p')).toHaveLength(3);
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
       it('escapes HTML special characters in template', () => {
         const wrapper = shallow(tagWithOpts, { data: '"&<>' });
 
-        expect(wrapper.html()).toBe('<tag><p>&quot;&amp;&lt;&gt;</p></tag>');
+        expect(wrapper.html()).toBe(
+          '<tag data-is="tag"><p>"&amp;&lt;&gt;</p></tag>'
+        );
+        expect(wrapper.root().querySelector('p')!.textContent).toBe('"&<>');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
     });
@@ -67,7 +82,7 @@ describe('shallow', () => {
         `;
 
         const wrapper = shallow(tag);
-        expect(wrapper.html()).toBe('<tag><p>SET</p></tag>');
+        expect(wrapper.html()).toBe('<tag data-is="tag"><p>SET</p></tag>');
       });
 
       it('execute top-level script under some context outside tagInstance', () => {

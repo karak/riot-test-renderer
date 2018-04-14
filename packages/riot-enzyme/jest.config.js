@@ -1,5 +1,2 @@
-var baseConfig = require('../../jest.config');
-
-module.exports = Object.assign({}, baseConfig, {
-});
+module.exports = require('../../jest.config');
 

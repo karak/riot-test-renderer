@@ -3,17 +3,18 @@ Riot-enzyme
 
 Riot-enzyme is a powerful testing utility to test tags of [Riot](http://riotjs.com/).
 
+Shallow-rendering is provided by [`Riot-shallowize`](https://www.npmjs.com/package/riot-shallowize) including the limitation about transclusions.
+
 It is **under development**.
 
 Features
 --------
 
-- DOM free, as well as any browser environment
 - Shallow rendering
 - Finding with CSS selectors
 - Snapshot testing
 
-It is a thin wrapper of [Enzyme](http://airbnb.io/enzyme/).
+It is a thin wrapper of [Enzyme](http://airbnb.io/enzyme/). Please note shallow-rendering needs DOM.
 
 Install
 -------
@@ -43,8 +44,6 @@ var tag = '<tag><p>{opts.data}</p></tag>';
 var wrapper = shallow(tag, { data: 'Hello, world!'});
 ```
 
-WARNING: `{}` expressions have many bugs and limits.
-
 Test with jest for example:
 
 ```js
@@ -61,7 +60,7 @@ And test snapshot:
 expect(wrapper.toJson())).toMatchSnapshot();
 ```
 
-WARNING: Currently, `toJson()` emits all the attributes including event handlers.
+WARNING: Currently, `toJson()` emits all the attributes as-is, including members of `opts` and `data-is`.
 
 Specify a name for multiple tags as:
 

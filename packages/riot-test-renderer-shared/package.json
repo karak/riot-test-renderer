@@ -1,9 +1,12 @@
 {
   "name": "riot-test-renderer-shared",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rm -rf dist; tsc -p ."
+  },
+  "devDependencies": {
+    "jest": "^22.4.3"
   }
 }
