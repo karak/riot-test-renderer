@@ -10,11 +10,11 @@ beforeEach(function () {
 it('should have json form', function () {
   expect(wrapper.toJson()).toEqual({
     name: 'tag',
-    opts: {},
+    attributes: { 'data-is': ['tag'] },
     children: [
       {
         name: 'p',
-        opts: {},
+        attributes: {},
         children: [
           'Hello, world!'
         ]
