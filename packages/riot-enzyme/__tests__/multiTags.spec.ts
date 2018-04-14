@@ -1,4 +1,4 @@
-import { shallow, ShallowWrapper } from '../src';
+import { shallow } from '../src';
 import {
   nestedStaticTag,
   nestedTag,
@@ -7,7 +7,7 @@ import {
 describe('enzyme-riot-adapter', () => {
   describe('multiTags', () => {
     describe('template', () => {
-      xit('does extract nested tag', () => {
+      it('does extract nested tag', () => {
         const wrapper = shallow(nestedStaticTag, 'outer');
 
         expect(wrapper.html()).toBe(
@@ -16,13 +16,13 @@ describe('enzyme-riot-adapter', () => {
         // NOTE: Self-closing tags should always be extracted.
       });
 
-      xit('does extract nested tag with passed attributes', () => {
+      it('does extract nested tag with passed attributes', () => {
         const wrapper = shallow(nestedTag, 'outer', {
           innerData: 'DATA',
         });
 
         expect(wrapper.html()).toBe(
-          '<outer data-is="outer"><inner><p>DATA</p></inner></outer>'
+          '<outer data-is="outer"><inner data="DATA"><p>DATA</p></inner></outer>'
         );
       });
     });
