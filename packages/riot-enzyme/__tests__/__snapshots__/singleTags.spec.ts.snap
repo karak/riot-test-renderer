@@ -2,16 +2,20 @@
 
 exports[`enzyme-riot-adapter tagWithOpts should match snapshot 1`] = `
 Object {
+  "attributes": Object {
+    "data-is": Array [
+      "tag",
+    ],
+  },
   "children": Array [
     Object {
+      "attributes": Object {},
       "children": Array [
         "Hello, world!",
       ],
       "name": "p",
-      "opts": Object {},
     },
   ],
   "name": "tag",
-  "opts": Object {},
 }
 `;

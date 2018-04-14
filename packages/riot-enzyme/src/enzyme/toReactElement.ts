@@ -20,39 +20,52 @@ function domToProps(attributes: NamedNodeMap) {
   return attrs;
 }
 
+function isElement(node: Node): node is HTMLElement | SVGElement {
+  return node.nodeType === node.ELEMENT_NODE;
+}
+
+function isText(node: Node): node is Text {
+  return node.nodeType === node.TEXT_NODE;
+}
+
 function domToReactElement(
-  el: Element
+  el: Node & ChildNode
 ):
   | ReactElement<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>>
   | string {
-  if (el instanceof HTMLElement || el instanceof SVGElement) {
-    // TODO: tag
-    switch (el.nodeType) {
-      case el.TEXT_NODE:
-        return el.nodeValue as string;
-      case el.ELEMENT_NODE:
-        const type = el.tagName ? el.tagName.toLowerCase() : el.nodeName;
-        const props = assign(domToProps(el.attributes));
-        const children = domToReactChildren(el.children);
-        assign(props, { children });
-        return {
-          type,
-          props,
-          key: null,
-        };
+  if (el instanceof Node) {
+    if (isElement(el)) {
+      const type = el.tagName ? el.tagName.toLowerCase() : el.nodeName;
+      const props = assign(domToProps(el.attributes));
+      const children = domToReactChildren(el.childNodes);
+      assign(props, { children });
+      return {
+        type,
+        props,
+        key: null,
+      };
+      // TODO: tag
+      // TODO: SVGElement
+    }
+    if (isText(el)) {
+      return el.nodeValue as string;
     }
   }
-  // TODO: SVGElement
   throw new Error(`Unknown node: ${el}`);
 }
 
-function domToReactChildren(children: HTMLCollection) {
-  const result: ReactChild[] = [];
-  for (let i = 0; i < children.length; i += 1) {
-    const child = children.item(i);
-    result.push(domToReactElement(child));
+function mapNode<T extends Node, U>(xs: NodeListOf<T>, fn: (node: T) => U) {
+  const ys: U[] = new Array<U>(xs.length);
+  for (let i = 0; i < xs.length; i += 1) {
+    ys[i] = fn(xs.item(i));
   }
-  return result;
+  return ys;
+}
+
+function domToReactChildren(
+  childNodes: NodeListOf<Node & ChildNode>
+): ReactChild[] {
+  return mapNode(childNodes, domToReactElement);
 }
 
 /** get tagName, considering a "data-is" attribute */
@@ -69,8 +82,8 @@ export default function toReactElement(
   if (tag === null) return null;
 
   const type = getTagName(tag.root);
-  const children = domToReactChildren(tag.root.children);
-  const props = assign({}, tag.opts, children);
+  const children = domToReactChildren(tag.root.childNodes);
+  const props = assign({}, tag.opts, { children });
   return {
     type,
     props,
