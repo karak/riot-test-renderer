@@ -15,6 +15,7 @@ describe('shallow', () => {
         expect(wrapper.html()).toBe(
           '<static data-is="static"><p>Hello, world!</p></static>'
         );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('static');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
@@ -24,6 +25,7 @@ describe('shallow', () => {
         expect(wrapper.html()).toBe(
           '<static data-is="static"><p>Hello, world!</p></static>'
         );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('static');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
@@ -33,6 +35,7 @@ describe('shallow', () => {
         expect(wrapper.html()).toBe(
           '<tag data-is="tag"><p>Hello, world!</p></tag>'
         );
+        expect(wrapper.root().tagName.toLowerCase()).toBe('tag');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
@@ -42,6 +45,7 @@ describe('shallow', () => {
         expect(wrapper.html()).toBe(
           '<tag data-is="tag"><p>A</p><p>B</p><p>C</p></tag>'
         );
+        expect(wrapper.root().querySelectorAll('p')).toHaveLength(3);
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
 
@@ -51,6 +55,7 @@ describe('shallow', () => {
         expect(wrapper.html()).toBe(
           '<tag data-is="tag"><p>"&amp;&lt;&gt;</p></tag>'
         );
+        expect(wrapper.root().querySelector('p')!.textContent).toBe('"&<>');
         expect(wrapper.toJSON()).toMatchSnapshot();
       });
     });

@@ -20,6 +20,11 @@ export default class ShallowWrapper<TOpts extends TagOpts> {
     return this.tagInstance;
   }
 
+  /** Get the root element */
+  root() {
+    return this.tagInstance.root;
+  }
+
   /** Emulate tounmount tag */
   unmount() {
     this.tagInstance.unmount();
