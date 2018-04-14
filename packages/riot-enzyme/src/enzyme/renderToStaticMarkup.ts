@@ -1,5 +1,6 @@
 import toHTML from 'riot-test-utils/dist/lib/toHTML';
 import RiotRenderer from 'riot-test-utils/dist/lib/RiotRenderer';
+import isString from 'lodash/isString';
 
 /**
  * Compatible except first parameter
@@ -14,6 +15,8 @@ export default function renderToStaticMarkup<P>(
   el: React.ReactElement<P>,
   context: any
 ): string {
+  if (!isString(el.type)) throw new Error('type must be string');
+
   const instance = renderer.createInstance(el.type, el.props);
   try {
     const html = toHTML(instance.root!);
