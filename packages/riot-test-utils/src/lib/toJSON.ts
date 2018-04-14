@@ -47,11 +47,13 @@ function toJSONChild(node: Node): JSONChild {
 function getChildren(element: HTMLElement | SVGElement) {
   const result = [];
   if (element.hasChildNodes()) {
-    const children = element.children;
-    for (let i = 0; i < children.length; i += 1) {
-      const child = children.item(i);
+    const childNodes = element.childNodes;
+    for (let i = 0; i < childNodes.length; i += 1) {
+      const child = childNodes.item(i);
       const jsonChild = toJSONChild(child);
-      result.push(jsonChild);
+      if (jsonChild !== null) {
+        result.push(jsonChild);
+      }
     }
   }
   return result;

@@ -10,7 +10,9 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "\\"&<>",
+      ],
       "name": "p",
     },
   ],
@@ -28,7 +30,9 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "Hello, world!",
+      ],
       "name": "p",
     },
   ],
@@ -46,7 +50,9 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "Hello, world!",
+      ],
       "name": "p",
     },
   ],
@@ -64,7 +70,9 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "Hello, world!",
+      ],
       "name": "p",
     },
   ],
@@ -82,19 +90,26 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "A",
+      ],
       "name": "p",
     },
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "B",
+      ],
       "name": "p",
     },
     Object {
       "attributes": Object {},
-      "children": Array [],
+      "children": Array [
+        "C",
+      ],
       "name": "p",
     },
+    "",
   ],
   "name": "tag",
 }
