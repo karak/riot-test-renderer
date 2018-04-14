@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Enzyme wrapper for Riot",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist; tsc -p .",
     "prepublishOnly": "npm run-script build",

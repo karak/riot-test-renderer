@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "lightweight testing utility of Riot",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rm -rf dist; tsc -p .",
