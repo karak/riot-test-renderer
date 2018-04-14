@@ -1,7 +1,7 @@
 Riot-test-utils
 ===============
 
-This provides lightweight testing of `Riot` tags without any DOM environemnt such as browsers nor `js-dom`.
+This provides lightweight testing of `Riot` tags.
 
 It is highly inspired by [`React-test-utils`](https://reactjs.org/docs/test-utils.html) [`Enzyme`](https://github.com/airbnb/enzyme), great testing utility for [`React`](https://reactjs.org/).
 
