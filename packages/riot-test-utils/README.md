@@ -5,10 +5,11 @@ This provides lightweight testing of `Riot` tags without any DOM environemnt suc
 
 It is highly inspired by [`React-test-utils`](https://reactjs.org/docs/test-utils.html) [`Enzyme`](https://github.com/airbnb/enzyme), great testing utility for [`React`](https://reactjs.org/).
 
+Shallow-rendering is provided by [`Riot-shallowize`](https://www.npmjs.com/package/riot-shallowize) including the limitation about transclusions.
+
 Features:
 
 - *shallow-rendering*.
-- Easy APIs similar to Enzyme.
 
 This library is **under development** and for my personal use. Any contributions are welcome!
 
@@ -32,7 +33,7 @@ var wrapper = shallow('<tag><p>Hello, world!</p></tag>');
 and look outerHTML:
 
 ```js
-assert(wrapper.html() === '<tag><p>Hello, world!</p></tag>');
+assert(wrapper.html() === '<tag data-is="tag"><p>Hello, world!</p></tag>');
 ```
 
 Templating also works.
@@ -40,10 +41,8 @@ Templating also works.
 ```js
 var wrapper = shallow('<tag><p>{opts.greeting}</p></tag>', { greeting: 'Hello, world!' });
 
-assert(wrapper.html() === '<tag><p>Hello, world!</p></tag>');
+assert(wrapper.html() === '<tag data-is="tag"><p>Hello, world!</p></tag>');
 ```
-
-**WARNING**: Special sequence, such as each, if, show, hide, and virtual, works *LIMITED*.
 
 Specify the name to test when you have multiple tags:
 
@@ -60,7 +59,7 @@ var wrapper = shallow(
 This is *shallow* rendered as:
 
 ```js
-assert(wrapper.html() === '<root><nested></nested></root>');
+assert(wrapper.html() === '<root data-is="root"><nested data-is="nested"></nested></root>');
 ```
 
 You can look `opts` as the attributes of nested tags.
@@ -72,6 +71,29 @@ var wrapper = shallow('<root><nested data="Hello" /></root>');
 
 assert(wrapper.html() === '<root><nested data="Hello"></nested></root>');
 ```
+Of course, you can mount by name being registered.
+
+```js
+var wrapper = shallow('tag', { greeting: 'Hellow, world' });
+```
+
+DOM testing
+-----------
+
+You can get DOM Element by `root()`.
+
+Then, you can inspect by DOM API or some utility like jQuery.
+
+```js
+var wrapper = shallow('tag', { greeting: 'Hellow, world' });
+
+assert(wrapper.root.querySelector('p').textContent === 'Hellow, world' );
+
+assert($(wrapper.root).find('p').text() === 'Hello, world');
+```
+
+Snapshot testing
+----------------
 
 You can use `toJSON()` to use **[snapshot-testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html)**
 to keep your tags.
@@ -85,6 +107,42 @@ it('should match snapshot', function () {
   expect(wrapper.toJSON()).toMatchSnapshot();
 });
 ```
+
+Public API
+----------
+
+### Module
+#### shallow(tagName, [opts])
+#### shallow(singleTagSource, [opts])
+#### shallow(multipleTagSource, tagName, [opts])
+
+Mount with out shallow renderer.
+
+It returns `ShallowWrapper`.
+
+### ShallowWrapper
+
+#### instance()
+
+It returns `TagInstance` of root.
+
+#### root()
+
+It is equivalent to `instance().root`.
+
+#### unmount()
+
+Unmount the tag.
+
+It is equivalent to `instance().unmount()`.
+
+#### html()
+
+Get outer HTML by string.
+
+#### toJSON()
+
+Get json form to create snapshot
 
 Enzyme integration
 ------------------
@@ -103,40 +161,9 @@ TODO
 - [ ] Deep rendering
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
-- [x] Support attributes if, each, show, and hide
 - [ ] To test the attributes of root opts
-- [ ] Support boolean attributes
-- [ ] Support styles object expressions
-- [ ] Implement CSS class shorthand
-- [x] parent property
-- [ ] inheritance in loop context
-- [x] tags, limited in shallow context
-- [ ] refs [LOW] -- hard to realize without DOM
-- [ ] tags [LOW]
-- [ ] Make script section working close to real DOM.
-- [ ] Lifecycle methods.
-- [ ] mixins [LOW]
 - [ ] Full-featured finding API.
 - [ ] More efficient API for multiple tags to compile once shared and use anywhere.
-- [ ] Handle &lt;virtual&gt; tag. [LOW Priority]
-- [ ] Handle yield. [LOW Priority]
-- [ ] Mixin [LOW]
-- [x] Helper API for snapshot testing
 - [ ] Other testing utility.
-- [ ] Exclude requirement of polyfill using `babel-runtime-transform`.
+- [ ] Testing method with `jquery` integration
 - [ ] Testing method for SSR with [`cheerio`](https://github.com/cheeriojs/cheerio) like one of `Enzyme`.
-
-NOT-TODOS
----------
-
-- [ ] Mount onto actual DOM
-- [ ] Support style sections
-
-Known Bugs
------------
-
-Template is incomplete, actually just interpolating expressions between "{}" area.
-
-Nested tags:
-
-- [ ] No parent of nested tags(shallow, static)
