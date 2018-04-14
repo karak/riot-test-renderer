@@ -1,6 +1,9 @@
 {
   "name": "riot-enzyme-examples",
   "private": true,
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "riot-enzyme": "^0.1.5"
   },
