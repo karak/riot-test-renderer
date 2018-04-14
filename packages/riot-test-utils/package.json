@@ -6,7 +6,9 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rm -rf dist; tsc -p .",
-    "test": "jest"
+    "test": "jest",
+    "lint": "prettier \"**/*.ts\" -l",
+    "lint:fix": "prettier \"**/*.ts\" --write"
   },
   "keywords": [
     "shallow rendering",
