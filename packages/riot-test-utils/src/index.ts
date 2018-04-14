@@ -1,4 +1,2 @@
-import { mount } from 'riot';
-
 export * from './shallow';
-export { mount };
+export * from './lib/mount';
