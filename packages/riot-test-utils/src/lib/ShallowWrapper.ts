@@ -25,9 +25,9 @@ export default class ShallowWrapper<TOpts extends TagOpts> {
     return this.tagInstance.root;
   }
 
-  /** Emulate tounmount tag */
+  /** Unmount tag */
   unmount() {
-    this.tagInstance.unmount();
+    this.tagInstance.unmount(); // keepTheParent is always false
   }
 
   /** Get outer-HTML string */
