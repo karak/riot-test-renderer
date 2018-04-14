@@ -31,55 +31,26 @@ export const tagWithIfNested = `
 </tag>
 `;
 
-export const tagWithParent = `
-<tag>
-  <tag2>
-    <p>{ parent.opts.data }</p>
-    <!-- parent is not <tag> but parent of it -->
-  </tag2>
-</tag>
-`;
-
-export const tagWithTags = `
-<tag>
-  <tag2>
-    <p></p>
-  </tag2>
-  <div>
-    <tag3>
-      <p></p>
-    </tag3>
-  </div>
-  <tag3></tag3>
-</tag>
-`;
-
-export const tagWithEachAndTags = `
-<tag>
-  <tag2 each={ item in opts.items }>{ item }</tags>
-</tag>
-`;
-
 export const tagWithIf = `
 <tag>
-  <tag2 if={opts.exists}>
+  <div if={opts.exists}>
     <p>Exists</p>
-  </tag2>
+  </div>
 </tag>
 `;
 
 export const tagWithShow = `
 <tag>
-  <tag2 show={opts.visible}>
+  <div show={opts.visible}>
     <p>Visible</p>
-  </tag2>
+  </div>
 </tag>
 `;
 
 export const tagWithHide = `
 <tag>
-  <tag2 hide={!opts.visible}>
+  <div hide={!opts.visible}>
     <p>Visible</p>
-  </tag2>
+  </div>
 </tag>
 `;
