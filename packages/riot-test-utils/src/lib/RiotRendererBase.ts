@@ -21,10 +21,11 @@ function createElementToMountTo(tagName: string) {
  * base class of some shallow renderer for `riot`
  */
 export default class RiotRendererBase implements RiotRenderer {
+  private context = new EvalContext();
   private instance: riot.TagInstance | null;
   private rendered: RiotElement | null;
 
-  constructor(private mount: MountFunction, private context: EvalContext) {
+  constructor(private mount: MountFunction) {
     this.instance = null;
     this.rendered = null;
   }

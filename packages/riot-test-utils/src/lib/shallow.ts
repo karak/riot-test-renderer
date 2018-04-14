@@ -1,7 +1,6 @@
 import { TagOpts } from 'riot';
 import ShallowWrapper from './ShallowWrapper';
 import RiotShallowRenderer from './RiotShallowRenderer';
-import EvalContext from './EvalContext';
 
 /**
  * A shallow renderer for `riot` compatible to `enzyme`
@@ -17,7 +16,7 @@ function shallow<TOpts extends TagOpts>(
 ): ShallowWrapper<TOpts>;
 function shallow<TOpts>(src: string, opts?: TOpts): ShallowWrapper<TOpts>;
 function shallow<TOpts>(): ShallowWrapper<TOpts> {
-  const renderer = new RiotShallowRenderer(new EvalContext());
+  const renderer = new RiotShallowRenderer();
   renderer.render.apply(renderer, arguments);
   const tag = renderer.getMountedInstance();
   return new ShallowWrapper(tag!);

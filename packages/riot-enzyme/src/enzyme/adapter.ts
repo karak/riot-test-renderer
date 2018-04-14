@@ -3,7 +3,6 @@ import { TagOpts } from 'riot';
 import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
-import EvalContext from 'riot-test-utils/dist/lib/EvalContext';
 import RiotShallowRenderer from 'riot-test-utils/dist/lib/RiotShallowRenderer';
 import RiotStaticRenderer from 'riot-test-utils/dist/lib/RiotStaticRenderer';
 import toReactElement from './toReactElement';
@@ -27,16 +26,12 @@ declare module 'enzyme' {
 }
 
 export default class EnzymeRiotAdapter extends EnzymeAdapter {
-  private context: EvalContext;
-
   constructor() {
     super();
     this.options = {
       ...this.options,
       enableComponentDidUpdateOnSetState: true,
     };
-
-    this.context = new EvalContext();
   }
 
   createMountRenderer(options: any) {
@@ -44,7 +39,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createShallowRenderer(options: RiotShallowRendererProps) {
-    const renderer = new RiotShallowRenderer(this.context);
+    const renderer = new RiotShallowRenderer();
     renderer.loadTags(options['riot-enzyme'].source);
     let cachedNode: React.ReactElement<any> | null = null;
 
@@ -83,7 +78,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createStringRenderer<P>(options: any) {
-    const renderer = new RiotStaticRenderer(this.context);
+    const renderer = new RiotStaticRenderer();
     return {
       render(el: React.ReactElement<P>, context: any): string {
         return renderToStaticMarkup(renderer, el, context);
