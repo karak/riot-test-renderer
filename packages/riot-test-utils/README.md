@@ -130,6 +130,10 @@ It returns `TagInstance` of root.
 
 It is equivalent to `instance().root`.
 
+#### opts([name])
+
+Get opts, whole object if name is not specified, or one value of opts otherwise
+
 #### refs()
 
 It is equivalent to `instance().refs`.
