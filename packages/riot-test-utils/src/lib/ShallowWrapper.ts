@@ -8,7 +8,7 @@ import toJSON from './toJSON';
  * @see shallow
  */
 export default class ShallowWrapper<
-  TOpts extends TagOpts,
+  TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs
 > {
   /**
@@ -26,6 +26,26 @@ export default class ShallowWrapper<
   /** Get the root element */
   root() {
     return this.tagInstance.root;
+  }
+
+  /**
+   * Get opts of the instance.
+   * It is typically passed opts with "dataIs" property
+   *
+   * @param {string=} name name of the property to get
+   * @returns {Object} opts if name is not specified
+   * @returns {T} value of opts if name specified
+   * @template T
+   */
+  opts(): TOpts;
+  opts<T>(name: string): T;
+  opts(name?: string) {
+    const opts = this.tagInstance.opts;
+    if (name === undefined) {
+      return opts as TOpts;
+    } else {
+      return opts[name];
+    }
   }
 
   /** Get refs of the instance */
