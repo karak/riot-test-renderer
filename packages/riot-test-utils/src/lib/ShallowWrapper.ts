@@ -1,4 +1,4 @@
-import { TagInstance, TagOpts } from 'riot';
+import { TagInstance, TagOpts, TagRefs } from 'riot';
 import toHTML from './toHTML';
 import toJSON from './toJSON';
 
@@ -7,7 +7,10 @@ import toJSON from './toJSON';
  *
  * @see shallow
  */
-export default class ShallowWrapper<TOpts extends TagOpts> {
+export default class ShallowWrapper<
+  TOpts extends TagOpts,
+  TRefs extends TagRefs = TagRefs
+> {
   /**
    * Constructor
    *
@@ -23,6 +26,11 @@ export default class ShallowWrapper<TOpts extends TagOpts> {
   /** Get the root element */
   root() {
     return this.tagInstance.root;
+  }
+
+  /** Get refs of the instance */
+  refs(): TRefs {
+    return this.tagInstance.refs as TRefs;
   }
 
   /** Unmount tag */
