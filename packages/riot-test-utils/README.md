@@ -130,6 +130,10 @@ It returns `TagInstance` of root.
 
 It is equivalent to `instance().root`.
 
+#### refs()
+
+It is equivalent to `instance().refs`.
+
 #### unmount()
 
 Unmount the tag.
