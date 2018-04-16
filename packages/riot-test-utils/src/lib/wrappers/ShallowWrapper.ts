@@ -1,4 +1,4 @@
-import { TagInstance, TagOpts, TagRefs, NestedTags, ObservableCallback } from 'riot';
+import { TagInstance, TagOpts, TagRefs, NestedTags, ObservableCallback, TagMixin } from 'riot';
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 
@@ -111,6 +111,11 @@ export default class ShallowWrapper<
   off(event: string, callback?: ObservableCallback): this {
     this.tagInstance.off(event, callback);
     return this;
+  }
+
+  /** Apply mixin */
+  mixin(mixin: string | TagMixin) {
+    this.instance.mixin(mixin);
   }
 
   /** Get outer-HTML string */
