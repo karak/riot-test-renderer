@@ -271,7 +271,7 @@ var TestUtils = require('riot-test-utils')
 
 var wrapper = TestUtils.shallow('command-bar')
 
-TestUtils.Simulate.click(wrapper.root().querySelector('#link'))
+TestUtils.Simulate.click(wrapper.root.querySelector('#link'))
 ```
 
 Enzyme integration
