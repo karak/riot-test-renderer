@@ -11,7 +11,7 @@ export default class ShallowWrapper<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
->  {
+> {
   /**
    * Constructor
    *
@@ -46,6 +46,14 @@ export default class ShallowWrapper<
   /** Get tags */
   get tags(): TTags {
     return this.tagInstance.tags as TTags;
+  }
+
+  /**
+   * Parent tag being always `null`
+   * Not undefined but null(type definition of riot **is** wrong.)
+   */
+  get parent(): TagInstance | undefined {
+    return this.tagInstance.parent;
   }
 
   /** Update this tag and its children */
