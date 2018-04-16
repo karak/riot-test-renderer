@@ -1,4 +1,4 @@
-import { TagOpts, TagRefs } from 'riot';
+import { TagOpts, TagRefs, NestedTags } from 'riot';
 import ShallowWrapper from './ShallowWrapper';
 import RiotShallowRenderer from './RiotShallowRenderer';
 
@@ -11,23 +11,24 @@ import RiotShallowRenderer from './RiotShallowRenderer';
  * @template TOpts type of opts
  * @template TRefs type of refs property
  */
-function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs>(
+function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs, TTags extends NestedTags = NestedTags>(
   src: string,
   name: string,
   opts?: TOpts
-): ShallowWrapper<TOpts, TRefs>;
-function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs>(
+): ShallowWrapper<TOpts, TRefs, TTags>;
+function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs, TTags extends NestedTags = NestedTags>(
   src: string,
   opts?: TOpts
-): ShallowWrapper<TOpts, TRefs>;
+): ShallowWrapper<TOpts, TRefs, TTags>;
 function shallow<
   TOpts extends TagOpts,
-  TRefs extends TagRefs = TagRefs
->(): ShallowWrapper<TOpts, TRefs> {
+  TRefs extends TagRefs = TagRefs,
+  TTags extends NestedTags = NestedTags
+>(): ShallowWrapper<TOpts, TRefs, TTags> {
   const renderer = new RiotShallowRenderer();
   renderer.render.apply(renderer, arguments);
   const tag = renderer.getMountedInstance();
-  return new ShallowWrapper<TOpts, TRefs>(tag!);
+  return new ShallowWrapper<TOpts, TRefs, TTags>(tag!);
 }
 
 export default shallow;

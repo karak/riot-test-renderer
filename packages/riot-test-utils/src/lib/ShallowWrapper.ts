@@ -1,4 +1,4 @@
-import { TagInstance, TagOpts, TagRefs } from 'riot';
+import { TagInstance, TagOpts, TagRefs, NestedTags } from 'riot';
 import toHTML from './toHTML';
 import toJSON from './toJSON';
 import Simulate, { FireEvent } from './Simulate';
@@ -10,7 +10,8 @@ import Simulate, { FireEvent } from './Simulate';
  */
 export default class ShallowWrapper<
   TOpts extends TagOpts = TagOpts,
-  TRefs extends TagRefs = TagRefs
+  TRefs extends TagRefs = TagRefs,
+  TTags extends NestedTags = NestedTags
 > {
   /**
    * Constructor
@@ -52,6 +53,11 @@ export default class ShallowWrapper<
   /** Get refs of the instance */
   refs(): TRefs {
     return this.tagInstance.refs as TRefs;
+  }
+
+  /** Get tags */
+  tags(): TTags {
+    return this.tagInstance.tags as TTags;
   }
 
   /** Unmount tag */
