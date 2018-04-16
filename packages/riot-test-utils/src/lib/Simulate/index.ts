@@ -4,7 +4,7 @@ import eventTypes from './eventTypes';
 
 export type FireEvent = <T extends {}>(
   target: EventTarget,
-  options: T
+  options?: T
 ) => boolean;
 
 export interface SimulateType {
