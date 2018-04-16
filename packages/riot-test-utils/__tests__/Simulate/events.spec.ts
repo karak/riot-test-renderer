@@ -4,15 +4,14 @@ import keys from 'lodash/keys';
 
 interface EventTestSuite {
   [type: string]: {
-    options?: {},
-    shouldContain?: { [key: string]: any },
+    options?: {};
+    shouldContain?: { [key: string]: any };
   };
 }
 
 /** create default test suites for all event types */
-const defaultEvents: EventTestSuite = {
-};
-each(Simulate.eventTypes, type => defaultEvents[type] = {});
+const defaultEvents: EventTestSuite = {};
+each(Simulate.eventTypes, type => (defaultEvents[type] = {}));
 
 describe('shallow', () => {
   describe('events', () => {
@@ -31,10 +30,10 @@ describe('shallow', () => {
           shiftKey: false,
         },
       },
-      keyup: {}
+      keyup: {},
     };
 
-    each(events, ({ options, shouldContain = {}}, type) => {
+    each(events, ({ options, shouldContain = {} }, type) => {
       describe(type, () => {
         let element: HTMLInputElement;
         beforeEach(() => {

@@ -120,8 +120,7 @@ export interface SimulateType {
   pageshow: FireEvent;
 }
 
-
-function SimulateConstructor(this: { [type: string]: FireEvent}) {
+function SimulateConstructor(this: { [type: string]: FireEvent }) {
   each(eventTypes, (type: string) => {
     this[type] = function<T>(target: EventTarget, options: T) {
       return simulate(target, type, options);

@@ -4,19 +4,19 @@ import { shallow, ShallowWrapper } from '../../src';
 const hostNameMixin = {
   init() {
     this.hostName = 'localhost';
-  }
+  },
 };
 
 const globalMixin = {
   init() {
     this.global = true;
-  }
+  },
 };
 
 const directMixin = {
   init() {
     this.pi = 3;
-  }
+  },
 };
 
 describe('shallow', () => {

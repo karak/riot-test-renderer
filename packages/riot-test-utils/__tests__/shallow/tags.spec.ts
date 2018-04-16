@@ -4,10 +4,11 @@ describe('shallow', () => {
   describe('tags', () => {
     it('renders static tag', () => {
       type TagTags = {
-        'my-button': TagInstance,
-        'my-item': TagInstance[],
+        'my-button': TagInstance;
+        'my-item': TagInstance[];
       };
-      const wrapper = shallow<{}, {}, TagTags>(`
+      const wrapper = shallow<{}, {}, TagTags>(
+        `
         <my-button></my-button>
         <my-item></my-item>
         <tag>

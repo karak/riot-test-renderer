@@ -11,15 +11,16 @@ import { ShallowRenderer } from '../renderers';
  * @template TOpts type of opts
  * @template TRefs type of refs property
  */
-function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs, TTags extends NestedTags = NestedTags>(
-  src: string,
-  name: string,
-  opts?: TOpts
-): ShallowWrapper<TOpts, TRefs, TTags>;
-function shallow<TOpts extends TagOpts, TRefs extends TagRefs = TagRefs, TTags extends NestedTags = NestedTags>(
-  src: string,
-  opts?: TOpts
-): ShallowWrapper<TOpts, TRefs, TTags>;
+function shallow<
+  TOpts extends TagOpts,
+  TRefs extends TagRefs = TagRefs,
+  TTags extends NestedTags = NestedTags
+>(src: string, name: string, opts?: TOpts): ShallowWrapper<TOpts, TRefs, TTags>;
+function shallow<
+  TOpts extends TagOpts,
+  TRefs extends TagRefs = TagRefs,
+  TTags extends NestedTags = NestedTags
+>(src: string, opts?: TOpts): ShallowWrapper<TOpts, TRefs, TTags>;
 function shallow<
   TOpts extends TagOpts,
   TRefs extends TagRefs = TagRefs,

@@ -1,4 +1,12 @@
-import { TagInstance, TagInterface, TagOpts, TagRefs, NestedTags, ObservableCallback, TagMixin } from 'riot';
+import {
+  TagInstance,
+  TagInterface,
+  TagOpts,
+  TagRefs,
+  NestedTags,
+  ObservableCallback,
+  TagMixin,
+} from 'riot';
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 
@@ -86,7 +94,6 @@ export default class ShallowWrapper<
     return this;
   }
 
-
   /**
    * Register callback once.
    *
@@ -136,6 +143,9 @@ export default class ShallowWrapper<
    * @param options options to override event object
    */
   simulate<T extends {}>(type: string, options?: T) {
-    return (Simulate as any as { [type: string]: FireEvent })[type](this.tagInstance.root, options);
+    return ((Simulate as any) as { [type: string]: FireEvent })[type](
+      this.tagInstance.root,
+      options
+    );
   }
 }

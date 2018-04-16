@@ -6,14 +6,17 @@ describe('shallow', () => {
     let wrapper: ShallowWrapper<typeof opts>;
 
     beforeEach(() => {
-      wrapper = shallow(`
+      wrapper = shallow(
+        `
       <tag>
         <p>{ greeting }</p>
         <script>
         this.greeting
         </script>
       </tag>
-      `, opts);
+      `,
+        opts
+      );
     });
 
     afterEach(() => {
@@ -25,13 +28,17 @@ describe('shallow', () => {
       // Don't assign to wrapper.greeting
       wrapper.update();
 
-      expect(wrapper.html()).toBe('<tag data-is="tag"><p>Good evening!</p></tag>');
+      expect(wrapper.html()).toBe(
+        '<tag data-is="tag"><p>Good evening!</p></tag>'
+      );
     });
 
     it('update with an argument', () => {
       wrapper.update({ greeting: 'Good evening!' });
 
-      expect(wrapper.html()).toBe('<tag data-is="tag"><p>Good evening!</p></tag>');
+      expect(wrapper.html()).toBe(
+        '<tag data-is="tag"><p>Good evening!</p></tag>'
+      );
     });
   });
 });

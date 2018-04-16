@@ -1,8 +1,4 @@
-import {
-  ShallowRenderer,
-  TagInstance,
-  TagOpts,
-} from '../../src';
+import { ShallowRenderer, TagInstance, TagOpts } from '../../src';
 import each from 'lodash/each';
 
 /** Setup utility to load and mount tags for jasmine */

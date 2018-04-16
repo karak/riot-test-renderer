@@ -3,7 +3,7 @@ import { shallow, ShallowWrapper } from '../../src';
 describe('shallow', () => {
   describe('opts', () => {
     let wrapper: ShallowWrapper;
-    const data1 = { order: 1};
+    const data1 = { order: 1 };
     const data2 = { order: 2 };
 
     beforeEach(() => {
@@ -45,7 +45,7 @@ describe('shallow', () => {
       expect(fn).toHaveBeenCalledTimes(0);
     });
 
-    it('passed unwrapped this', (done) => {
+    it('passed unwrapped this', done => {
       function checkThis() {
         expect(this).not.toBe(wrapper);
         expect(this).toBe(wrapper.instance);
@@ -53,7 +53,6 @@ describe('shallow', () => {
       }
       wrapper.on('event', checkThis).trigger('event');
     });
-
 
     it('one and trigger', () => {
       const fn = jest.fn();
