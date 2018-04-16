@@ -1,10 +1,8 @@
 import {
-  loadTags,
-  unloadTag,
-  createTag,
+  ShallowRenderer,
   TagInstance,
   TagOpts,
-} from '../../src/vdom';
+} from '../../src';
 import each from 'lodash/each';
 
 /** Setup utility to load and mount tags for jasmine */
@@ -38,15 +36,16 @@ export default function setupTags<TOpts extends TagOpts>(
     beforeMount = arguments[3];
   }
 
+  const renderer = new ShallowRenderer();
   let tag: TagInstance | null = null;
   let tagNames: string[] | null = null;
 
   beforeAll(() => {
-    tagNames = loadTags(source);
+    tagNames = renderer.loadTags(source);
   });
 
   beforeEach(() => {
-    tag = createTag(name, opts);
+    tag = renderer.createInstance(name, opts);
     beforeMount(tag);
     tag.mount();
   });
@@ -60,7 +59,7 @@ export default function setupTags<TOpts extends TagOpts>(
 
   afterAll(() => {
     if (tagNames) {
-      each(tagNames, unloadTag);
+      each(tagNames, x => renderer.unloadTag(x));
     }
   });
 }

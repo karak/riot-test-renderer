@@ -1,4 +1,4 @@
-import { TagInstance } from '../../src/vdom';
+import { TagInstance } from '../../src';
 import setupTags from '../helpers/setupTags';
 import {
   staticTag,
