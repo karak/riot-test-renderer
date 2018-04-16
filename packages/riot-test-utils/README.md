@@ -117,6 +117,7 @@ Public API
 #### shallow(multipleTagSource, tagName, [opts])
 
 Mount with out shallow renderer.
+#### Simulate
 
 It returns `ShallowWrapper`.
 
@@ -152,6 +153,25 @@ Get outer HTML by string.
 
 Get json form to create snapshot
 
+### Simulate
+#### Simulate\[eventType\](target, [options])
+
+Fire event.
+
+For example:
+
+```js
+var link = document.getElementById('#next-link');
+Simulate.click(link);
+```
+
+```js
+var input = document.getElementById('#name-input');
+Simulate.keyup(input, { key: 'a', keyCode: 97, metaKey: true });
+```
+
+All the events are listed in [source](./src/lib/Simulate/eventTypes.ts).
+
 Enzyme integration
 ------------------
 
@@ -165,7 +185,7 @@ Requirement
 TODO
 ----
 
-- [ ] Event simulated
+- [x] Event simulated
 - [ ] Deep rendering
 - [ ] Compiler options to set parsers
 - [ ] Implement update.
