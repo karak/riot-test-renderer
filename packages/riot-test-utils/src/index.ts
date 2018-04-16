@@ -3,10 +3,10 @@ import { TagInstance, TagOpts, TagRefs, NestedTags } from 'riot';
 export { TagInstance, TagOpts, TagRefs, NestedTags };
 
 /* High level APIs */
-import shallow from './lib/wrappers/shallow';
 import RiotWrapper from './lib/wrappers/RiotWrapper';
-export { RiotWrapper, shallow };
-export * from './lib/wrappers/mount'; // !!now developing!!
+import shallow from './lib/wrappers/shallow';
+import mount from './lib/wrappers/mount';
+export { RiotWrapper, shallow, mount };
 
 /* Lowlevel APIs */
 export * from './lib/renderers';

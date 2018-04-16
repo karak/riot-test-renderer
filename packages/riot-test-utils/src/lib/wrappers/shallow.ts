@@ -3,13 +3,14 @@ import RiotWrapper from './RiotWrapper';
 import { ShallowRenderer } from '../renderers';
 
 /**
- * A shallow renderer for `riot` compatible to `enzyme`
+ * Mount a tag with shallow-rendering for testing.
  *
  * @param src - source string to define tag(s).
  * @param name - tagName. You can skip this if src contains a single tag.
  * @param opts - opts to create tag with
  * @template TOpts type of opts
  * @template TRefs type of refs property
+ * @returns wrapper of the mounted instance
  */
 function shallow<
   TOpts extends TagOpts,
