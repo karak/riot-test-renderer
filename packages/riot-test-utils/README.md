@@ -13,21 +13,34 @@ Features:
 
 This library is **under development** and for my personal use. Any contributions are welcome!
 
-Usage
------
+Installation
+------------
 
-Install by `npm`:
+Install via `npm`:
 
 ```bash
 npm install -D riot-test-utils
 ```
 
-Create wrapper for single tag source as:
+Usage
+-----
+
+Import as:
 
 ```js
-var shallow = require('riot-test-utils').shallow;
+// es5/commonjs
+var mount = require('riot-test-utils').mount;
 
-var wrapper = shallow('<tag><p>Hello, world!</p></tag>');
+// es6
+import { mount } from 'riot-test-utils');
+```
+
+Create wrapper for the tag to test as:
+
+```js
+var wrapper = mount('tag');
+
+var wrapperWithOpts = mount('tag-with-opts', { title: 'RiotJS' });
 ```
 
 and look outerHTML:
@@ -39,42 +52,58 @@ assert(wrapper.html() === '<tag data-is="tag"><p>Hello, world!</p></tag>');
 Templating also works.
 
 ```js
-var wrapper = shallow('<tag><p>{opts.greeting}</p></tag>', { greeting: 'Hello, world!' });
+var wrapper = mount('<tag><p>{opts.greeting}</p></tag>', { greeting: 'Hello, world!' });
 
 assert(wrapper.html() === '<tag data-is="tag"><p>Hello, world!</p></tag>');
+```
+
+### Embedding style
+
+We can write single tag source in the following style:
+
+```js
+var wrapper = mount('<tag><p>Hello, world!</p></tag>');
 ```
 
 Specify the name to test when you have multiple tags:
 
 ```js
+var wrapper = mount(
+  [
+    '<tag1><tags /></tag1>',
+    '<tag2><p>Hello, world!</p></tag2>',
+  ].join('\n'),
+  'tag1'
+);
+```
+
+### Shallow rendering
+
+This library provides great **shallow-rendering** feature as `React-test-utils`.
+
+It truly separates your tests of one tag from the others.
+
+```js
 var wrapper = shallow(
   [
-    '<nested><p>Hello, world!</p></nested>',
-    '<root><nested /></root>'
+    '<inner><p>{opts.data}</p></inner>',
+    '<outer><inner data={ opts.innerData }/></outer>'
   ].join('\n'),
-  'root'
+  'outer',
+  { innerData: 'Hello!' }
 );
 ```
 
 This is *shallow* rendered as:
 
 ```js
-assert(wrapper.html() === '<root data-is="root"><nested data-is="nested"></nested></root>');
+assert(wrapper.html() === '<outer data-is="outer"><inner data="Hello!"></inner></outer>');
 ```
 
-You can look `opts` as the attributes of nested tags.
-
-For example:
-
-```js
-var wrapper = shallow('<root><nested data="Hello" /></root>');
-
-assert(wrapper.html() === '<root><nested data="Hello"></nested></root>');
-```
 Of course, you can mount by name being registered.
 
 ```js
-var wrapper = shallow('tag', { greeting: 'Hellow, world' });
+var wrapper = shallow('outer', { innerData: 'Hello!' });
 ```
 
 DOM testing
@@ -85,7 +114,7 @@ You can get DOM Element by `root()`.
 Then, you can inspect by DOM API or some utility like jQuery.
 
 ```js
-var wrapper = shallow('tag', { greeting: 'Hellow, world' });
+var wrapper = mount('tag', { greeting: 'Hellow, world' });
 
 assert(wrapper.root.querySelector('p').textContent === 'Hellow, world' );
 
@@ -112,14 +141,20 @@ Public API
 ----------
 
 ### Module
+
+#### mount(tagName, [opts])
+#### mount(singleTagSource, [opts])
+#### mount(multipleTagSource, tagName, [opts])
+
+Mount a tag with full-rendering.
+
 #### shallow(tagName, [opts])
 #### shallow(singleTagSource, [opts])
 #### shallow(multipleTagSource, tagName, [opts])
 
-Mount with out shallow renderer.
-#### Simulate
+Mount a tag with shallow-rendering.
 
-It returns `RiotWrapper`.
+They return `RiotWrapper`.
 
 ### RiotWrapper
 
@@ -130,17 +165,32 @@ Get `TagInstance` of root.
 #### root
 
 Get root DOM Element.
+
 It is equivalent to `instance.root`.
 
 #### opts
 
 Get opts, including "data-is" attribute added during rendering.
+
 It is equivalent to `instance.opts`.
 
-#### refs()
+#### parent
+
+Get the parent tag instance.
+
+It is equivalent to `instance.parent` and always `null`.
+
+#### tags
+
+Get nested tags.
+
+It is equivalent to `instance.tags`.
+
+#### refs
 
 Get refs.
-It is equivalent to `instance().refs`.
+
+It is equivalent to `instance.refs`.
 
 ### on(event, callback)
 ### one(event, callback)
@@ -149,12 +199,41 @@ It is equivalent to `instance().refs`.
 
 All the observable methods.
 
+It is equivalent to `instance,on()` and the others but returns the wrapper itself.
+
 Note: `this` is always the unwrapped instance in callbacks.
 
-#### unmount()
+#### isMounted
+
+Get the flag if the tag is mounted or not.
+
+It is equivalent to `instance.isMounted`.
+
+#### mount()
+
+Mount the tag.
+
+Note it is already mounted initially.
+
+It is equivalent to `instance.mount()`.
+
+#### unmount([keepTheParent])
 
 Unmount the tag.
-It is equivalent to `instance().unmount()`.
+
+It is equivalent to `instance.unmount()`.
+
+#### update([data])
+
+Update the tag and its children.
+
+It is equivalent to `instance.update()`.
+
+### mixin(mixin)
+
+Apply mixin to the tag.
+
+It is equivalent to `instance.mixin()`.
 
 #### html()
 
@@ -206,12 +285,12 @@ TODO
 ----
 
 - [x] Event simulated
-- [ ] Deep rendering
+- [x] Deep rendering
 - [ ] Compiler options to set parsers
-- [ ] Implement update.
+- [x] Implement update.
 - [ ] To test the attributes of root opts
 - [ ] Full-featured finding API.
-- [ ] More efficient API for multiple tags to compile once shared and use anywhere.
+- [x] More efficient API for multiple tags to compile once shared and use anywhere.
 - [ ] Other testing utility.
 - [ ] -Testing method with `jquery` integration- finding API on `querySelctorAll`
 - [ ] Testing method for SSR with [`cheerio`](https://github.com/cheeriojs/cheerio) like one of `Enzyme`.
