@@ -9,7 +9,10 @@ Shallow-rendering is provided by [`Riot-shallowize`](https://www.npmjs.com/packa
 
 Features:
 
-- *shallow-rendering*.
+- Shorter way to setup unit-testing of tags.
+- Wrapper API of an instance of tags to inspect easily
+- *Shallow-rendering*.
+- Snapshot testing
 
 This library is **under development** and for my personal use. Any contributions are welcome!
 
@@ -109,7 +112,7 @@ var wrapper = shallow('outer', { innerData: 'Hello!' });
 DOM testing
 -----------
 
-You can get DOM Element by `root()`.
+You can get DOM Element by `root`.
 
 Then, you can inspect by DOM API or some utility like jQuery.
 
