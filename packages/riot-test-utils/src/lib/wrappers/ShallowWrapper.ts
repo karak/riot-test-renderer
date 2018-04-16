@@ -1,4 +1,4 @@
-import { TagInstance, TagOpts, TagRefs, NestedTags } from 'riot';
+import { TagInstance, TagOpts, TagRefs, NestedTags, ObservableCallback } from 'riot';
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 
@@ -51,6 +51,43 @@ export default class ShallowWrapper<
   /** Unmount tag */
   unmount(keepTheParent?: boolean) {
     this.tagInstance.unmount(keepTheParent);
+  }
+
+  /**
+   * Register callback.
+   *
+   * Note: `this` is unwrapped instance as well.
+   */
+  on(event: string, callback: ObservableCallback): this {
+    this.tagInstance.on(event, callback);
+    return this;
+  }
+
+
+  /**
+   * Register callback once.
+   *
+   * Note: `this` is unwrapped instance as well.
+   */
+  one(event: string, callback: ObservableCallback): this {
+    this.tagInstance.one(event, callback);
+    return this;
+  }
+
+  /**
+   * Execute callbacks
+   */
+  trigger(event: string, ...args: any[]): this {
+    this.tagInstance.trigger(event, ...args);
+    return this;
+  }
+
+  /**
+   * Unregister callback(s)
+   */
+  off(event: string, callback?: ObservableCallback): this {
+    this.tagInstance.off(event, callback);
+    return this;
   }
 
   /** Get outer-HTML string */

@@ -142,6 +142,15 @@ It is equivalent to `instance.opts`.
 Get refs.
 It is equivalent to `instance().refs`.
 
+### on(event, callback)
+### one(event, callback)
+### trigger(event, ...args)
+### off(event, [callback])
+
+All the observable methods.
+
+Note: `this` is always the unwrapped instance in callbacks.
+
 #### unmount()
 
 Unmount the tag.
