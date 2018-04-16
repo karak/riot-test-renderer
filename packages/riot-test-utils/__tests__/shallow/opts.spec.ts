@@ -14,12 +14,12 @@ describe('shallow', () => {
     });
 
     it('get opts as Object', () => {
-      expect(wrapper.opts()).toEqual({ ...opts, dataIs: 'tag' });
+      expect(wrapper.opts).toEqual({ ...opts, dataIs: 'tag' });
     });
 
     it('get each of opts', () => {
-      expect(wrapper.opts('title')).toBe(opts.title);
-      expect(wrapper.opts('visible')).toBe(opts.visible);
+      expect(wrapper.opts.title).toBe(opts.title);
+      expect(wrapper.opts.visible).toBe(opts.visible);
     });
   });
 });

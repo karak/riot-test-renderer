@@ -123,26 +123,28 @@ It returns `ShallowWrapper`.
 
 ### ShallowWrapper
 
-#### instance()
+#### instance
 
-It returns `TagInstance` of root.
+Get `TagInstance` of root.
 
-#### root()
+#### root
 
-It is equivalent to `instance().root`.
+Get root DOM Element.
+It is equivalent to `instance.root`.
 
-#### opts([name])
+#### opts
 
-Get opts, whole object if name is not specified, or one value of opts otherwise
+Get opts, including "data-is" attribute added during rendering.
+It is equivalent to `instance.opts`.
 
 #### refs()
 
+Get refs.
 It is equivalent to `instance().refs`.
 
 #### unmount()
 
 Unmount the tag.
-
 It is equivalent to `instance().unmount()`.
 
 #### html()
@@ -202,5 +204,5 @@ TODO
 - [ ] Full-featured finding API.
 - [ ] More efficient API for multiple tags to compile once shared and use anywhere.
 - [ ] Other testing utility.
-- [ ] Testing method with `jquery` integration
+- [ ] -Testing method with `jquery` integration- finding API on `querySelctorAll`
 - [ ] Testing method for SSR with [`cheerio`](https://github.com/cheeriojs/cheerio) like one of `Enzyme`.

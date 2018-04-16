@@ -17,51 +17,40 @@ export default class ShallowWrapper<
    *
    * @param tagInstance - tag instance to wrap
    */
-  constructor(private tagInstance: TagInstance) {}
+  constructor(private readonly tagInstance: TagInstance) {}
 
   /** Get tag instance */
-  instance() {
+  get instance() {
     return this.tagInstance;
   }
 
   /** Get the root element */
-  root() {
+  get root() {
     return this.tagInstance.root;
   }
 
   /**
    * Get opts of the instance.
    * It is typically passed opts with "dataIs" property
-   *
-   * @param {string=} name name of the property to get
-   * @returns {Object} opts if name is not specified
-   * @returns {T} value of opts if name specified
-   * @template T
    */
-  opts(): TOpts;
-  opts<T>(name: string): T;
-  opts(name?: string) {
+  get opts() {
     const opts = this.tagInstance.opts;
-    if (name === undefined) {
-      return opts as TOpts;
-    } else {
-      return opts[name];
-    }
+    return opts as TOpts & { dataIs: string };
   }
 
   /** Get refs of the instance */
-  refs(): TRefs {
+  get refs(): TRefs {
     return this.tagInstance.refs as TRefs;
   }
 
   /** Get tags */
-  tags(): TTags {
+  get tags(): TTags {
     return this.tagInstance.tags as TTags;
   }
 
   /** Unmount tag */
-  unmount() {
-    this.tagInstance.unmount(); // keepTheParent is always false
+  unmount(keepTheParent?: boolean) {
+    this.tagInstance.unmount(keepTheParent);
   }
 
   /** Get outer-HTML string */
@@ -82,6 +71,6 @@ export default class ShallowWrapper<
    * @param options options to override event object
    */
   simulate<T extends {}>(type: string, options?: T) {
-    return (Simulate as any as { [type: string]: FireEvent })[type](this.instance().root, options);
+    return (Simulate as any as { [type: string]: FireEvent })[type](this.tagInstance.root, options);
   }
 }

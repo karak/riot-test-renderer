@@ -9,15 +9,15 @@ describe('shallow', () => {
     });
 
     it('flips isMounted flag', () => {
-      expect(wrapper.instance().isMounted).toBeTruthy();
+      expect(wrapper.instance.isMounted).toBeTruthy();
       wrapper.unmount();
-      expect(wrapper.instance().isMounted).toBeFalsy();
+      expect(wrapper.instance.isMounted).toBeFalsy();
     });
 
     it('still catches root', () => {
-      expect(wrapper.root()).not.toBe(null);
+      expect(wrapper.root).not.toBe(null);
       wrapper.unmount();
-      expect(wrapper.root()).not.toBe(null);
+      expect(wrapper.root).not.toBe(null);
     });
   });
 });

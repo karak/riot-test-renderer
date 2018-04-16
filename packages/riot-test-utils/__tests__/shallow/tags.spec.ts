@@ -18,15 +18,15 @@ describe('shallow', () => {
         'tag'
       );
 
-      expect(wrapper.tags()).toHaveProperty('my-button');
-      expect(wrapper.tags()).toHaveProperty('my-item');
-      expect(wrapper.tags()['my-button'].root).toBeInstanceOf(Element);
-      expect(wrapper.tags()['my-button'].root.textContent).toBe('Push me!');
-      expect(wrapper.tags()['my-item']).toHaveLength(2);
-      expect(wrapper.tags()['my-item'][0].root).toBeInstanceOf(Element);
-      expect(wrapper.tags()['my-item'][0].root.textContent).toBe('1');
-      expect(wrapper.tags()['my-item'][1].root).toBeInstanceOf(Element);
-      expect(wrapper.tags()['my-item'][1].root.textContent).toBe('2');
+      expect(wrapper.tags).toHaveProperty('my-button');
+      expect(wrapper.tags).toHaveProperty('my-item');
+      expect(wrapper.tags['my-button'].root).toBeInstanceOf(Element);
+      expect(wrapper.tags['my-button'].root.textContent).toBe('Push me!');
+      expect(wrapper.tags['my-item']).toHaveLength(2);
+      expect(wrapper.tags['my-item'][0].root).toBeInstanceOf(Element);
+      expect(wrapper.tags['my-item'][0].root.textContent).toBe('1');
+      expect(wrapper.tags['my-item'][1].root).toBeInstanceOf(Element);
+      expect(wrapper.tags['my-item'][1].root.textContent).toBe('2');
     });
   });
 });

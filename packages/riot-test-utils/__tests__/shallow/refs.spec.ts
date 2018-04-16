@@ -8,9 +8,9 @@ describe('shallow', () => {
         '<tag><button ref="button">Push me!</button></tag>'
       );
 
-      expect(wrapper.refs()).toHaveProperty('button');
+      expect(wrapper.refs).toHaveProperty('button');
 
-      const button = wrapper.refs().button;
+      const button = wrapper.refs.button;
 
       expect(button).toBeInstanceOf(HTMLButtonElement);
       expect(button.textContent).toBe('Push me!');

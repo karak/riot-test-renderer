@@ -20,7 +20,7 @@ describe('shallow', () => {
 
     it('simulates to click a link', () => {
       const fn = jest.fn();
-      wrapper.instance().on('click', fn);
+      wrapper.instance.on('click', fn);
 
       expect(wrapper.simulate('click')).toBe(true);
 
