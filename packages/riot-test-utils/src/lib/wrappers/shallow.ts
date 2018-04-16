@@ -1,6 +1,6 @@
 import { TagOpts, TagRefs, NestedTags } from 'riot';
 import ShallowWrapper from './ShallowWrapper';
-import { ShallowRenderer } from './renderers';
+import { ShallowRenderer } from '../renderers';
 
 /**
  * A shallow renderer for `riot` compatible to `enzyme`

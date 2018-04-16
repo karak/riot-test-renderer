@@ -8,13 +8,13 @@ export {
 }
 
 /* High level APIs */
-import shallow from './lib/shallow';
-import ShallowWrapper from './lib/ShallowWrapper';
+import shallow from './lib/wrappers/shallow';
+import ShallowWrapper from './lib/wrappers/ShallowWrapper';
 export {
   ShallowWrapper,
   shallow,
 };
-export * from './lib/mount'; // !!now developing!!
+export * from './lib/wrappers/mount'; // !!now developing!!
 
 /* Lowlevel APIs */
 export * from './lib/renderers';

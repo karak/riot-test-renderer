@@ -1,6 +1,6 @@
 import { TagInstance, TagOpts, TagRefs, NestedTags } from 'riot';
-import { toHTML, toJSON } from './transform';
-import Simulate, { FireEvent } from './Simulate';
+import { toHTML, toJSON } from '../transform';
+import Simulate, { FireEvent } from '../Simulate';
 
 /**
  * Wrapper of tag instance shallow-rendered.
