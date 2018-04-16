@@ -1,6 +1,7 @@
 import { TagInstance, TagOpts, TagRefs } from 'riot';
 import toHTML from './toHTML';
 import toJSON from './toJSON';
+import Simulate, { FireEvent } from './Simulate';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -67,5 +68,15 @@ export default class ShallowWrapper<
   toJSON(): object | null {
     const root = this.tagInstance.root;
     return toJSON(root !== undefined ? (root as any) : null);
+  }
+
+  /**
+   * Simulate firing an event
+   *
+   * @param type event type
+   * @param options options to override event object
+   */
+  simulate<T extends {}>(type: string, options?: T) {
+    return (Simulate as any as { [type: string]: FireEvent })[type](this.instance().root, options);
   }
 }
