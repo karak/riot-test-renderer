@@ -153,24 +153,33 @@ Get outer HTML by string.
 
 Get json form to create snapshot
 
-### Simulate
-#### Simulate\[eventType\](target, [options])
+#### simulate(eventType, [options])
 
 Fire event.
 
 For example:
 
 ```js
-var link = document.getElementById('#next-link');
-Simulate.click(link);
+wrapper.simulate('click');
 ```
 
 ```js
-var input = document.getElementById('#name-input');
-Simulate.keyup(input, { key: 'a', keyCode: 97, metaKey: true });
+wrapper.simulate('keyup', { key: 'a', keyCode: 97, metaKey: true });
 ```
 
 All the events are listed in [source](./src/lib/Simulate/eventTypes.ts).
+
+**NOTICE**: This would prove its merits if `find()` API is implemented.
+
+Until then, use low-level API `Simulate`. For example:
+
+```js
+var TestUtils = require('riot-test-utils')
+
+var wrapper = TestUtils.shallow('command-bar')
+
+TestUtils.Simulate.click(wrapper.root().querySelector('#link'))
+```
 
 Enzyme integration
 ------------------
