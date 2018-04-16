@@ -26,7 +26,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.5",
-    "riot-shallowize": "^0.1.4"
+    "riot-shallowize": "^0.1.4",
+    "simulate-event": "^1.4.0"
   },
   "repository": {
     "type": "git",
