@@ -1,6 +1,6 @@
 import { mount } from 'riot';
 import shallowize from 'riot-shallowize';
-import RiotRendererBase from './RiotRendererBase';
+import RendererBase from './RendererBase';
 
 // hack to retrieve internal function
 const shallow = (function() {
@@ -11,7 +11,7 @@ const shallow = (function() {
 /**
  * A shallow renderer for `riot`
  */
-export default class RiotShallowRenderer extends RiotRendererBase {
+export default class ShallowRenderer extends RendererBase {
   constructor() {
     super(shallow);
   }

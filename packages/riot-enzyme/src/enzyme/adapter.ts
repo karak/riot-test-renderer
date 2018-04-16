@@ -3,7 +3,7 @@ import { TagOpts } from 'riot';
 import { EnzymeAdapter } from 'enzyme';
 import RiotShallowRendererProps from './RiotShallowRendererProps';
 import { EnzymeNode, EnzymeElement } from './EnzymeNode';
-import { RiotShallowRenderer, RiotStaticRenderer } from 'riot-test-utils';
+import { ShallowRenderer, TestRenderer } from 'riot-test-utils';
 import toReactElement from './toReactElement';
 import renderToStaticMarkup from './renderToStaticMarkup';
 import elementToTree from './elementToTree';
@@ -38,7 +38,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createShallowRenderer(options: RiotShallowRendererProps) {
-    const renderer = new RiotShallowRenderer();
+    const renderer = new ShallowRenderer();
     renderer.loadTags(options['riot-enzyme'].source);
     let cachedNode: React.ReactElement<any> | null = null;
 
@@ -77,7 +77,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
   }
 
   createStringRenderer<P>(options: any) {
-    const renderer = new RiotStaticRenderer();
+    const renderer = new TestRenderer();
     return {
       render(el: React.ReactElement<P>, context: any): string {
         return renderToStaticMarkup(renderer, el, context);

@@ -1,9 +1,9 @@
-import RiotRenderer from './RiotRenderer';
-import RiotShallowRenderer from './RiotShallowRenderer';
-import RiotStaticRenderer from './RiotStaticRenderer';
+import Renderer from './Renderer';
+import ShallowRenderer from './ShallowRenderer';
+import TestRenderer from './TestRenderer';
 
 export {
-  RiotRenderer,
-  RiotShallowRenderer,
-  RiotStaticRenderer,
+  Renderer,
+  ShallowRenderer,
+  TestRenderer,
 };

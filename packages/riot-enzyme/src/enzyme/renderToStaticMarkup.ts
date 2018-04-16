@@ -1,4 +1,4 @@
-import { RiotRenderer, toHTML } from 'riot-test-utils';
+import { Renderer, toHTML } from 'riot-test-utils';
 import isString from 'lodash/isString';
 
 /**
@@ -10,7 +10,7 @@ import isString from 'lodash/isString';
  * @todo replace by riot/server
  */
 export default function renderToStaticMarkup<P>(
-  renderer: RiotRenderer,
+  renderer: Renderer,
   el: React.ReactElement<P>,
   context: any
 ): string {

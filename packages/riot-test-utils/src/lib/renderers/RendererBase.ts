@@ -1,5 +1,5 @@
 import * as riot from 'riot';
-import RiotRenderer, { RiotElement } from './RiotRenderer';
+import Renderer, { RiotElement } from './Renderer';
 import EvalContext from '../tags/EvalContext';
 
 export interface MountFunction {
@@ -20,7 +20,7 @@ function createElementToMountTo(tagName: string) {
 /**
  * base class of some shallow renderer for `riot`
  */
-export default class RiotRendererBase implements RiotRenderer {
+export default class RiotRendererBase implements Renderer {
   private context = new EvalContext();
   private instance: riot.TagInstance | null;
   private rendered: RiotElement | null;

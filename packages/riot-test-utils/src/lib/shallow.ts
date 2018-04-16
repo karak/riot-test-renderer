@@ -1,6 +1,6 @@
 import { TagOpts, TagRefs, NestedTags } from 'riot';
 import ShallowWrapper from './ShallowWrapper';
-import { RiotShallowRenderer } from './renderers';
+import { ShallowRenderer } from './renderers';
 
 /**
  * A shallow renderer for `riot` compatible to `enzyme`
@@ -25,7 +25,7 @@ function shallow<
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
 >(): ShallowWrapper<TOpts, TRefs, TTags> {
-  const renderer = new RiotShallowRenderer();
+  const renderer = new ShallowRenderer();
   renderer.render.apply(renderer, arguments);
   const tag = renderer.getMountedInstance();
   return new ShallowWrapper<TOpts, TRefs, TTags>(tag!);

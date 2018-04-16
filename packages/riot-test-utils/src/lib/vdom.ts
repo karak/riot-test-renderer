@@ -1,7 +1,7 @@
 import { TagInstance, TagOpts } from 'riot';
-import { RiotShallowRenderer } from './renderers';
+import { ShallowRenderer } from './renderers';
 
-const renderer = new RiotShallowRenderer();
+const renderer = new ShallowRenderer();
 
 /** @deprecated */
 function loadTags(source: string) {
