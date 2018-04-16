@@ -5,7 +5,7 @@ Riot-enzyme is a powerful testing utility to test tags of [Riot](http://riotjs.c
 
 Shallow-rendering is provided by [`Riot-shallowize`](https://www.npmjs.com/package/riot-shallowize) including the limitation about transclusions.
 
-It is **under development**.
+It is **under development**, and now virtually following `Riot-test-util`, that is strongly recommended.
 
 Features
 --------
@@ -16,7 +16,7 @@ Features
 
 It is a thin wrapper of [Enzyme](http://airbnb.io/enzyme/). Please note shallow-rendering needs DOM.
 
-Install
+Installation
 -------
 
 ```sh

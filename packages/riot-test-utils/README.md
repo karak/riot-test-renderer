@@ -14,7 +14,7 @@ Features:
 - *Shallow-rendering*.
 - Snapshot testing
 
-This library is **under development** and for my personal use. Any contributions are welcome!
+This library is being developing and have **breaking changes** even if minor update. Any contributions are welcome!
 
 Installation
 ------------
@@ -35,7 +35,7 @@ Import as:
 var mount = require('riot-test-utils').mount;
 
 // es6
-import { mount } from 'riot-test-utils');
+import { mount } from 'riot-test-utils';
 ```
 
 Create wrapper for the tag to test as:
@@ -73,7 +73,7 @@ Specify the name to test when you have multiple tags:
 ```js
 var wrapper = mount(
   [
-    '<tag1><tags /></tag1>',
+    '<tag1><tag2 /></tag1>',
     '<tag2><p>Hello, world!</p></tag2>',
   ].join('\n'),
   'tag1'
@@ -86,7 +86,11 @@ This library provides great **shallow-rendering** feature as `React-test-utils`.
 
 It truly separates your tests of one tag from the others.
 
+For example:
+
 ```js
+var shallow = require('react-test-utils').shallow;
+
 var wrapper = shallow(
   [
     '<inner><p>{opts.data}</p></inner>',
@@ -119,8 +123,10 @@ Then, you can inspect by DOM API or some utility like jQuery.
 ```js
 var wrapper = mount('tag', { greeting: 'Hellow, world' });
 
+// find by DOM API
 assert(wrapper.root.querySelector('p').textContent === 'Hellow, world' );
 
+// find by jQuery
 assert($(wrapper.root).find('p').text() === 'Hello, world');
 ```
 
