@@ -195,10 +195,10 @@ Get refs.
 
 It is equivalent to `instance.refs`.
 
-### on(event, callback)
-### one(event, callback)
-### trigger(event, ...args)
-### off(event, [callback])
+#### on(event, callback)
+#### one(event, callback)
+#### trigger(event, ...args)
+#### off(event, [callback])
 
 All the observable methods.
 
