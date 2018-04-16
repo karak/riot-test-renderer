@@ -11,7 +11,7 @@ export default class ShallowWrapper<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
-> {
+>  {
   /**
    * Constructor
    *
@@ -53,7 +53,17 @@ export default class ShallowWrapper<
     this.tagInstance.update(data);
   }
 
-  /** Unmount tag */
+  /** Is the tag mounted? */
+  get isMounted() {
+    return this.tagInstance.isMounted!;
+  }
+
+  /** Mount the tag */
+  mount() {
+    this.tagInstance.mount();
+  }
+
+  /** Unmount the tag */
   unmount(keepTheParent?: boolean) {
     this.tagInstance.unmount(keepTheParent);
   }
