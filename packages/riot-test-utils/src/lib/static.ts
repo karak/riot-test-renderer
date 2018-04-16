@@ -1,3 +1,3 @@
-import RiotStaticRenderer from './RiotStaticRenderer';
+import { RiotStaticRenderer } from './renderers';
 
 export { RiotStaticRenderer };

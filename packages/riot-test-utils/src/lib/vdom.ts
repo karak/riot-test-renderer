@@ -1,5 +1,5 @@
 import { TagInstance, TagOpts } from 'riot';
-import RiotShallowRenderer from './RiotShallowRenderer';
+import { RiotShallowRenderer } from './renderers';
 
 const renderer = new RiotShallowRenderer();
 

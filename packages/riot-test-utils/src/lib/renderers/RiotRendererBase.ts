@@ -1,6 +1,6 @@
 import * as riot from 'riot';
 import RiotRenderer, { RiotElement } from './RiotRenderer';
-import EvalContext from './EvalContext';
+import EvalContext from '../tags/EvalContext';
 
 export interface MountFunction {
   (

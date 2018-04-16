@@ -1,7 +1,6 @@
 import { TagInstance } from 'riot';
 import ShallowWrapper from './lib/ShallowWrapper';
-import RiotRenderer from './lib/RiotRenderer';
-import RiotShallowRenderer from './lib/RiotShallowRenderer';
+import { RiotRenderer, RiotShallowRenderer } from './lib/renderers';
 import shallow from './lib/shallow';
 import Simulate from './lib/Simulate';
 

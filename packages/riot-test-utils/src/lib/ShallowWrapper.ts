@@ -1,6 +1,5 @@
 import { TagInstance, TagOpts, TagRefs, NestedTags } from 'riot';
-import toHTML from './toHTML';
-import toJSON from './toJSON';
+import { toHTML, toJSON } from './transform';
 import Simulate, { FireEvent } from './Simulate';
 
 /**
