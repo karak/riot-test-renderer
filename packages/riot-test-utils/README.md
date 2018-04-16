@@ -119,9 +119,9 @@ Public API
 Mount with out shallow renderer.
 #### Simulate
 
-It returns `ShallowWrapper`.
+It returns `RiotWrapper`.
 
-### ShallowWrapper
+### RiotWrapper
 
 #### instance
 

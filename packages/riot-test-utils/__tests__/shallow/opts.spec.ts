@@ -1,9 +1,9 @@
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 
 describe('shallow', () => {
   describe('opts', () => {
     const opts = { title: 'title', visible: true };
-    let wrapper: ShallowWrapper<typeof opts>;
+    let wrapper: RiotWrapper<typeof opts>;
 
     beforeEach(() => {
       wrapper = shallow('<tag></tag>', opts);

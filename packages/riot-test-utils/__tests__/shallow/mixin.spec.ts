@@ -1,5 +1,5 @@
 import * as riot from 'riot';
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 
 const hostNameMixin = {
   init() {
@@ -21,7 +21,7 @@ const directMixin = {
 
 describe('shallow', () => {
   describe('mixin', () => {
-    let wrapper: ShallowWrapper;
+    let wrapper: RiotWrapper;
     beforeEach(() => {
       riot.mixin(globalMixin);
       riot.mixin('hostName', hostNameMixin);

@@ -1,8 +1,8 @@
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 
 describe('shallow', () => {
   describe('mount', () => {
-    let wrapper: ShallowWrapper;
+    let wrapper: RiotWrapper;
     beforeEach(() => {
       wrapper = shallow('<tag></tag>');
     });

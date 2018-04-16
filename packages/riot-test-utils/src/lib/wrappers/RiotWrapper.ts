@@ -15,7 +15,7 @@ import Simulate, { FireEvent } from '../Simulate';
  *
  * @see shallow
  */
-export default class ShallowWrapper<
+export default class RiotWrapper<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags

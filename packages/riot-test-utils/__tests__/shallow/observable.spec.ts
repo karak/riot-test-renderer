@@ -1,8 +1,8 @@
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 
 describe('shallow', () => {
   describe('opts', () => {
-    let wrapper: ShallowWrapper;
+    let wrapper: RiotWrapper;
     const data1 = { order: 1 };
     const data2 = { order: 2 };
 

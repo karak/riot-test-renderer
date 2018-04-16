@@ -1,9 +1,9 @@
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 import { staticTag } from 'riot-test-renderer-shared/tags/singleTags';
 
 describe('shallow', () => {
   describe('unmount', () => {
-    let wrapper: ShallowWrapper<{}>;
+    let wrapper: RiotWrapper<{}>;
     beforeEach(() => {
       wrapper = shallow(staticTag);
     });

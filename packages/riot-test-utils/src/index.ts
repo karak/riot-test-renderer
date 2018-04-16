@@ -4,8 +4,8 @@ export { TagInstance, TagOpts, TagRefs, NestedTags };
 
 /* High level APIs */
 import shallow from './lib/wrappers/shallow';
-import ShallowWrapper from './lib/wrappers/ShallowWrapper';
-export { ShallowWrapper, shallow };
+import RiotWrapper from './lib/wrappers/RiotWrapper';
+export { RiotWrapper, shallow };
 export * from './lib/wrappers/mount'; // !!now developing!!
 
 /* Lowlevel APIs */

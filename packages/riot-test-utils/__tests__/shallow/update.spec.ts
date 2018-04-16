@@ -1,9 +1,9 @@
-import { shallow, ShallowWrapper } from '../../src';
+import { shallow, RiotWrapper } from '../../src';
 
 describe('shallow', () => {
   describe('update', () => {
     const opts = { greeting: 'Good morning!' };
-    let wrapper: ShallowWrapper<typeof opts>;
+    let wrapper: RiotWrapper<typeof opts>;
 
     beforeEach(() => {
       wrapper = shallow(
