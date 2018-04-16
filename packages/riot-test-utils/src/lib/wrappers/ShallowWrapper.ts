@@ -1,4 +1,4 @@
-import { TagInstance, TagOpts, TagRefs, NestedTags, ObservableCallback, TagMixin } from 'riot';
+import { TagInstance, TagInterface, TagOpts, TagRefs, NestedTags, ObservableCallback, TagMixin } from 'riot';
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 
@@ -11,7 +11,7 @@ export default class ShallowWrapper<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
-> {
+> implements TagInterface {
   /**
    * Constructor
    *
