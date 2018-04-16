@@ -1,6 +1,6 @@
 {
   "name": "riot-enzyme",
-  "version": "0.2.1",
+  "version": "1.0.0-0",
   "description": "Enzyme wrapper for Riot",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,7 +31,7 @@
     "enzyme-adapter-utils": "^1.3.0",
     "lodash": "^4.17.5",
     "riot": "^3.9.1",
-    "riot-test-utils": "^0.2.1"
+    "riot-test-utils": "^1.0.0-0"
   },
   "repository": {
     "type": "git",
