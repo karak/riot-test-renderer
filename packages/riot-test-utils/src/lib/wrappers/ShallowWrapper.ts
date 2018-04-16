@@ -48,6 +48,11 @@ export default class ShallowWrapper<
     return this.tagInstance.tags as TTags;
   }
 
+  /** Update this tag and its children */
+  update<T extends {}>(data?: T): void {
+    this.tagInstance.update(data);
+  }
+
   /** Unmount tag */
   unmount(keepTheParent?: boolean) {
     this.tagInstance.unmount(keepTheParent);
