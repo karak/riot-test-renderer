@@ -52,6 +52,15 @@ export default class WeakWrapper {
     return new WeakWrapper(findList(selector, this.nodeList));
   }
 
+  /**
+   * Get internal text content
+   *
+   * @throws {Error} unless single
+   */
+  text() {
+    return this.assertSingle().textContent;
+  }
+
   private assertSingle() {
     if (this.nodeList.length !== 1) {
       throw new Error('Count of nodes must be one!');
