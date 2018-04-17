@@ -25,6 +25,16 @@ Install via `npm`:
 npm install -D riot-test-utils
 ```
 
+UMD module is also available.
+For example loading from <https://unpkg.com> is like:
+
+```html
+<script src="https://unpkg.com/riot@3.9.3/riot.js"></script>
+<script src="https://unpkg.com/riot-test-utils@1.0.0-1/dist/index.umd.js"></script>
+```
+
+Dependent packages `riot-shallowize`, `simulate-event` and other utilities are bundled in UMD.
+
 Usage
 -----
 
