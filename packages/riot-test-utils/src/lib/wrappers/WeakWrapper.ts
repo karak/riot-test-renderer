@@ -1,5 +1,7 @@
 import toArray from '../utils/dom/toArray';
+import each from '../utils/dom/each';
 import lazy from '../utils/misc/lazy';
+import Simulate, { FireEvent } from '../Simulate';
 
 export default class WeakWrapper {
   readonly elements = lazy(() => toArray(this.nodeList));
@@ -12,6 +14,17 @@ export default class WeakWrapper {
 
   get root() {
     return this.assertSingle();
+  }
+
+  /**
+   * Simulate firing an event on all of the elements
+   *
+   * @param type event type
+   * @param options options to override event object
+   */
+  simulate<T extends {}>(type: string, options?: T) {
+    const fire = (Simulate as any)[type] as FireEvent | undefined;
+    each(this.nodeList, node => fire!(node, options));
   }
 
   get(index: number): Element;
