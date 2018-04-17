@@ -4,7 +4,7 @@ import lazy from '../utils/misc/lazy';
 import Simulate, { FireEvent } from '../Simulate';
 
 export default class WeakWrapper {
-  readonly elements = lazy(() => toArray(this.nodeList));
+  private readonly elements = lazy(() => toArray(this.nodeList));
 
   constructor(private nodeList: NodeListOf<Element>) {}
 
