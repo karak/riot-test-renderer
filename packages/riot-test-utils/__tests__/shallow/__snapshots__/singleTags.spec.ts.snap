@@ -1,116 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`shallow singleTags template escapes HTML special characters in template 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<tag
+  data-is={
+    Array [
       "tag",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "\\"&<>",
-      ],
-      "name": "p",
-    },
-  ],
-  "name": "tag",
-}
+    ]
+  }
+>
+  <p>
+    "&&lt;&gt;
+  </p>
+</tag>
 `;
 
 exports[`shallow singleTags template extracts template 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<tag
+  data-is={
+    Array [
       "tag",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "Hello, world!",
-      ],
-      "name": "p",
-    },
-  ],
-  "name": "tag",
-}
+    ]
+  }
+>
+  <p>
+    Hello, world!
+  </p>
+</tag>
 `;
 
 exports[`shallow singleTags template renders ignoring style 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<static
+  data-is={
+    Array [
       "static",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "Hello, world!",
-      ],
-      "name": "p",
-    },
-  ],
-  "name": "static",
-}
+    ]
+  }
+>
+  <p>
+    Hello, world!
+  </p>
+</static>
 `;
 
 exports[`shallow singleTags template renders static tag 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<static
+  data-is={
+    Array [
       "static",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "Hello, world!",
-      ],
-      "name": "p",
-    },
-  ],
-  "name": "static",
-}
+    ]
+  }
+>
+  <p>
+    Hello, world!
+  </p>
+</static>
 `;
 
 exports[`shallow singleTags template template "each" work 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<tag
+  data-is={
+    Array [
       "tag",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "A",
-      ],
-      "name": "p",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "B",
-      ],
-      "name": "p",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "C",
-      ],
-      "name": "p",
-    },
-    "",
-  ],
-  "name": "tag",
-}
+    ]
+  }
+>
+  <p>
+    A
+  </p>
+  <p>
+    B
+  </p>
+  <p>
+    C
+  </p>
+  
+</tag>
 `;

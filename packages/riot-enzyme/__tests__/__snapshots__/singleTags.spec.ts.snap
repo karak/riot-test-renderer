@@ -1,21 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`enzyme-riot-adapter tagWithOpts should match snapshot 1`] = `
-Object {
-  "attributes": Object {
-    "data-is": Array [
+<tag
+  data-is={
+    Array [
       "tag",
-    ],
-  },
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "Hello, world!",
-      ],
-      "name": "p",
-    },
-  ],
-  "name": "tag",
-}
+    ]
+  }
+>
+  <p>
+    Hello, world!
+  </p>
+</tag>
 `;
