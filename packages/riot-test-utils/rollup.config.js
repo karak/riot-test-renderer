@@ -11,7 +11,12 @@ export default {
   },
   external: [
     'lodash',
+    'lodash/assign',
     'lodash/each',
+    'lodash/keys',
+    'lodash/map',
+    'lodash/reduce',
+    'lodash/unionWith',
     'riot',
     'riot-shallowize',
     'simulate-event',
