@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rm -rf dist; tsc -p .",
+    "build": "rm -rf dist; rollup -c rollup.config.js",
     "test": "jest",
     "lint": "prettier \"**/*.ts\" -l",
     "lint:fix": "prettier \"**/*.ts\" --write"
@@ -36,6 +36,8 @@
   "devDependencies": {
     "jest": "^22.4.3",
     "riot": "^3.9.1",
-    "riot-test-renderer-shared": "^0.2.0"
+    "riot-test-renderer-shared": "^0.2.0",
+    "rollup": "^0.58.0",
+    "rollup-plugin-typescript2": "^0.13.0"
   }
 }
