@@ -131,6 +131,12 @@ export default class RiotWrapper<
     return root !== undefined ? toHTML(root) : '';
   }
 
+  /** Get internal text content */
+  text() {
+    const root = this.tagInstance.root;
+    return root !== undefined ? root.textContent : '';
+  }
+
   toJSON(): object | null {
     const root = this.tagInstance.root;
     return toJSON(root !== undefined ? (root as any) : null);
