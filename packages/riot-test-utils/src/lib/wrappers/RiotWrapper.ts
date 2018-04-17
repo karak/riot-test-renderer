@@ -9,6 +9,8 @@ import {
 } from 'riot';
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
+import find from './find';
+import WeakWrapper from './WeakWrapper';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -134,6 +136,11 @@ export default class RiotWrapper<
   toJSON(): object | null {
     const root = this.tagInstance.root;
     return toJSON(root !== undefined ? (root as any) : null);
+  }
+
+  /** Find elements by selector under this node */
+  find(selector: string): WeakWrapper {
+    return find(selector, this.root);
   }
 
   /**
