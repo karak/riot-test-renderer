@@ -3,7 +3,8 @@ import each from '../utils/dom/each';
 import lazy from '../utils/misc/lazy';
 import Simulate, { FireEvent } from '../Simulate';
 import findList from '../utils/dom/findList';
-import toHTML from '../transform/toHTML';
+import { toHTML, toJSON } from '../transform';
+import map from '../utils/dom/map';
 
 export default class WeakWrapper {
   private readonly elements = lazy(() => toArray(this.nodeList));
@@ -70,8 +71,24 @@ export default class WeakWrapper {
     return toHTML(this.assertSingle());
   }
 
+  /** Get outer-HTML string
+   *
+   * @throws {Error} unless single
+   */
+  toJSON(): object | object[] {
+    if (this.isSingle()) {
+      return toJSON(this.assertSingle());
+    } else {
+      return map(this.nodeList, toJSON);
+    }
+  }
+
+  private isSingle() {
+    return this.nodeList.length === 1;
+  }
+
   private assertSingle() {
-    if (this.nodeList.length !== 1) {
+    if (!this.isSingle()) {
       throw new Error('Count of nodes must be one!');
     }
     return this.nodeList.item(0);
