@@ -11,6 +11,7 @@ Features:
 
 - Shorter way to setup unit-testing of tags.
 - Wrapper API of an instance of tags to inspect easily
+- DOM Traversing API similar to jQuery
 - *Shallow-rendering*.
 - Snapshot testing
 
@@ -30,7 +31,7 @@ For example loading from CDN like jsdelivr is like:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/riot@3.9/riot.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/riot-test-utils@1.0.0/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/riot-test-utils@1.1.0/dist/index.umd.min.js"></script>
 ```
 
 Dependent packages `riot-shallowize`, `simulate-event` and other utilities are bundled in UMD.
@@ -140,6 +141,15 @@ assert(wrapper.root.querySelector('p').textContent === 'Hellow, world' );
 assert($(wrapper.root).find('p').text() === 'Hello, world');
 ```
 
+And gather internal elements by `find()` method and inspect them.
+
+```js
+wrapper.find('ul.todo-list > li');
+
+assert(wrapper.length === 5);
+assert(wrapper.get(0).text() === 'Buy a car');
+```
+
 Snapshot testing
 ----------------
 
@@ -196,6 +206,8 @@ Mount a tag with shallow-rendering.
 They return `RiotWrapper`.
 
 ### RiotWrapper
+
+Wrapper of tag instance to be mounted or shallow-mounted.
 
 #### instance
 
@@ -268,15 +280,25 @@ Update the tag and its children.
 
 It is equivalent to `instance.update()`.
 
-### mixin(mixin)
+#### mixin(mixin)
 
 Apply mixin to the tag.
 
 It is equivalent to `instance.mixin()`.
 
+#### find(selector)
+
+Find internal elements by CSS selector.
+
+This returns `WeakWrapper`
+
 #### html()
 
 Get outer HTML by string.
+
+#### text()
+
+Get internal concatenated text.
 
 #### toJSON()
 
@@ -298,17 +320,43 @@ wrapper.simulate('keyup', { key: 'a', keyCode: 97, metaKey: true });
 
 All the events are listed in [source](./src/lib/Simulate/eventTypes.ts).
 
-**NOTICE**: This would prove its merits if `find()` API is implemented.
+### WeakWrapper
 
-Until then, use low-level API `Simulate`. For example:
+Wrapper of DOM elements to be found.
 
-```js
-var TestUtils = require('riot-test-utils')
+#### instance
 
-var wrapper = TestUtils.shallow('command-bar')
+Tag instance. This always returns `null`.
 
-TestUtils.Simulate.click(wrapper.root.querySelector('#link'))
-```
+#### root
+
+**Throws** unless wrapped elements are single.
+
+#### length
+
+Get number of wrapped elements.
+
+#### get([index])
+
+Get wrapped element(s) as `Element` or array of `Element`.
+
+#### find(selector)
+
+Find more under the wrapped element(s) by CSS selector.
+
+#### text()
+
+#### html()
+
+#### toJSON()
+
+Contents APIs above are supported as well as `RiotWrapper`, but first two methods **throws** unless single.
+
+#### simulate(eventType, [options])
+
+Fire event.
+
+If wrapper has multiple elements, it fires each element in the order of appearance.
 
 Enzyme integration
 ------------------
@@ -318,8 +366,10 @@ Check [Riot-enzyme](https://www.npmjs.com/package/riot-enzyme) out.
 Requirement
 -----------
 
-- JavaScript runtime, ES5 compatible at least, and supports `Symbol` for snapshot testing.
-- DOM Environment like real browsers or `jsdom`.
+- JavaScript runtime, ES5 compatible at least and supports:
+  - `Symbol` for snapshot testing.
+- DOM Environment like real browsers or `jsdom` and supports:
+  - `querySelectorAll` and `compareDocumentPosition` for finding(IE9 is dropped!).
 
 TODO
 ----
@@ -332,5 +382,5 @@ TODO
 - [ ] Full-featured finding API.
 - [x] More efficient API for multiple tags to compile once shared and use anywhere.
 - [ ] Other testing utility.
-- [ ] -Testing method with `jquery` integration- finding API on `querySelctorAll`
-- [ ] Testing method for SSR with [`cheerio`](https://github.com/cheeriojs/cheerio) like one of `Enzyme`.
+- [x] Finding API on `querySelctorAll` similar to jQuery or Cheerio like Enzyme
+- [ ] *To promote* results of find() if they are actually tag instances.
