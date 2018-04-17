@@ -30,18 +30,8 @@ describe('enzyme-riot-adapter', () => {
       expect(wrapper.opts()).toEqual({});
     });
 
-    it('has a JSON expression', () => {
-      expect(wrapper.toJson()).toEqual({
-        name: 'static',
-        attributes: { 'data-is': ['static'] },
-        children: [
-          {
-            name: 'p',
-            attributes: {},
-            children: ['Hello, world!'],
-          },
-        ],
-      });
+    it('should match snapshot', () => {
+      expect(wrapper.toJson()).toMatchSnapshot();
     });
   });
 
@@ -58,20 +48,6 @@ describe('enzyme-riot-adapter', () => {
 
     it('shoud have the same opts as passed', () => {
       expect(wrapper.opts()).toEqual({ data: 'Hello, world!' });
-    });
-
-    it('should have a JSON expression', () => {
-      expect(wrapper.toJson()).toEqual({
-        name: 'tag',
-        attributes: { 'data-is': ['tag'] },
-        children: [
-          {
-            name: 'p',
-            attributes: {},
-            children: ['Hello, world!'],
-          },
-        ],
-      });
     });
 
     it('should match snapshot', () => {
