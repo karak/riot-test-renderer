@@ -2,6 +2,7 @@ import toArray from '../utils/dom/toArray';
 import each from '../utils/dom/each';
 import lazy from '../utils/misc/lazy';
 import Simulate, { FireEvent } from '../Simulate';
+import findList from '../utils/dom/findList';
 
 export default class WeakWrapper {
   private readonly elements = lazy(() => toArray(this.nodeList));
@@ -45,6 +46,10 @@ export default class WeakWrapper {
 
   get length() {
     return this.nodeList.length;
+  }
+
+  find(selector: string) {
+    return new WeakWrapper(findList(selector, this.nodeList));
   }
 
   private assertSingle() {
