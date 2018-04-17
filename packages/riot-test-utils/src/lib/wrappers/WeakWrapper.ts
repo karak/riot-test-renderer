@@ -3,6 +3,7 @@ import each from '../utils/dom/each';
 import lazy from '../utils/misc/lazy';
 import Simulate, { FireEvent } from '../Simulate';
 import findList from '../utils/dom/findList';
+import toHTML from '../transform/toHTML';
 
 export default class WeakWrapper {
   private readonly elements = lazy(() => toArray(this.nodeList));
@@ -59,6 +60,14 @@ export default class WeakWrapper {
    */
   text() {
     return this.assertSingle().textContent;
+  }
+
+  /** Get outer-HTML string
+   *
+   * @throws {Error} unless single
+   */
+  html() {
+    return toHTML(this.assertSingle());
   }
 
   private assertSingle() {
