@@ -63,7 +63,8 @@ export default class WeakWrapper {
     return this.assertSingle().textContent;
   }
 
-  /** Get outer-HTML string
+  /**
+   * Get outer-HTML string
    *
    * @throws {Error} unless single
    */
@@ -71,9 +72,8 @@ export default class WeakWrapper {
     return toHTML(this.assertSingle());
   }
 
-  /** Get outer-HTML string
-   *
-   * @throws {Error} unless single
+  /**
+   * Convert to JSON form to generate snapshot
    */
   toJSON(): object | object[] {
     if (this.isSingle()) {
