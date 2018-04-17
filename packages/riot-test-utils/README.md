@@ -146,6 +146,26 @@ it('should match snapshot', function () {
 });
 ```
 
+Then, you will see the following result if different:
+
+```diff
+  <tag
+    data-is={
+      Array [
+        "tag"
+      ]
+    }
+  >
+-   Hello, world!
++   <h1>
++     Example:
++   </h1>
++   <p>
++     Hello, world!
++   </p>
+  </tag>
+```
+
 Public API
 ----------
 
@@ -288,7 +308,8 @@ Check [Riot-enzyme](https://www.npmjs.com/package/riot-enzyme) out.
 Requirement
 -----------
 
-- JavaScript runtime, ES5 compatible, at least.
+- JavaScript runtime, ES5 compatible at least, and supports `Symbol` for snapshot testing.
+- DOM Environment like real browsers or `jsdom`.
 
 TODO
 ----
