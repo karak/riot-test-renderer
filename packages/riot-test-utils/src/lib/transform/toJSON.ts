@@ -1,14 +1,17 @@
-export interface JSONElement {
-  name: string;
-  attributes: JSONAttributes;
-  children: JSONChild[];
+export interface ReactTestElement {
+  type: string;
+  props: ReactProps;
+  children: ReactTestChild[];
+  $$typeof?: Symbol;
 }
 
-export interface JSONAttributes {
+const JSON_TYPE = Symbol && Symbol.for('react.test.json');
+
+export interface ReactProps {
   [name: string]: any;
 }
 
-export type JSONChild = JSONElement | string | null;
+export type ReactTestChild = ReactTestElement | string | number | null;
 
 function getTagName(element: HTMLElement | SVGElement) {
   if ('tagName' in element) {
@@ -19,7 +22,7 @@ function getTagName(element: HTMLElement | SVGElement) {
 }
 
 function getAttributes(element: HTMLElement | SVGElement) {
-  const attrs: JSONAttributes = {};
+  const attrs: ReactProps = {};
 
   const xs = element.attributes;
   for (let i = 0; i < xs.length; i += 1) {
@@ -32,7 +35,7 @@ function getAttributes(element: HTMLElement | SVGElement) {
   return attrs;
 }
 
-function toJSONChild(node: Node): JSONChild {
+function toJSONChild(node: Node): ReactTestChild {
   switch (node.nodeType) {
     case node.ELEMENT_NODE:
       return toJSON(node as Element);
@@ -59,18 +62,23 @@ function getChildren(element: HTMLElement | SVGElement) {
   return result;
 }
 
-export default function toJSON(element: Element): JSONElement {
+/**
+ * Transform to object-tree for snapshot testing
+ * which is compatible to "react.test.json" in Jest.
+ */
+export default function toJSON(element: Element): ReactTestElement {
   if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
     throw new Error('element must be HTMLElement or SVGElement');
   }
 
-  const name = getTagName(element);
-  const attributes = getAttributes(element);
+  const type = getTagName(element);
+  const props = getAttributes(element);
   const children = getChildren(element);
 
   return {
-    name,
-    attributes,
+    type,
+    props,
     children,
+    $$typeof: JSON_TYPE,
   };
 }
