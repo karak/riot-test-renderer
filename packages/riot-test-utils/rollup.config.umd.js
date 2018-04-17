@@ -6,7 +6,7 @@ export default Object.assign(
   {
     external: [
       'riot',
-      // "riot-shallowize", "simulate-event" and "lodash/each" are bundled
+      // "riot-shallowize", "simulate-event" and "lodash/*" are bundled
     ],
     output: {
       file: 'dist/index.umd.js',
