@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`find toJSON get concatnated text 1`] = `
+<div
+  id={
+    Array [
+      "root",
+    ]
+  }
+>
+  
+          
+  <h1>
+    Snapshot
+  </h1>
+  
+          
+  <ul>
+    
+          
+    <li
+      class={
+        Array [
+          "active",
+        ]
+      }
+    >
+      Apple
+    </li>
+    
+          
+    <li>
+      <a
+        href={
+          Array [
+            "#",
+          ]
+        }
+      >
+        Orange
+      </a>
+    </li>
+    
+          
+  </ul>
+  
+        
+</div>
+`;
+
+exports[`find toJSON output as array if multiple 1`] = `
+Array [
+  <li
+    class={
+      Array [
+        "active",
+      ]
+    }
+  >
+    Apple
+  </li>,
+  <li>
+    <a
+      href={
+        Array [
+          "#",
+        ]
+      }
+    >
+      Orange
+    </a>
+  </li>,
+]
+`;
