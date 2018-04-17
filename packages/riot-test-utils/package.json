@@ -1,6 +1,6 @@
 {
   "name": "riot-test-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "lightweight testing utility of Riot",
   "main": "dist/index.js",
   "browser": "./dist/index.umd.js",
