@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./dist",
-    "lib": ["dom", "es5", "es2015.core", "es2015.symbol"]
+    "outDir": "./dist"
   },
   "include": [
     "src/**/*",
