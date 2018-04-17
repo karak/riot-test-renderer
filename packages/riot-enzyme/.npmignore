@@ -8,3 +8,4 @@ jest.config.js
 package-lock.json
 tsconfig.json
 dist/__tests__
+.rpt2_cache/
