@@ -28,6 +28,7 @@
   "author": "Karak",
   "license": "MIT",
   "dependencies": {
+    "css-select": "^2.0.0",
     "lodash": "^4.17.5",
     "riot-shallowize": "^0.1.4",
     "simulate-event": "^1.4.0"
