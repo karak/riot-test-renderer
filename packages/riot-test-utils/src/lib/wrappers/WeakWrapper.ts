@@ -5,6 +5,7 @@ import Simulate, { FireEvent } from '../Simulate';
 import findList from '../utils/dom/findList';
 import { toHTML, toJSON } from '../transform';
 import map from '../utils/dom/map';
+const { is } = require('css-select');
 
 export default class WeakWrapper {
   private readonly elements = lazy(() => toArray(this.nodeList));
@@ -81,6 +82,10 @@ export default class WeakWrapper {
     } else {
       return map(this.nodeList, toJSON);
     }
+  }
+
+  is(selector: string) {
+    return is(this.assertSingle(), selector); // TODO: every
   }
 
   private isSingle() {

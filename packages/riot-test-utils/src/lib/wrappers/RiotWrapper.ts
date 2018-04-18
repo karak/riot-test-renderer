@@ -11,6 +11,7 @@ import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 import find from './find';
 import WeakWrapper from './WeakWrapper';
+const { is } = require('css-select');
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -142,6 +143,10 @@ export default class RiotWrapper<
   toJSON(): object | null {
     const root = this.tagInstance.root;
     return toJSON(root !== undefined ? (root as any) : null);
+  }
+
+  is(selector: string) {
+    return is(this.root, selector); // TODO: every
   }
 
   /** Find elements by selector under this node */
