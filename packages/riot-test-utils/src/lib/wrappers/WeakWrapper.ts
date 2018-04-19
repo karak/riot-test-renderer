@@ -1,3 +1,4 @@
+import WrapperExtensions from './WrapperExtensions';
 import toArray from '../utils/dom/toArray';
 import each from '../utils/dom/each';
 import lazy from '../utils/misc/lazy';
@@ -6,7 +7,7 @@ import findList from '../utils/dom/findList';
 import { toHTML, toJSON } from '../transform';
 import map from '../utils/dom/map';
 
-export default class WeakWrapper {
+export default class WeakWrapper implements WrapperExtensions {
   private readonly elements = lazy(() => toArray(this.nodeList));
 
   constructor(private nodeList: NodeListOf<Element>) {}
