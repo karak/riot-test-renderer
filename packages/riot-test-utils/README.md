@@ -144,10 +144,10 @@ assert($(wrapper.root).find('p').text() === 'Hello, world');
 And gather internal elements by `find()` method and inspect them.
 
 ```js
-wrapper.find('ul.todo-list > li');
+const itemsWrapper = wrapper.find('ul.todo-list > li');
 
-assert(wrapper.length === 5);
-assert(wrapper.get(0).text() === 'Buy a car');
+assert(itemsWrapper.length === 5);
+assert(itemsWrapper.get(0).text() === 'Buy a car');
 ```
 
 Snapshot testing
