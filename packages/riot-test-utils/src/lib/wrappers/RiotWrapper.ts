@@ -155,8 +155,8 @@ export default class RiotWrapper<
    * @param type event type
    * @param options options to override event object
    */
-  simulate<T extends {}>(type: string, options?: T) {
-    return ((Simulate as any) as { [type: string]: FireEvent })[type](
+  simulate<T extends {}>(type: string, options?: T): void {
+    ((Simulate as any) as { [type: string]: FireEvent })[type](
       this.tagInstance.root,
       options
     );

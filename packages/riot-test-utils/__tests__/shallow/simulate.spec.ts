@@ -22,9 +22,13 @@ describe('shallow', () => {
       const fn = jest.fn();
       wrapper.instance.on('click', fn);
 
-      expect(wrapper.simulate('click')).toBe(true);
+      wrapper.simulate('click');
 
       expect(fn).toHaveBeenCalled();
+    });
+
+    it('return nothing', () => {
+      expect(wrapper.simulate('click')).toBeUndefined();
     });
   });
 });

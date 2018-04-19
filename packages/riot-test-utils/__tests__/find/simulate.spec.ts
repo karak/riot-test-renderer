@@ -47,5 +47,13 @@ describe('find', () => {
       expect((wrapper.get(1) as HTMLInputElement).checked).toBe(true);
       expect((wrapper.get(2) as HTMLInputElement).checked).toBe(false);
     });
+
+    it('return nothing', () => {
+      // single
+      expect(find('form', element).simulate('submit')).toBeUndefined();
+
+      // multiple
+      expect(find('input', element).simulate('click')).toBeUndefined();
+    });
   });
 });
