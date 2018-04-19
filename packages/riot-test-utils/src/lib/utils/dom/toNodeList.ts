@@ -1,8 +1,9 @@
 import each from 'lodash/each';
 import assign from 'lodash/assign';
-import lazy from '../misc/lazy';
 
-const empty = lazy(() => document.createDocumentFragment().childNodes);
+function empty(ownerDocument: Document) {
+  return ownerDocument.createDocumentFragment().childNodes;
+}
 
 export default function toNodeList<T extends Node>(
   array: ReadonlyArray<T>
@@ -13,8 +14,10 @@ export default function toNodeList<T extends Node>(
     properties[i] = { value: x, enumerable: true };
   });
 
+  const ownerDocument = array.length > 0 ? array[0].ownerDocument : document;
+
   return Object.create(
-    empty(),
+    empty(ownerDocument),
     assign(properties, {
       length: { value: array.length },
       item: {
