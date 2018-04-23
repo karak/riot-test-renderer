@@ -1,24 +1,20 @@
-import {
-  shallow,
-  RiotWrapper,
-  WeakWrapper,
-  extend,
-  WrapperExtensions,
-} from '../../src';
+import { shallow, RiotWrapper, WeakWrapper, extend } from '../../src';
 
 const EXTEND_MOCK = jest.fn();
 
+// Extend!
 extend({
-  is: function(this: RiotWrapper | WeakWrapper, selector: string) {
+  is: function(this: RiotWrapper | WeakWrapper, selector: string): boolean {
     return EXTEND_MOCK.call(this, selector);
   },
 });
 
-//declare module '../../src/lib/wrappers/WrapperExtensions' {
-declare interface WrapperExtensions {
-  is(selctor: string): boolean;
+// Add typedefinitions
+declare module '../../src' {
+  export interface WrapperExtensions {
+    is(selctor: string): boolean;
+  }
 }
-//}
 
 describe('extend', () => {
   beforeEach(() => {
@@ -29,9 +25,9 @@ describe('extend', () => {
     it('add methods', () => {
       const wrapper = shallow('<tag></tag>');
 
-      expect((wrapper as WrapperExtensions).is('success'));
+      expect(wrapper.is(':enabled'));
 
-      expect(EXTEND_MOCK).toHaveBeenCalledWith('success');
+      expect(EXTEND_MOCK).toHaveBeenCalledWith(':enabled');
     });
   });
 });

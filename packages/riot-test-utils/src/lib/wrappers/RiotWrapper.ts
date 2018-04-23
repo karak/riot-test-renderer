@@ -11,7 +11,6 @@ import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 import find from './find';
 import WeakWrapper from './WeakWrapper';
-import WrapperExtensions from './WrapperExtensions';
 
 /**
  * Wrapper of tag instance shallow-rendered.
@@ -22,7 +21,7 @@ export default class RiotWrapper<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
-> implements TagInterface, WrapperExtensions {
+> implements TagInterface {
   /**
    * Constructor
    *

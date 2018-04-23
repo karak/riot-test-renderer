@@ -1,10 +1,8 @@
-import RiotWrapper from './RiotWrapper';
-import WeakWrapper from './WeakWrapper';
-import WrapperExtensions from './WrapperExtensions';
+import { WrapperExtensions } from '../..';
 import mount from './mount';
 import shallow from './shallow';
 import find from './find';
-import extend from './extend';
+import { extend, RiotWrapper, WeakWrapper } from './extend';
 
 export {
   RiotWrapper,
