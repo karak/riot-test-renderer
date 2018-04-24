@@ -1,5 +1,6 @@
 import { TagOpts, TagRefs, NestedTags } from 'riot';
-import RiotWrapper from './RiotWrapper';
+import { RiotWrapper } from './index';
+import RiotWrapperImpl from './RiotWrapper';
 import { TestRenderer } from '../renderers';
 
 /**
@@ -30,7 +31,7 @@ function mount<
   const renderer = new TestRenderer();
   renderer.render.apply(renderer, arguments);
   const tag = renderer.getMountedInstance();
-  return new RiotWrapper<TOpts, TRefs, TTags>(tag!);
+  return new RiotWrapperImpl<TOpts, TRefs, TTags>(tag!);
 }
 
 export default mount;
