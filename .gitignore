@@ -60,3 +60,6 @@ typings/
 # build
 dist/
 .rpt2_cache/
+
+# webstorm
+.idea
