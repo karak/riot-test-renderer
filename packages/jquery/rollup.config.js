@@ -7,7 +7,7 @@ export default {
     format: 'cjs',
   }, {
     file: 'dist/index.mjs',
-    format: 'es2015',
+    format: 'es',
   }],
   external: [
     'jquery',
