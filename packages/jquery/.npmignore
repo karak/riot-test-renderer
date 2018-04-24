@@ -1,0 +1,9 @@
+__tests__/
+node_modules/
+src/
+.gitignore
+jest.config.js
+package-lock.json
+tsconfig.json
+dist/__tests__
+.rpt2_cache
