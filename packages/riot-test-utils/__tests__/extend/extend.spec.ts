@@ -56,5 +56,6 @@ describe('extend', () => {
       expect(wrapper.find('p').is('.hero'));
 
       expect(EXTEND_MOCK).toHaveBeenCalledWith('.hero');
+    });
   });
 });
