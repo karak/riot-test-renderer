@@ -18,7 +18,7 @@ const jqueryExtension: {
 
 /** Add the method to get jQuery object($()) */
 function addWrap() {
-  jqueryExtension['$'] = function() {
+  jqueryExtension['$'] = function(this: RiotWrapper | WeakWrapper) {
     return toJQuery(this);
   };
 }
