@@ -9,3 +9,5 @@ run_test() {
 run_test "packages/riot-test-utils"
 run_test "packages/riot-enzyme"
 run_test "packages/riot-enzyme-examples"
+run_test "packages/jquery"
+

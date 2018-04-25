@@ -9,3 +9,4 @@ run_build() {
 run_build "packages/riot-test-renderer-shared"
 run_build "packages/riot-test-utils"
 run_build "packages/riot-enzyme"
+run_build "packages/jquery"
