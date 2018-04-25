@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.1",
+    "jest": "^22.4.3",
     "jquery": "^3.3.1",
     "rollup": "^0.58.0"
   },
