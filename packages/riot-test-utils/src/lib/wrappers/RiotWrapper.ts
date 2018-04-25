@@ -10,7 +10,7 @@ import {
 import { toHTML, toJSON } from '../transform';
 import Simulate, { FireEvent } from '../Simulate';
 import find from './find';
-import WeakWrapper from './WeakWrapper';
+import { WeakWrapper } from './index';
 
 /**
  * Wrapper of tag instance shallow-rendered.

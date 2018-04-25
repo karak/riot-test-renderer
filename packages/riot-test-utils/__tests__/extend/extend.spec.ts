@@ -49,5 +49,12 @@ describe('extend', () => {
 
       expect(EXTEND_MOCK).toHaveBeenCalledWith('p');
     });
+
+    it('add methods to RiotWrapper.find', () => {
+      const wrapper = mount('<tag><p class="hero">Hello!</p></tag>');
+
+      expect(wrapper.find('p').is('.hero'));
+
+      expect(EXTEND_MOCK).toHaveBeenCalledWith('.hero');
   });
 });
