@@ -1,5 +1,6 @@
 import { extend, RiotWrapper, WeakWrapper } from 'riot-test-utils';
 import { default as $ } from 'jquery';
+import each from 'lodash/each';
 
 function isRiotWrapper(wrapper: RiotWrapper | WeakWrapper): wrapper is RiotWrapper {
   return wrapper.instance !== null;
@@ -14,9 +15,17 @@ const jqueryExtension: {
   [name: string]: Function;
 } = {};
 
-jqueryExtension.is = function (this: RiotWrapper | WeakWrapper, arg: any) {
-  return toJQuery(this).is(arg);
-};
+
+const names = [
+  'is',
+];
+
+each(names, name => {
+  jqueryExtension[name] = function (this: RiotWrapper | WeakWrapper) {
+    const $el = toJQuery(this);
+    return ($el as any)[name].apply($el, arguments);
+  };
+});
 
 /* Do extend */
 extend(jqueryExtension)
