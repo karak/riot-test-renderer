@@ -18,12 +18,21 @@ function shallow<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
->(src: string, name: string, opts?: TOpts, options?: MountOptions): RiotWrapper<TOpts, TRefs, TTags>;
+>(
+  src: string,
+  name: string,
+  opts?: TOpts,
+  options?: MountOptions
+): RiotWrapper<TOpts, TRefs, TTags>;
 function shallow<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
->(src: string, opts?: TOpts, options?: MountOptions): RiotWrapper<TOpts, TRefs, TTags>;
+>(
+  src: string,
+  opts?: TOpts,
+  options?: MountOptions
+): RiotWrapper<TOpts, TRefs, TTags>;
 function shallow<
   TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,

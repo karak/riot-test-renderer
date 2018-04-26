@@ -8,6 +8,6 @@ export default interface Renderer {
     name: string,
     opts?: TagOpts,
     children?: ReadonlyArray<RiotElement>,
-    options?: MountOptions,
+    options?: MountOptions
   ): TagInstance;
 };

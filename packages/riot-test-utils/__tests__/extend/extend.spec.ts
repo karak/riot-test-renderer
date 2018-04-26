@@ -1,4 +1,11 @@
-import { mount, shallow, find, RiotWrapper, WeakWrapper, extend } from '../../src';
+import {
+  mount,
+  shallow,
+  find,
+  RiotWrapper,
+  WeakWrapper,
+  extend,
+} from '../../src';
 
 const EXTEND_MOCK = jest.fn();
 

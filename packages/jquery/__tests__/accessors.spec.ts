@@ -123,12 +123,18 @@ describe('accessors', () => {
 
     describe('WeakWrapper', () => {
       it('get', () => {
-        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(true);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(
+          true
+        );
       });
 
       it('set', () => {
-        const ret = wrapper.find('input[type="checkbox"]').prop('checked', false);
-        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);
+        const ret = wrapper
+          .find('input[type="checkbox"]')
+          .prop('checked', false);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(
+          false
+        );
         expect(ret.instance).toBeDefined();
       });
     });
@@ -143,7 +149,9 @@ describe('accessors', () => {
         wrapper = mount(`<tag></tag>`, {}, { attachTo: input });
 
         if (wrapper.root !== input) {
-          throw new Error('Failed to setup. "attachTo" did\'t work as expected.');
+          throw new Error(
+            'Failed to setup. "attachTo" did\'t work as expected.'
+          );
         }
       });
 
