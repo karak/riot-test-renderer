@@ -14,6 +14,7 @@ describe('accessors', () => {
           <li data-bind="a"></li>
           <li data-bind="1"></li>
         </ul>
+        <input type="checkbox" value="accept" checked />
       </tag>`);
   });
 
@@ -106,7 +107,67 @@ describe('accessors', () => {
     });
   });
 
-  describe.skip('prop', () => {});
+  describe('prop', () => {
+    describe('RiotWrapper', () => {
+      it('get', () => {
+        expect(wrapper.prop('lang')).toBe('');
+      });
 
-  describe.skip('value', () => {});
+      it('set', () => {
+        const ret = wrapper.prop('lang', 'en');
+        expect(wrapper.prop('lang')).toBe('en');
+        expect(ret).toBe(wrapper);
+        expect(ret.instance).toBeDefined();
+      });
+    });
+
+    describe('WeakWrapper', () => {
+      it('get', () => {
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(true);
+      });
+
+      it('set', () => {
+        const ret = wrapper.find('input[type="checkbox"]').prop('checked', false);
+        expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);
+        expect(ret.instance).toBeDefined();
+      });
+    });
+  });
+
+  describe('val', () => {
+    describe.skip('RiotWrapper', () => {
+      let wrapper: RiotWrapper;
+      beforeEach(() => {
+        // TODO: This test requires mount to use <input> for parent elements.
+        wrapper = mount(`<tag value="test"></tag>`);
+      });
+
+      afterEach(() => {
+        wrapper.unmount();
+      });
+
+      it('get', () => {
+        expect(wrapper.val()).toBe('test');
+      });
+
+      it('set', () => {
+        const ret = wrapper.val('test-test');
+        expect(wrapper.val()).toBe('test-test');
+        expect(ret).toBe(wrapper);
+        expect(ret.instance).toBeDefined();
+      });
+    });
+
+    describe('WeakWrapper', () => {
+      it('get', () => {
+        expect(wrapper.find('input[type="checkbox"]').val()).toBe('accept');
+      });
+
+      it('set', () => {
+        const ret = wrapper.find('input[type="checkbox"]').val('test-test');
+        expect(wrapper.find('input[type="checkbox"]').val()).toBe('test-test');
+        expect(ret.instance).toBeDefined();
+      });
+    });
+  });
 });
