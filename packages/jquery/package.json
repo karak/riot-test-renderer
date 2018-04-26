@@ -4,6 +4,7 @@
   "description": "An official jQuery extension of riot-test-utils",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "keywords": [
     "riotjs",
     "jquery",
