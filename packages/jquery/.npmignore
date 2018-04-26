@@ -2,8 +2,10 @@ __tests__/
 node_modules/
 src/
 .gitignore
+.prettierignore
 jest.config.js
 package-lock.json
+rollup.config.js
 tsconfig.json
-dist/__tests__
+__tests__
 .rpt2_cache
