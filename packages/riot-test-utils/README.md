@@ -192,19 +192,45 @@ Public API
 
 ### Module
 
-#### mount(tagName, [opts])
-#### mount(singleTagSource, [opts])
-#### mount(multipleTagSource, tagName, [opts])
+#### mount(tagName, [opts], [mountOptions])
+#### mount(singleTagSource, [opts], [mountOptions])
+#### mount(multipleTagSource, tagName, [opts], [mountOptions])
 
 Mount a tag with full-rendering.
 
-#### shallow(tagName, [opts])
-#### shallow(singleTagSource, [opts])
-#### shallow(multipleTagSource, tagName, [opts])
+#### shallow(tagName, [opts], [mountOptions])
+#### shallow(singleTagSource, [opts], [mountOptions])
+#### shallow(multipleTagSource, tagName, [opts], [mountOptions])
 
 Mount a tag with shallow-rendering.
 
 They return `RiotWrapper`.
+
+#### Parameters of mount/shallow
+
+| Parameter         | Type   | Description                                                  |
+| ----------------- | ------ | ------------------------------------------------------------ |
+| tagName           | String | name of tag to test. You need to have loaded the tag somewhere without `singleTagSource` or `multipleTagSource`. |
+| singleTagSource   | String | content of one tag to test.                                  |
+| multipleTagSource | String | content of tags including one to test. It requires `tagName` too. |
+| opts              | Object | tag interface                                                |
+| mountOptions      | Object | Options to mount. It has one optional property `attachTo`. See below. |
+
+##### mountOptions.attachedTo
+
+An option to specify the element to mount on.
+
+###### Example
+
+```html
+<div>
+  <span id="app"></span>
+</div>
+<script>
+var span = document.getElementById('id');
+var wrapper = mount('my-tag', { attachTo: span });
+</script>
+```
 
 ### RiotWrapper
 
