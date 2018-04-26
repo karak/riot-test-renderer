@@ -32,7 +32,20 @@ function addQuery(name: string) {
 }
 
 /** Add a method of accessor */
-function addAccessor(name: string, isSetter = isSetterDefault) {
+function addAccessor(name: string) {
+  jqueryExtension[name] = function(this: RiotWrapper | WeakWrapper) {
+    const $el = toJQuery(this);
+    if (arguments.length === 0) {
+      return ($el as any)[name].apply($el, arguments);
+    } else {
+      ($el as any)[name].apply($el, arguments);
+      return this;
+    }
+  };
+}
+
+/** Add a method of accessor, name-value pair */
+function addNamedAccessor(name: string, isSetter = isSetterDefault) {
   jqueryExtension[name] = function(this: RiotWrapper | WeakWrapper) {
     const $el = toJQuery(this);
     if (!isSetter.apply(this, arguments)) {
@@ -54,13 +67,13 @@ addWrap();
 /* Assertion helpers */
 addQuery('is');
 addQuery('hasClass');
-addAccessor('attr');
-addAccessor('css', function() {
+addAccessor('val');
+addNamedAccessor('attr');
+addNamedAccessor('css', function() {
   return arguments.length > 1 || typeof arguments[0] === 'object';
 });
-addAccessor('data');
-addAccessor('prop');
-addAccessor('value');
+addNamedAccessor('data');
+addNamedAccessor('prop');
 
 /* Do extend */
 extend(jqueryExtension);
@@ -77,6 +90,6 @@ declare module 'riot-test-utils' {
     css: typeof $.prototype.css;
     data: typeof $.prototype.data;
     prop: typeof $.prototype.prop;
-    value: typeof $.prototype.value;
+    val: typeof $.prototype.val;
   }
 }
