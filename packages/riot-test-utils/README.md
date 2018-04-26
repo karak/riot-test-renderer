@@ -12,6 +12,7 @@ Features:
 - Shorter way to setup unit-testing of tags.
 - Wrapper API of an instance of tags to inspect easily
 - DOM Traversing API similar to jQuery
+- jQuery integration
 - *Shallow-rendering*.
 - Snapshot testing
 
@@ -358,10 +359,16 @@ Fire event.
 
 If wrapper has multiple elements, it fires each element in the order of appearance.
 
+## jQuery integration
+
+You can use some methods to inspect DOM of [jQuery](https://jquery.com/) integrated with `RiotWrapper` and `ShallowWrapper`.
+
+Check [Riot-test-utils-jquery](https://www.npmjs.com/package/riot-test-utils-jquery) out.
+
 Enzyme integration
 ------------------
 
-Check [Riot-enzyme](https://www.npmjs.com/package/riot-enzyme) out.
+Check [Riot-enzyme](https://www.npmjs.com/package/riot-enzyme) out, but nearly archived.
 
 Requirement
 -----------
