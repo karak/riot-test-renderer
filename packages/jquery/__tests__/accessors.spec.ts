@@ -135,11 +135,16 @@ describe('accessors', () => {
   });
 
   describe('val', () => {
-    describe.skip('RiotWrapper', () => {
+    describe('RiotWrapper', () => {
       let wrapper: RiotWrapper;
       beforeEach(() => {
-        // TODO: This test requires mount to use <input> for parent elements.
-        wrapper = mount(`<tag value="test"></tag>`);
+        const input = document.createElement('input');
+        input.value = 'test';
+        wrapper = mount(`<tag></tag>`, {}, { attachTo: input });
+
+        if (wrapper.root !== input) {
+          throw new Error('Failed to setup. "attachTo" did\'t work as expected.');
+        }
       });
 
       afterEach(() => {
