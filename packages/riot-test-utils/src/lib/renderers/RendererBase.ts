@@ -1,6 +1,7 @@
 import * as riot from 'riot';
 import Renderer, { RiotElement } from './Renderer';
 import EvalContext from '../tags/EvalContext';
+import MountOptions from './MountOptions';
 
 export interface MountFunction {
   (
@@ -15,6 +16,10 @@ function createElementToMountTo(tagName: string) {
   // TODO: SVG
   // TODO: fallback "data-is"
   return document.createElement(tagName);
+}
+
+function selectElementToMount(name: string, options?: MountOptions): Element {
+  return (options && options.attachTo) || createElementToMountTo(name);
 }
 
 /**
@@ -46,9 +51,15 @@ export default class RiotRendererBase implements Renderer {
    * @param src multiple tag sources
    * @param name name of the tag to render
    * @param opts tag interface
+   * @param options options to mount
    * @returns mounted element
    */
-  render(src: string, name: string, opts?: riot.TagOpts): RiotElement;
+  render(
+    src: string,
+    name: string,
+    opts?: riot.TagOpts,
+    options?: MountOptions
+  ): RiotElement;
   /**
    * Execute shallow rendering
    *
@@ -56,21 +67,20 @@ export default class RiotRendererBase implements Renderer {
    * @param opts tag interface
    * @returns rendered tree
    */
-  render(src: string, opts?: riot.TagOpts): RiotElement;
+  render(src: string, opts?: riot.TagOpts, options?: MountOptions): RiotElement;
   render(): RiotElement {
     let src: string;
     let tagName: string | undefined;
     let opts: riot.TagOpts | undefined;
+    let options: MountOptions | undefined;
+
     // compile
     // tslint:disable-next-line:no-magic-numbers
-    if (arguments.length === 3) {
-      [src, tagName, opts] = <any>arguments;
-      // tslint:disable-next-line:no-magic-numbers
-    } else if (arguments.length === 2) {
+    if (arguments.length >= 2) {
       if (typeof arguments[1] === 'string') {
-        [src, tagName, opts] = <any>arguments;
+        [src, tagName, opts, options] = <any>arguments;
       } else {
-        [src, opts] = <any>arguments;
+        [src, opts, options] = <any>arguments;
       }
     } else {
       [src] = <any>arguments;
@@ -90,7 +100,7 @@ export default class RiotRendererBase implements Renderer {
       tagName = src;
     }
 
-    const tagInstance = this.createInstance(tagName, opts);
+    const tagInstance = this.createInstance(tagName, opts, [], options);
 
     tagInstance.mount();
     const rendered = tagInstance.root!;
@@ -105,14 +115,16 @@ export default class RiotRendererBase implements Renderer {
    * @param name tag name
    * @param opts tag interface
    * @param children children to yield. Ignored currently
+   * @param options options to mount
    * @returns created instance unmounted
    */
   createInstance(
     name: string,
     opts: riot.TagOpts = {},
-    children: ReadonlyArray<RiotElement> = []
+    children: ReadonlyArray<RiotElement> = [],
+    options?: MountOptions
   ) {
-    const element = createElementToMountTo(name);
+    const element = selectElementToMount(name, options);
     const rendered: riot.TagInstance[] = this.mount.apply(riot, [
       element,
       name,

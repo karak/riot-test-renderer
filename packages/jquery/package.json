@@ -1,0 +1,38 @@
+{
+  "name": "riot-test-utils-jquery",
+  "version": "1.1.0",
+  "description": "An official jQuery extension of riot-test-utils",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "keywords": [
+    "riotjs",
+    "jquery",
+    "riot-test-utils",
+    "assertion helpers"
+  ],
+  "author": "Karak",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karak/riot-test-renderer"
+  },
+  "dependencies": {
+    "riot-test-utils": "^1.1.0"
+  },
+  "peerDependencies": {
+    "jquery": "*"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.1",
+    "jest": "^22.4.3",
+    "jquery": "^3.3.1",
+    "rollup": "^0.58.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "prettier \"**/*.ts\" -l",
+    "lint:fix": "prettier \"**/*.ts\" --write",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  }
+}
