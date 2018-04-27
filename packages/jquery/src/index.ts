@@ -66,6 +66,7 @@ addWrap();
 
 /* Assertion helpers */
 addQuery('is');
+addQuery('has');
 addQuery('hasClass');
 addAccessor('val');
 addNamedAccessor('attr');
@@ -85,6 +86,7 @@ declare module 'riot-test-utils' {
   interface WrapperExtensions {
     $(): JQuery;
     is: typeof $.prototype.is;
+    has: typeof $.prototype.has;
     hasClass: typeof $.prototype.hasClass;
     attr: typeof $.prototype.attr;
     css: typeof $.prototype.css;
