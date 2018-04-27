@@ -5,10 +5,13 @@ import { tag } from 'riot';
 import each from 'lodash/each';
 
 /** eval alternative by IIFE to retrieve script section of the tag */
-function iifeEval(this: EvalContext, tagjs: string): [{ [tagName: string]: Function }, string[]]  {
-  return (new Function(
+function iifeEval(
+  this: EvalContext,
+  tagjs: string
+): [{ [tagName: string]: Function }, string[]] {
+  return new Function(
     `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};return[t,s];`
-  )).apply(this, []);
+  ).apply(this, []);
 }
 
 // @TODO: use Module in serverside.
