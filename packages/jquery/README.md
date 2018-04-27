@@ -42,4 +42,7 @@ The list of them is below:
 - prop
 - val
 
+and an escape hatch `$()` to get jQuery object itself.
+
 Note all of the *mutaters* like `prop('disabled', true)` returns the wrapper itself.
+
