@@ -4,6 +4,15 @@ import TagArgs from './TagArgs';
 import { tag } from 'riot';
 import each from 'lodash/each';
 
+/** eval alternative by IIFE to retrieve script section of the tag */
+function iifeEval(this: EvalContext, tagjs: string): [{ [tagName: string]: Function }, string[]]  {
+  return (new Function(
+    `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};return[t,s];`
+  )).apply(this, []);
+}
+
+// @TODO: use Module in serverside.
+
 /**
  * Unifiyed `this` object during riot.compile().
  *
@@ -11,10 +20,7 @@ import each from 'lodash/each';
  */
 export default class EvalContext {
   evalTag(tagjs: string) {
-    // @TODO: use Module in serverside.
-    const [tags, tagNames] = eval(
-      `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`
-    );
+    const [tags, tagNames] = iifeEval.apply(this, [tagjs]);
 
     each(tags, (x: TagArgs) => tag.apply(this, x));
 
