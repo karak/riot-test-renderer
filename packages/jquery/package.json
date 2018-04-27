@@ -1,6 +1,6 @@
 {
   "name": "riot-test-utils-jquery",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "An official jQuery extension of riot-test-utils",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
