@@ -35,6 +35,7 @@ You can call some APIs of jQuery as assertion helpers from `RiotWrapper` and`Wea
 The list of them is below:
 
 - is
+- has
 - hasClass
 - attr
 - css
