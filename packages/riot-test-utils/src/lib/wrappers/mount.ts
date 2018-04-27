@@ -15,7 +15,7 @@ import { MountOptions, TestRenderer } from '../renderers';
  * @returns wrapper of the mounted instance
  */
 function mount<
-  TOpts extends TagOpts,
+  TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
 >(
@@ -25,7 +25,7 @@ function mount<
   options?: MountOptions
 ): RiotWrapper<TOpts, TRefs, TTags>;
 function mount<
-  TOpts extends TagOpts,
+  TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
 >(
@@ -34,7 +34,7 @@ function mount<
   options?: MountOptions
 ): RiotWrapper<TOpts, TRefs, TTags>;
 function mount<
-  TOpts extends TagOpts,
+  TOpts extends TagOpts = TagOpts,
   TRefs extends TagRefs = TagRefs,
   TTags extends NestedTags = NestedTags
 >(): RiotWrapper<TOpts, TRefs, TTags> {
