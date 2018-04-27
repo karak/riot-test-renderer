@@ -1,6 +1,6 @@
 {
   "name": "riot-test-utils-jquery",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "An official jQuery extension of riot-test-utils",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,7 +18,7 @@
     "url": "https://github.com/karak/riot-test-renderer"
   },
   "dependencies": {
-    "riot-test-utils": "^1.2.0"
+    "riot-test-utils": "^1.2.2"
   },
   "peerDependencies": {
     "jquery": "*"
