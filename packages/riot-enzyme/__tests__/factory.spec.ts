@@ -49,7 +49,7 @@ describe('enzyme-riot-adapter', () => {
         it('should accept one tag source with opts', () => {
           const wrapper = shallow('<tag></tag>', { data: 'test' });
           expect(wrapper.name()).toBe('tag');
-          expect(wrapper.opts()).toEqual({ data: 'test' });
+          expect(wrapper.opts()).toEqual({ data: 'test', dataIs: 'tag' });
         });
       });
     });

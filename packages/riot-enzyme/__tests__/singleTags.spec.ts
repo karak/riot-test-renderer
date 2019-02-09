@@ -47,7 +47,7 @@ describe('enzyme-riot-adapter', () => {
     });
 
     it('shoud have the same opts as passed', () => {
-      expect(wrapper.opts()).toEqual({ data: 'Hello, world!' });
+      expect(wrapper.opts()).toEqual({ data: 'Hello, world!', dataIs: 'tag' });
     });
 
     it('should match snapshot', () => {
