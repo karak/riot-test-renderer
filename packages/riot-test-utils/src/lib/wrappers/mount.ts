@@ -39,7 +39,11 @@ function mount<
   TTags extends NestedTags = NestedTags
 >(): RiotWrapper<TOpts, TRefs, TTags> {
   const renderer = new TestRenderer();
-  renderer.render.apply(renderer, arguments);
+  renderer.render.apply(renderer, (arguments as unknown) as [
+    string,
+    (TagOpts | undefined)?,
+    (MountOptions | undefined)?
+  ]);
   const tag = renderer.getMountedInstance();
   return new RiotWrapperImpl<TOpts, TRefs, TTags>(tag!);
 }

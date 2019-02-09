@@ -14,7 +14,8 @@ export default function toNodeList<T extends Node>(
     properties[i] = { value: x, enumerable: true };
   });
 
-  const ownerDocument = array.length > 0 ? array[0].ownerDocument : document;
+  const ownerDocument =
+    array.length > 0 ? array[0].ownerDocument || document : document;
 
   return Object.create(
     empty(ownerDocument),

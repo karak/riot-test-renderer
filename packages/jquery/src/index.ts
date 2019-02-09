@@ -8,7 +8,10 @@ function isRiotWrapper(
 }
 
 function toJQuery(wrapper: RiotWrapper | WeakWrapper): JQuery {
-  return $(isRiotWrapper(wrapper) ? wrapper.root : wrapper.get());
+  return $(
+    isRiotWrapper(wrapper) ? wrapper.root : (wrapper as WeakWrapper).get()
+  );
+  // TypeScript 3.3.0 says wrapper is never in else-clause.
 }
 
 /** An extension methods with jQuery */

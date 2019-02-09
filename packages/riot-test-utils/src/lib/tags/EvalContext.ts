@@ -1,6 +1,5 @@
 // tslint:disable:no-eval
 import TagMap from './TagMap';
-import TagArgs from './TagArgs';
 import { tag } from 'riot';
 import each from 'lodash/each';
 
@@ -16,7 +15,7 @@ export default class EvalContext {
       `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`
     );
 
-    each(tags, (x: TagArgs) => tag.apply(this, x));
+    each(tags, x => tag.apply(this, x));
 
     return {
       tags: tags as TagMap,
