@@ -8,4 +8,4 @@ export interface ExtraRendererProps {
 
 export default interface RiotShallowRendererProps
   extends ReactShallowRendererProps,
-    ExtraRendererProps {};
+    ExtraRendererProps {}
