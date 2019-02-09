@@ -1,21 +1,21 @@
 {
   "devDependencies": {
-    "@types/enzyme": "^3.1.9",
-    "@types/jest": "^22.2.2",
-    "@types/jquery": "^3.3.1",
-    "@types/jsdom": "^11.0.4",
-    "@types/lodash": "^4.14.106",
+    "@types/enzyme": "^3.1.17",
+    "@types/jest": "^22.2.3",
+    "@types/jquery": "^3.3.29",
+    "@types/jsdom": "^11.12.0",
+    "@types/lodash": "^4.14.120",
     "@types/riot": "^3.6.1",
-    "jest": "^22.4.3",
-    "lerna": "^2.9.0",
-    "prettier": "^1.11.1",
+    "jest": "^22.4.4",
+    "lerna": "^2.11.0",
+    "prettier": "^1.16.4",
     "rollup": "^0.58.0",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-typescript2": "^0.13.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "ts-jest": "^22.4.2",
-    "typescript": "^2.8.1"
+    "ts-jest": "^22.4.6",
+    "typescript": "^2.9.2"
   },
   "private": true,
   "scripts": {
