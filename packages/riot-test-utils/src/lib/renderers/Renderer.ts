@@ -10,4 +10,4 @@ export default interface Renderer {
     children?: ReadonlyArray<RiotElement>,
     options?: MountOptions
   ): TagInstance;
-};
+}
