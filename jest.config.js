@@ -7,6 +7,7 @@ module.exports = {
     "/node_modules/",
     "/__tests__\/helpers/"
   ],
+  "testURL": "http://localhost/",
   "moduleFileExtensions": [
     "ts",
     "tsx",
