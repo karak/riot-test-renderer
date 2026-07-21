@@ -40,16 +40,14 @@ describe('enzyme-riot-adapter', () => {
         it('cannot accept one tag source beginning with specific sequence as well as non-shorthand', () => {
           expect(() =>
             shallow('var x = "<is-not-tag>";<tag></tag>', 'tag')
-          ).toThrowError();
-          expect(() =>
-            shallow('var x = "<is-not-tag>";<tag></tag>')
-          ).toThrowError();
+          ).toThrow();
+          expect(() => shallow('var x = "<is-not-tag>";<tag></tag>')).toThrow();
         });
 
         it('should accept one tag source with opts', () => {
           const wrapper = shallow('<tag></tag>', { data: 'test' });
           expect(wrapper.name()).toBe('tag');
-          expect(wrapper.opts()).toEqual({ data: 'test' });
+          expect(wrapper.opts()).toEqual({ data: 'test', dataIs: 'tag' });
         });
       });
     });

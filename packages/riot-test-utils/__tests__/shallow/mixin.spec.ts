@@ -1,20 +1,20 @@
 import * as riot from 'riot';
 import { shallow, RiotWrapper } from '../../src';
 
-const hostNameMixin = {
-  init() {
+const hostNameMixin: any = {
+  init(this: any) {
     this.hostName = 'localhost';
   },
 };
 
-const globalMixin = {
-  init() {
+const globalMixin: any = {
+  init(this: any) {
     this.global = true;
   },
 };
 
-const directMixin = {
-  init() {
+const directMixin: any = {
+  init(this: any) {
     this.pi = 3;
   },
 };

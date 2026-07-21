@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`should have json form 1`] = `
+<tag
+  data-is={
+    [
+      "tag",
+    ]
+  }
+>
+  <p>
+    Hello, world!
+  </p>
+</tag>
+`;

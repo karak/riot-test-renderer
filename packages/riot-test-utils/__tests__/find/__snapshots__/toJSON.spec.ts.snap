@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`find toJSON get concatnated text 1`] = `
 <div
   id={
-    Array [
+    [
       "root",
     ]
   }
@@ -20,7 +20,7 @@ exports[`find toJSON get concatnated text 1`] = `
           
     <li
       class={
-        Array [
+        [
           "active",
         ]
       }
@@ -32,7 +32,7 @@ exports[`find toJSON get concatnated text 1`] = `
     <li>
       <a
         href={
-          Array [
+          [
             "#",
           ]
         }
@@ -49,10 +49,10 @@ exports[`find toJSON get concatnated text 1`] = `
 `;
 
 exports[`find toJSON output as array if multiple 1`] = `
-Array [
+[
   <li
     class={
-      Array [
+      [
         "active",
       ]
     }
@@ -62,7 +62,7 @@ Array [
   <li>
     <a
       href={
-        Array [
+        [
           "#",
         ]
       }

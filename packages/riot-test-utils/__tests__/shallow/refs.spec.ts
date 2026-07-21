@@ -1,4 +1,4 @@
-import { shallow, RiotWrapper } from '../../src';
+import { shallow } from '../../src';
 
 describe('shallow', () => {
   describe('refs', () => {

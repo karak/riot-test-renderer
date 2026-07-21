@@ -195,7 +195,7 @@ describe('vdom', () => {
 function getNonEmptyChildren<T extends Element>(el: Element) {
   const result: T[] = [];
   for (let i = 0; i < el.children.length; i += 1) {
-    const x = el.children.item(i);
+    const x = el.children.item(i)!;
     if (
       x.nodeType !== x.TEXT_NODE ||
       !isString(x.nodeValue) ||

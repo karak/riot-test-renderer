@@ -1,4 +1,4 @@
-import { Renderer, toHTML } from 'riot-test-utils';
+import { Renderer, TagOpts, toHTML } from 'riot-test-utils';
 import isString from 'lodash/isString';
 
 /**
@@ -9,7 +9,7 @@ import isString from 'lodash/isString';
  *
  * @todo replace by riot/server
  */
-export default function renderToStaticMarkup<P>(
+export default function renderToStaticMarkup<P extends TagOpts = TagOpts>(
   renderer: Renderer,
   el: React.ReactElement<P>,
   context: any

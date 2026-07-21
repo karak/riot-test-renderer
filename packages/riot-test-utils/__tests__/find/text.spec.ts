@@ -23,7 +23,7 @@ describe('find', () => {
 
     it('throws if multiple', () => {
       wrapper = find('h1, p', element);
-      expect(() => wrapper.text()).toThrowError();
+      expect(() => wrapper.text()).toThrow();
     });
   });
 });

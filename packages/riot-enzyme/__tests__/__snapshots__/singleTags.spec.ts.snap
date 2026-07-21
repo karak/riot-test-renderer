@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`enzyme-riot-adapter staticTag should match snapshot 1`] = `
 <static
   data-is={
-    Array [
+    [
       "static",
     ]
   }
@@ -17,7 +17,7 @@ exports[`enzyme-riot-adapter staticTag should match snapshot 1`] = `
 exports[`enzyme-riot-adapter tagWithOpts should match snapshot 1`] = `
 <tag
   data-is={
-    Array [
+    [
       "tag",
     ]
   }

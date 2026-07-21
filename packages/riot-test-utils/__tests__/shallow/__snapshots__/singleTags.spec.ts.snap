@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`shallow singleTags template escapes HTML special characters in template 1`] = `
 <tag
   data-is={
-    Array [
+    [
       "tag",
     ]
   }
@@ -17,7 +17,7 @@ exports[`shallow singleTags template escapes HTML special characters in template
 exports[`shallow singleTags template extracts template 1`] = `
 <tag
   data-is={
-    Array [
+    [
       "tag",
     ]
   }
@@ -31,7 +31,7 @@ exports[`shallow singleTags template extracts template 1`] = `
 exports[`shallow singleTags template renders ignoring style 1`] = `
 <static
   data-is={
-    Array [
+    [
       "static",
     ]
   }
@@ -45,7 +45,7 @@ exports[`shallow singleTags template renders ignoring style 1`] = `
 exports[`shallow singleTags template renders static tag 1`] = `
 <static
   data-is={
-    Array [
+    [
       "static",
     ]
   }
@@ -59,7 +59,7 @@ exports[`shallow singleTags template renders static tag 1`] = `
 exports[`shallow singleTags template template "each" work 1`] = `
 <tag
   data-is={
-    Array [
+    [
       "tag",
     ]
   }
