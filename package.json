@@ -1,25 +1,40 @@
 {
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
     "@types/enzyme": "^3.1.9",
-    "@types/jest": "^22.2.2",
+    "@types/jest": "^30.0.0",
     "@types/jquery": "^3.3.1",
-    "@types/jsdom": "^11.0.4",
+    "@types/jsdom": "^21.1.7",
     "@types/lodash": "^4.14.106",
     "@types/riot": "^3.6.1",
-    "jest": "^22.4.3",
-    "lerna": "^2.9.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.0",
+    "lerna": "^9.0.7",
     "prettier": "^1.11.1",
-    "rollup": "^0.58.0",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-typescript2": "^0.13.0",
-    "rollup-plugin-uglify": "^3.0.0",
-    "ts-jest": "^22.4.2",
-    "typescript": "^2.8.1"
+    "rollup": "^4.62.2",
+    "rollup-plugin-typescript2": "^0.37.0",
+    "ts-jest": "^29.4.11",
+    "typescript": "^5.9.3"
   },
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "overrides": {
+    "cheerio": "1.0.0-rc.12",
+    "js-yaml": "^4.3.0",
+    "tar": "^7.5.20",
+    "axios": "^1.18.1",
+    "brace-expansion": "^5.0.7",
+    "riot-cli": {
+      "chokidar": "^4.0.3",
+      "rollup": "^4.62.2"
+    }
+  },
   "scripts": {
-    "postinstall": "lerna bootstrap && lerna run build",
+    "postinstall": "lerna run build",
     "lint": "lerna run lint",
     "build": "lerna run build",
     "test": "lerna run test"

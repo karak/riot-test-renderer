@@ -8,22 +8,12 @@ beforeEach(function() {
 });
 
 it('should have json form', function() {
-  expect(wrapper.toJson()).toEqual({
-    name: 'tag',
-    attributes: { 'data-is': ['tag'] },
-    children: [
-      {
-        name: 'p',
-        attributes: {},
-        children: ['Hello, world!'],
-      },
-    ],
-  });
+  expect(wrapper.toJson()).toMatchSnapshot();
 });
 
 it('should have opts', function() {
-  // Opts are passed
-  expect(wrapper.opts()).toEqual({ data: 'Hello, world!' });
+  // Opts are passed ("dataIs" is added by riot itself from the "data-is" attribute)
+  expect(wrapper.opts()).toEqual({ data: 'Hello, world!', dataIs: 'tag' });
 });
 
 it('should have <p> inside', function() {

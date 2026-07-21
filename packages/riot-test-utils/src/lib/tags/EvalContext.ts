@@ -16,7 +16,7 @@ export default class EvalContext {
       `var t={},s=[],riot={tag2:function(n){t[n]=arguments;s.push(n);return n}};${tagjs};[t,s];`
     );
 
-    each(tags, (x: TagArgs) => tag.apply(this, x));
+    each(tags, (x: TagArgs) => (tag as Function).apply(this, x));
 
     return {
       tags: tags as TagMap,

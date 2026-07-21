@@ -22,7 +22,7 @@ describe('find', () => {
     it('cannot get root when it has multiple results', () => {
       element.innerHTML = '<p></p><div><p></p></div>';
       wrapper = find('p', element);
-      expect(() => wrapper.root).toThrowError();
+      expect(() => wrapper.root).toThrow();
     });
   });
 });

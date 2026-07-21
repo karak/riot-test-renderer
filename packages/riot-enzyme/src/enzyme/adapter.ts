@@ -76,7 +76,7 @@ export default class EnzymeRiotAdapter extends EnzymeAdapter {
     };
   }
 
-  createStringRenderer<P>(options: any) {
+  createStringRenderer<P extends TagOpts>(options: any) {
     const renderer = new TestRenderer();
     return {
       render(el: React.ReactElement<P>, context: any): string {

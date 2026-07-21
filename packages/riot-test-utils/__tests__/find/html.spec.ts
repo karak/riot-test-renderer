@@ -23,7 +23,7 @@ describe('find', () => {
 
     it('throws if multiple', () => {
       wrapper = find('div', element);
-      expect(() => wrapper.html()).toThrowError();
+      expect(() => wrapper.html()).toThrow();
     });
   });
 });

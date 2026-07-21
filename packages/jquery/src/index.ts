@@ -8,7 +8,7 @@ function isRiotWrapper(
 }
 
 function toJQuery(wrapper: RiotWrapper | WeakWrapper): JQuery {
-  return $(isRiotWrapper(wrapper) ? wrapper.root : wrapper.get());
+  return $(isRiotWrapper(wrapper) ? wrapper.root : wrapper.get()) as JQuery;
 }
 
 /** An extension methods with jQuery */
@@ -27,7 +27,7 @@ function addWrap() {
 function addQuery(name: string) {
   jqueryExtension[name] = function(this: RiotWrapper | WeakWrapper) {
     const $el = toJQuery(this);
-    return ($el as any)[name].apply($el, arguments);
+    return (($el as any)[name] as Function).apply($el, arguments);
   };
 }
 
@@ -36,9 +36,9 @@ function addAccessor(name: string) {
   jqueryExtension[name] = function(this: RiotWrapper | WeakWrapper) {
     const $el = toJQuery(this);
     if (arguments.length === 0) {
-      return ($el as any)[name].apply($el, arguments);
+      return (($el as any)[name] as Function).apply($el, arguments);
     } else {
-      ($el as any)[name].apply($el, arguments);
+      (($el as any)[name] as Function).apply($el, arguments);
       return this;
     }
   };
@@ -48,10 +48,10 @@ function addAccessor(name: string) {
 function addNamedAccessor(name: string, isSetter = isSetterDefault) {
   jqueryExtension[name] = function(this: RiotWrapper | WeakWrapper) {
     const $el = toJQuery(this);
-    if (!isSetter.apply(this, arguments)) {
-      return ($el as any)[name].apply($el, arguments);
+    if (!(isSetter as Function).apply(this, arguments)) {
+      return (($el as any)[name] as Function).apply($el, arguments);
     } else {
-      ($el as any)[name].apply($el, arguments);
+      (($el as any)[name] as Function).apply($el, arguments);
       return this;
     }
   };

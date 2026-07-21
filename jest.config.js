@@ -1,7 +1,12 @@
 module.exports = {
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": ["ts-jest", {}]
   },
+  "testEnvironment": "jsdom",
+  "testEnvironmentOptions": {
+    "customExportConditions": [""]
+  },
+  "setupFiles": [require.resolve('./jest.setup.js')],
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "testPathIgnorePatterns": [
     "/node_modules/",

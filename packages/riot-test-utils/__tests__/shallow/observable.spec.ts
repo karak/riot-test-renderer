@@ -46,7 +46,7 @@ describe('shallow', () => {
     });
 
     it('passed unwrapped this', done => {
-      function checkThis() {
+      function checkThis(this: any) {
         expect(this).not.toBe(wrapper);
         expect(this).toBe(wrapper.instance);
         done();

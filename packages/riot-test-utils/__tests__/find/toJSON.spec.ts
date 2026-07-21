@@ -30,13 +30,13 @@ describe('find', () => {
 
     it('output as array if multiple', () => {
       wrapper = find('li', element);
-      expect(() => wrapper.toJSON()).not.toThrowError();
+      expect(() => wrapper.toJSON()).not.toThrow();
       expect(wrapper.toJSON()).toMatchSnapshot();
     });
 
     it('output empty array if empty', () => {
       wrapper = find('#nowhere', element);
-      expect(() => wrapper.toJSON()).not.toThrowError();
+      expect(() => wrapper.toJSON()).not.toThrow();
       expect(wrapper.toJSON()).toEqual([]);
     });
   });

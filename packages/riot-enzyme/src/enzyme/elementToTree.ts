@@ -19,7 +19,7 @@ export default function elementToTree<P extends object>(
   const type = el.type;
   const props = el.props;
   const { children } = el.props as any;
-  const rendered = map(children, x => elementToTree(x));
+  const rendered: any = map(children, x => elementToTree(x));
   return {
     nodeType: 'host',
     type: type,

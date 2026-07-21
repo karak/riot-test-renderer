@@ -4,7 +4,7 @@ describe('find', () => {
   describe('simulate', () => {
     let element: HTMLDivElement;
     let wrapper: WeakWrapper;
-    let submitHandler: jest.MockInstance<void>;
+    let submitHandler: jest.Mock;
 
     beforeEach(() => {
       element = document.createElement('div');

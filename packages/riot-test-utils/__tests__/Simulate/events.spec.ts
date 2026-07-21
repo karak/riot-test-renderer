@@ -35,29 +35,29 @@ describe('shallow', () => {
 
     each(events, ({ options, shouldContain = {} }, type) => {
       describe(type, () => {
-        let element: HTMLInputElement;
+        let element: HTMLInputElement | null;
         beforeEach(() => {
           element = document.createElement('input');
           document.body.appendChild(element);
         });
 
         afterEach(() => {
-          document.body.removeChild(element);
+          document.body.removeChild(element!);
           element = null;
         });
 
         it(`fires "${type}" event`, () => {
           const fn = jest.fn();
-          element.addEventListener(type, fn);
+          element!.addEventListener(type, fn);
           try {
-            Simulate[type](element, options);
+            (Simulate as any)[type](element, options);
 
             expect(fn).toHaveBeenCalled();
             const event = fn.mock.calls[0][0];
             expect(event.type).toBe(type);
             expect(extract(event, shouldContain)).toEqual(shouldContain);
           } finally {
-            element.removeEventListener(type, fn);
+            element!.removeEventListener(type, fn);
           }
         });
       });
@@ -66,9 +66,9 @@ describe('shallow', () => {
 });
 
 function extract(obj: Object, keyObj: Object) {
-  const result = {};
+  const result: { [key: string]: any } = {};
   each(keys(keyObj), key => {
-    result[key] = obj[key];
+    result[key] = (obj as any)[key];
   });
   return result;
 }

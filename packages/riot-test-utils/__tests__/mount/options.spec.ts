@@ -1,4 +1,4 @@
-import { mount, MountOptions, RiotWrapper, WeakWrapper } from '../../src';
+import { mount, MountOptions } from '../../src';
 
 /** source string for multiple tags */
 const MULTIPLE_TAGS = '<outer />\n<inner/>';
@@ -13,12 +13,6 @@ const TAG_NAME = 'outer';
 function createOptions(): MountOptions {
   const parent = document.createElement('span');
   return { attachTo: parent };
-}
-
-function expectToMountOnCreatedElement(wrapper: RiotWrapper | WeakWrapper) {
-  const root = wrapper.root;
-  expect(root).toBeInstanceOf(HTMLUnknownElement);
-  expect(root.tagName.toLowerCase()).toBe(TAG_NAME);
 }
 
 describe('mount', () => {

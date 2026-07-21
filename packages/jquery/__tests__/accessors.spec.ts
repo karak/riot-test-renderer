@@ -51,18 +51,18 @@ describe('accessors', () => {
   describe('css', () => {
     describe('RiotWrapper', () => {
       it('get', () => {
-        expect(wrapper.css('color')).toBe('red');
+        expect(wrapper.css('color')).toBe('rgb(255, 0, 0)');
       });
 
       it('set', () => {
         const ret = wrapper.css('color', 'blue');
-        expect(wrapper.css('color')).toBe('blue');
+        expect(wrapper.css('color')).toBe('rgb(0, 0, 255)');
         expect(ret.instance).toBeDefined();
       });
 
       it('batch set', () => {
         const ret = wrapper.css({ color: 'blue' });
-        expect(wrapper.css('color')).toBe('blue');
+        expect(wrapper.css('color')).toBe('rgb(0, 0, 255)');
         expect(ret.instance).toBeDefined();
       });
     });
